@@ -76,6 +76,8 @@ buildRecipeSubTitle(String text){
     padding: EdgeInsets.only(bottom: 16),
     child: Text(
       text,
+      maxLines: 3,
+      overflow: TextOverflow.ellipsis,
       style: TextStyle(
         fontSize: 16,
         color: Colors.grey[400],

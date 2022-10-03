@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import './providers/meal_provider.dart';
+import './providers/recipe_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:millions_recipe/explore.dart';
+import './explore.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(MyApp());
@@ -9,15 +12,23 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        textTheme: GoogleFonts.montserratTextTheme(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => Meals(),
+        ),
+        ChangeNotifierProvider(create: (_) => Recipes())
+      ],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          textTheme: GoogleFonts.montserratTextTheme(),
+        ),
+        debugShowCheckedModeBanner: false,
+        home: Explore(),
       ),
-      debugShowCheckedModeBanner: false,
-      home: Explore(),
     );
   }
 }

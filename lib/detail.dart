@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:millions_recipe/constants.dart';
-import 'package:millions_recipe/shared.dart';
-import 'package:millions_recipe/data.dart';
+import './constants.dart';
+import './shared.dart';
+import './data.dart';
 
 class Detail extends StatelessWidget {
 
@@ -101,12 +101,7 @@ class Detail extends StatelessWidget {
                       child: Container(
                         height: 310,
                         width: 310,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage(recipe.image),
-                            fit: BoxFit.fitHeight,
-                          ),
-                        ),
+                     child: Image.network(recipe.image),
                       ),
                     ),
                   ),

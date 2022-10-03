@@ -1,0 +1,34 @@
+{
+    "workbench.colorCustomizations": {
+        "[Sublime Material Theme - Dark]": {
+            "sideBar.background": "#1e282c",
+            "activityBar.background": "#4b4b55",
+            "activityBar.activeBackground": "#4b4b55",
+            "activityBar.foreground": "#f8f6f6",
+            "activityBar.inactiveForeground": "#87bfe9",
+            "titleBar.activeBackground": "#24365c"
+        },
+        "[Default Dark+]": {
+            "sideBar.background": "#1e282c",
+            "activityBar.background": "#4b4b55",
+            "activityBar.activeBackground": "#4b4b55",
+            "activityBar.foreground": "#f8f6f6",
+            "activityBar.inactiveForeground": "#ade8ba",
+            "titleBar.activeBackground": "#24365c"
+        },
+        "[Oceanic Next (dimmed bg)]": {
+            "statusBar.background": "#333333",
+            "statusBar.noFolderBackground": "#333333",
+            "statusBar.debuggingBackground": "#263238",
+            "sideBar.background": "#1e282c",
+            "activityBar.background": "#4b4b55",
+            "activityBar.activeBackground": "#4b4b55",
+            "activityBar.foreground": "#f8f6f6",
+            "activityBar.inactiveForeground": "#ade8ba",
+            "titleBar.activeBackground": "#24365c"
+        },
+        "activityBar.background": "#3C273B",
+        "titleBar.activeBackground": "#543652",
+        "titleBar.activeForeground": "#FCFAFB"
+    }
+}
