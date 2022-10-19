@@ -49,7 +49,7 @@ class DetailScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   buildTextTitleVariation1(meal.name),
-                  buildTextSubTitleVariation1("Meal Description"),
+                  buildTextSubTitleVariation1(meal.description),
                 ],
               ),
             ),
@@ -65,14 +65,17 @@ class DetailScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
-                  children: meal.nutritions.map((nutrition) => (
-                          Column(children: [
-                            buildNutrition(nutrition.value,nutrition.name, nutrition.unit),
-                      SizedBox(
-                        height: 16,
-                      ),
-                          ],)
-                        )).toList(),
+                      children: meal.nutritions
+                          .map((nutrition) => (Column(
+                                children: [
+                                  buildNutrition(nutrition.value,
+                                      nutrition.name, nutrition.unit),
+                                  SizedBox(
+                                    height: 16,
+                                  ),
+                                ],
+                              )))
+                          .toList(),
                     ),
                   ),
                   Positioned(
@@ -88,40 +91,125 @@ class DetailScreen extends StatelessWidget {
                       //   ))).toList(),
                       // )
                       child: Container(
-                        height: 310,
-                        width: 310,
-                        // child: Image.network(meal.images[0].url),
-
-                            child: PageView(
-                        controller: controller,
-                        children: meal.images.map((image) => (Container(
                           height: 310,
                           width: 310,
-                          child: Image.network(image.url),
-                        ))).toList(),
-                      )
-                      ),
+                          // child: Image.network(meal.images[0].url),
+
+                          child:
+                              // Text("jss")
+                              PageView(
+                            controller: controller,
+                            children: meal.images
+                                .map((image) => (Container(
+                                      height: 310,
+                                      width: 310,
+                                      child: Stack(
+                                        children: [
+                                          Image.network(image.url),
+                                          Positioned(
+                                              top: 140,
+                                              left: 0,
+                                              child: IconButton(
+                                                  onPressed: () => {
+                                                        controller.previousPage(
+                                                            duration: Duration(
+                                                                milliseconds:
+                                                                    300),
+                                                            curve: Curves.ease)
+                                                      },
+                                                  icon: Icon(
+                                                    Icons.arrow_back_ios,
+                                                    size: 35,
+                                                  ))),
+                                          Positioned(
+                                              top: 140,
+                                              right: 70,
+                                              child: IconButton(
+                                                  onPressed: () => {
+                                                        controller.nextPage(
+                                                            duration: Duration(
+                                                                milliseconds:
+                                                                    300),
+                                                            curve: Curves.ease)
+                                                      },
+                                                  icon: Icon(
+                                                    Icons.arrow_forward_ios,
+                                                    size: 35,
+                                                  )))
+                                        ],
+                                      ),
+                                    )))
+                                .toList(),
+                          )),
                     ),
                   ),
                 ],
               ),
             ),
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: Container(
+            //     height: 600,
+            //     width: MediaQuery.of(context).size.width,
+            //     child: Stack(
+            //       children: [
+            //         PageView(
+            //           controller: controller,
+            //           children: meal.images
+            //               .map((image) => Container(
+            //                   // width: 500,
+            //                   height: 600,
+            //                   child: Image.network(
+            //                     image.url,
+            //                     fit: BoxFit.contain,
+            //                   )))
+            //               .toList(),
+            //         ),
+            //         Positioned(
+            //             top: 300,
+            //             left: 0,
+            //             child: IconButton(
+            //                 onPressed: () => {
+            //                       controller.previousPage(
+            //                           duration: Duration(milliseconds: 300),
+            //                           curve: Curves.ease)
+            //                     },
+            //                 icon: Icon(
+            //                   Icons.arrow_back_ios,
+            //                   size: 35,
+            //                 ))),
+            //         Positioned(
+            //             top: 300,
+            //             right: 0,
+            //             child: IconButton(
+            //                 onPressed: () => {
+            //                       controller.nextPage(
+            //                           duration: Duration(milliseconds: 300),
+            //                           curve: Curves.ease)
+            //                     },
+            //                 icon: Icon(
+            //                   Icons.arrow_forward_ios,
+            //                   size: 35,
+            //                 )))
+            //       ],
+            //     ),
+            //   ),
+            // ),
             Padding(
               padding: EdgeInsets.only(left: 16, right: 16, bottom: 80),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   buildTextTitleVariation2('Ingredients', false),
-              
                   Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: meal.ingredients
                           .map((ingredient) => Column(
                                 children: [
-
-
-                                 
-                                  buildTextSubTitleVariation1(ingredient.amount + " " + ingredient.name),
+                                  buildTextSubTitleVariation1(
+                                      ingredient.amount +
+                                          " " +
+                                          ingredient.name),
                                 ],
                               ))
                           .toList()

@@ -28,6 +28,7 @@ class _ExploreState extends State<Explore> {
     super.initState();
     final recipeModel = Provider.of<Recipes>(context, listen: false);
     recipeModel.fetchRecipes();
+    recipeModel.fetchPopularRecipes();
   }
 
   String selectedCategory = '';
@@ -108,8 +109,9 @@ class _ExploreState extends State<Explore> {
         actions: [
           Row(
             children: [
-              recipeProvider.loading
-                  ? Container(
+              // recipeProvider.loading
+                  // ? 
+                  Container(
                       width: MediaQuery.of(context).size.width * 0.65,
                       child: TextField(
                         controller: searchController,
@@ -118,11 +120,12 @@ class _ExploreState extends State<Explore> {
                               if (searchQuery == '') {
                                 searchQuery = 'a';
                               }
+                              recipeProvider.searchRecipes(searchQuery);
                             })),
                         focusNode: searchFocusNode,
                       ),
-                    )
-                  : SizedBox(),
+                    ),
+                  // : SizedBox(),
               Padding(
                   padding: const EdgeInsets.only(right: 16),
                   child: IconButton(
@@ -278,16 +281,20 @@ class _ExploreState extends State<Explore> {
                                     children: <Widget>[
                                       Card(
                                         clipBehavior: Clip.antiAlias,
-                                        child: Image.network(
-                                          recipe
-                                                .recipes[index]
-                                                .images
-                                                .isNotEmpty
-                                            ? 
+                                        child: Container(
+                                          width: 180,
+                                          height: 180,
+                                          child: Image.network(
                                             recipe
-                                                .recipes[index].images[0].url
-                                            : "https://cdn.dribbble.com/users/1013019/screenshots/3281397/media/9de100ad01c34ec34d35e843d33504f9.jpg?compress=1&resize=400x300"
-                                             ,fit: BoxFit.cover,),
+                                                  .recipes[index]
+                                                  .images
+                                                  .isNotEmpty
+                                              ? 
+                                              recipe
+                                                  .recipes[index].images[0].url
+                                              : "https://cdn.dribbble.com/users/1013019/screenshots/3281397/media/9de100ad01c34ec34d35e843d33504f9.jpg?compress=1&resize=400x300"
+                                               ,fit: BoxFit.contain,),
+                                        ),
                                       ),
                                       const SizedBox(
                                         height: 8,
@@ -373,111 +380,113 @@ class _ExploreState extends State<Explore> {
             //     children: buildPopulars(),
             //   ),
             // ),
-            SingleChildScrollView(
-              child: Container(
-                height: MediaQuery.of(context).size.height * 0.45,
-                margin: EdgeInsets.only(left: 16, top: 16, bottom: 16),
-                child: Container(
-                  child: Consumer<Recipes>(builder: (context, recipe, child) {
-                    return !recipeProvider.loading ? ListView.builder(
-                        // physics: BouncingScrollPhysics(),
-                        // scrollDirection: Axis.horizontal,
-                        itemCount: recipeProvider.recipes.length,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => DetailScreen(
-                                          meal: recipe.recipes[index])),
-                                );
-                              },
-                              child: Container(
-                                margin: EdgeInsets.all(16),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(20),
-                                  ),
-                                  boxShadow: [kBoxShadow],
+            Container(
+              child: Consumer<Recipes>(builder: (context, recipe, child) {
+                return !recipeProvider.loading ? ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                    // scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    itemCount: recipeProvider.recipes.length,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => DetailScreen(
+                                      meal: recipe.recipes[index])),
+                            );
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.fromLTRB(16, 5, 16, 5 ),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(20),
+                              ),
+                              boxShadow: [kBoxShadow],
+                            ),
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  width: 5,
                                 ),
-                                child: Row(
-                                  children: [
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.all(8),
-                                      height: 160,
-                                      width: 160,
-                                      child: Image.network(
-                                          recipe.recipes[index].images[0].url
-                                         ),
-                                    ),
-                                    Container(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.45,
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 16),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            buildRecipeTitle(
-                                                recipe.recipes[index].name),
-                                            buildRecipeSubTitle(
-                                                recipe.recipes[index].description),
-                                            Container(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.45,
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  buildCalories(
-                                                     recipe.recipes[index].nutritions[0].value + "  " + recipe.recipes[index].nutritions[0].unit),
-                                                  Icon(
-                                                    Icons.favorite_border,
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ],
+                                Container(
+                                  padding: EdgeInsets.all(8),
+                                  height: 160,
+                                  width: 160,
+                                  child: Image.network(
+                                       recipe
+                                              .recipes[index]
+                                              .images
+                                              .isNotEmpty
+                                          ? 
+                                          recipe
+                                              .recipes[index].images[0].url
+                                          : "https://cdn.dribbble.com/users/1013019/screenshots/3281397/media/9de100ad01c34ec34d35e843d33504f9.jpg?compress=1&resize=400x300"
+                                           ,fit: BoxFit.contain
+                                     ),
+                                ),
+                                Container(
+                                  width: MediaQuery.of(context).size.width *
+                                      0.45,
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 16),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        buildRecipeTitle(
+                                            recipe.recipes[index].name),
+                                        buildRecipeSubTitle(
+                                            recipe.recipes[index].description),
+                                        Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.45,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment
+                                                    .spaceBetween,
+                                            children: [
+                                              buildCalories(
+                                                 recipe.recipes[index].nutritions[0].value + "  " + recipe.recipes[index].nutritions[0].unit),
+                                              Icon(
+                                                Icons.favorite_border,
+                                              )
+                                            ],
+                                          ),
                                         ),
-                                      ),
+                                      ],
                                     ),
-                                  ],
+                                  ),
                                 ),
-                              ));
-                        },
-                      ) : Container(child:const LoadingIndicator(
-                          indicatorType: Indicator.lineSpinFadeLoader,
+                              ],
+                            ),
+                          ));
+                    },
+                  ) : Container(child:const LoadingIndicator(
+                      indicatorType: Indicator.lineSpinFadeLoader,
 
-                          /// Required, The loading type of the widget
-                          colors: [Colors.black],
+                      /// Required, The loading type of the widget
+                      colors: [Colors.black],
 
-                          /// Optional, The color collections
-                          strokeWidth: 2,
+                      /// Optional, The color collections
+                      strokeWidth: 2,
 
-                          /// Optional, The stroke of the line, only applicable to widget which contains line
-                          backgroundColor: Colors.white,
+                      /// Optional, The stroke of the line, only applicable to widget which contains line
+                      backgroundColor: Colors.white,
 
-                          /// Optional, Background of the widget
-                          pathBackgroundColor: Colors.black
+                      /// Optional, Background of the widget
+                      pathBackgroundColor: Colors.black
 
-                          /// Optional, the stroke backgroundColor
-                          ),);
-                  } ,),
-                )
-                
-              ),
+                      /// Optional, the stroke backgroundColor
+                      ),);
+              } ,),
             ),
             // Container(
             //   height: 350,

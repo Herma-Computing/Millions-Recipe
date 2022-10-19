@@ -14,6 +14,13 @@ class Recipes with ChangeNotifier {
 
   bool get loading => _loading;
 
+  bool _popularLoading = false;
+  List<Recipe> popularRecipes = [];
+  bool get popularLoading => _popularLoading;
+
+
+
+
 
 
 Future fetchRecipes() async {
@@ -26,7 +33,6 @@ Future fetchRecipes() async {
 
   Dio dio = Dio();
   final response = await dio.get(url);
-  print(response);
 
   // var result = jsonDecode(response.data);
 
@@ -38,11 +44,35 @@ Future fetchRecipes() async {
   });
 
 
-  print("list of recipes recieved");
-  print(recipes.length);
 
 
   _loading = false;
+  notifyListeners();
+}
+
+Future fetchPopularRecipes() async {
+
+
+  _popularLoading = true;
+  String url = "https://datascienceplc.com/api/ds_her/v1/recipe/popular?page=1&per_page=15&category=desserts";
+
+
+  Dio dio = Dio();
+  final response = await dio.get(url);
+
+  // var result = jsonDecode(response.data);
+
+  Recipe recipe;
+  response.data["recipes"].forEach((el) async => {
+    recipe = Recipe.fromJson(el),
+    popularRecipes.add(recipe),
+
+  });
+
+
+
+
+  _popularLoading = false;
   notifyListeners();
 }
 
@@ -74,7 +104,7 @@ Future fetchRecipesBySearch(String query) async {
 
   _loading = true;
   recipes.clear();
-  String url = "https://datascienceplc.com/api/ds_her/v1/recipe/popular?page=1&category=bread&per_page=15&category=$query";
+  String url = "https://datascienceplc.com/api/ds_her/v1/recipe/popular?page=1&per_page=15&category=$query";
 
   Dio dio = Dio();
   final response = await dio.get(url);
@@ -98,12 +128,15 @@ String queryData = query == "" ? "a" : query;
 
   _loading = true;
   recipes.clear();
-  String url = "https://datascienceplc.com/api/ds_her/v1/recipe/popular?page=1&category=bread&per_page=15&category=$queryData";
+  String url = "https://datascienceplc.com/api/ds_her/v1/recipe/search?page=1&per_page=10&query=$queryData";
+  // String url = "https://datascienceplc.com/api/ds_her/v1/recipe/popular?page=1&category=bread&per_page=15&category=$queryData";
   Dio dio = Dio();
   final response = await dio.get(url);
 
   Recipe recipe;
-  response.data["ecipes"].forEach((el) async => {
+  print("from search recipes provider");
+  print(response.data["recipes"]);
+  response.data["recipes"].forEach((el) async => {
     recipe = Recipe.fromJson(el),
     recipes.add(recipe)
   });
