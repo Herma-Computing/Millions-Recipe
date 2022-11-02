@@ -8,7 +8,7 @@ class Recipe with ChangeNotifier {
   final String id;
   final String name;
   final String description;
-  final String rating;
+  final String? rating;
   final String numOfRatings;
   final String category;
   final List<ImageModel> images;
@@ -33,8 +33,8 @@ class Recipe with ChangeNotifier {
       : id = json['id'] as String,
         name = json['recipeName'] as String,
         description = json['recipeDescription'] as String,
-        rating = json['recipeRating'] as String,
-        numOfRatings = json['numOfRatings'] as String,
+        rating = json['recipeRating'] == null ? "0" : json['recipeRating'] as String,
+        numOfRatings = json['numOfRatings'] == null ? "0" : json['numOfRatings'] as String,
         category = json['recipeMainCategory'] as String,
         images = (json['images'] as List<dynamic>).map((image) => ImageModel.fromJson(image as Map<String, dynamic>)).toList(),
         ingredients = (json['ingredients'] as List<dynamic>).map((ingredient) => Ingredient.fromJson(ingredient as Map<String, dynamic>)).toList(),

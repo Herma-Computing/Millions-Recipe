@@ -1,14 +1,11 @@
-
-
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:millions_recipe/models/sub_category.dart';
 import '../models/recipe_model.dart';
 import 'package:dio/dio.dart';
 
-
 class Recipes with ChangeNotifier {
-
   bool _loading = false;
   List<Recipe> recipes = [];
 
@@ -18,134 +15,151 @@ class Recipes with ChangeNotifier {
   List<Recipe> popularRecipes = [];
   bool get popularLoading => _popularLoading;
 
+  bool _apiLoading = false;
+  List<Recipe> recipeList = [];
+  bool get apiLoading => _apiLoading;
+
+  bool _subCategoryLoading = false;
+  List<SubCategory> subCategories = [];
+  bool get subCategoryLoading => _subCategoryLoading;
+
+  getRecipeApis(String page, String query, String category, isSearching) async {
+    if (!isSearching) {
+      _subCategoryLoading = true;
+    }
+    _apiLoading = true;
+    await getRecipeApi(page, query, category, isSearching);
+    _apiLoading = false;
+    _subCategoryLoading = false;
+    notifyListeners();
+  }
+
+  Future getRecipeApi(String currentPage, String query, String category,
+      bool isSearching) async {
+    print("getRecipeApi is called");
+    print('currentPage: $currentPage and query: $query and Category: $category');
+    recipeList.clear();
+    String url = isSearching
+        ? "https://datascienceplc.com/api/ds_her/v1/recipe/search?page=$currentPage&per_page=15&category=$category&query=$query"
+        : "https://datascienceplc.com/api/ds_her/v1/recipe/popular?page=$currentPage&per_page=15&category=$category";
+    Dio dio = Dio();
+    final response = await dio.get(url);
+    Recipe recipe;
+    response.data["recipes"].forEach(
+        (el) async => {recipe = Recipe.fromJson(el), recipeList.add(recipe)});
 
 
+    if (!isSearching) {
+      subCategories.clear();
+      SubCategory subCategory;
+      response.data["sub_categories"].forEach((el) async => {
+            subCategory = SubCategory.fromJson(el),
+            subCategories.add(subCategory)
+          });
+    }
+  }
 
+  Future fetchRecipes() async {
+    _loading = true;
+    recipes.clear();
+    String url =
+        "https://datascienceplc.com/api/ds_her/v1/recipe/popular?page=1&per_page=15&category=bread";
 
+    Dio dio = Dio();
+    final response = await dio.get(url);
 
-Future fetchRecipes() async {
+    // var result = jsonDecode(response.data);
 
+    Recipe recipe;
+    response.data["recipes"].forEach((el) async => {
+          recipe = Recipe.fromJson(el),
+          recipes.add(recipe),
+        });
 
-  _loading = true;
-  recipes.clear();
-  String url = "https://datascienceplc.com/api/ds_her/v1/recipe/popular?page=1&per_page=15&category=bread";
+    _loading = false;
+    notifyListeners();
+  }
 
+  Future fetchPopularRecipes() async {
+    _popularLoading = true;
+    String url =
+        "https://datascienceplc.com/api/ds_her/v1/recipe/popular?page=1&per_page=15&category=desserts";
 
-  Dio dio = Dio();
-  final response = await dio.get(url);
+    Dio dio = Dio();
+    final response = await dio.get(url);
 
-  // var result = jsonDecode(response.data);
+    // var result = jsonDecode(response.data);
 
-  Recipe recipe;
-  response.data["recipes"].forEach((el) async => {
-    recipe = Recipe.fromJson(el),
-    recipes.add(recipe),
+    Recipe recipe;
+    response.data["recipes"].forEach((el) async => {
+          recipe = Recipe.fromJson(el),
+          popularRecipes.add(recipe),
+        });
 
-  });
+    _popularLoading = false;
+    notifyListeners();
+  }
 
+  Future fetchRecipesByCategory(String category) async {
+    print("category is: $category");
+    _loading = true;
+    recipes.clear();
+    String url =
+        "https://datascienceplc.com/api/ds_her/v1/recipe/popular?page=1&per_page=15&category=$category";
 
+    Dio dio = Dio();
+    final response = await dio.get(url);
 
+    // var result = jsonDecode(response.data);
 
-  _loading = false;
-  notifyListeners();
-}
+    Recipe recipe;
+    response.data["recipes"].forEach((el) async => {
+          recipe = Recipe.fromJson(el),
+          recipes.add(recipe),
+        });
 
-Future fetchPopularRecipes() async {
+    _loading = false;
+    notifyListeners();
+  }
 
+  Future fetchRecipesBySearch(String query) async {
+    _loading = true;
+    recipes.clear();
+    String url =
+        "https://datascienceplc.com/api/ds_her/v1/recipe/popular?page=1&per_page=15&category=$query";
 
-  _popularLoading = true;
-  String url = "https://datascienceplc.com/api/ds_her/v1/recipe/popular?page=1&per_page=15&category=desserts";
+    Dio dio = Dio();
+    final response = await dio.get(url);
 
+    // var result = jsonDecode(response.data);
 
-  Dio dio = Dio();
-  final response = await dio.get(url);
+    Recipe recipe;
+    response.data["recipes"].forEach((el) async => {
+          recipe = Recipe.fromJson(el),
+          recipes.add(recipe),
+        });
 
-  // var result = jsonDecode(response.data);
+    _loading = false;
+    notifyListeners();
+  }
 
-  Recipe recipe;
-  response.data["recipes"].forEach((el) async => {
-    recipe = Recipe.fromJson(el),
-    popularRecipes.add(recipe),
+  Future searchRecipes(String query) async {
+    String queryData = query == "" ? "a" : query;
 
-  });
+    _loading = true;
+    recipes.clear();
+    String url =
+        "https://datascienceplc.com/api/ds_her/v1/recipe/search?page=1&per_page=10&query=$queryData";
+    // String url = "https://datascienceplc.com/api/ds_her/v1/recipe/popular?page=1&category=bread&per_page=15&category=$queryData";
+    Dio dio = Dio();
+    final response = await dio.get(url);
 
-
-
-
-  _popularLoading = false;
-  notifyListeners();
-}
-
-Future fetchRecipesByCategory(String category) async {
-
-  _loading = true;
-  recipes.clear();
-  String url = "https://datascienceplc.com/api/ds_her/v1/recipe/popular?page=1&category=bread&per_page=15&category=$category";
-
-  Dio dio = Dio();
-  final response = await dio.get(url);
-
-  // var result = jsonDecode(response.data);
-
-  Recipe recipe;
-  response.data["recipes"].forEach((el) async => {
-    recipe = Recipe.fromJson(el),
-    recipes.add(recipe),
-
-  });
-
-
-
-  _loading = false;
-  notifyListeners();
-}
-
-Future fetchRecipesBySearch(String query) async {
-
-  _loading = true;
-  recipes.clear();
-  String url = "https://datascienceplc.com/api/ds_her/v1/recipe/popular?page=1&per_page=15&category=$query";
-
-  Dio dio = Dio();
-  final response = await dio.get(url);
-
-  // var result = jsonDecode(response.data);
-
-  Recipe recipe;
-  response.data["recipes"].forEach((el) async => {
-    recipe = Recipe.fromJson(el),
-    recipes.add(recipe),
-
-  });
-
-  _loading = false;
-  notifyListeners();
-}
-
-Future searchRecipes(String query) async{
-   
-String queryData = query == "" ? "a" : query;
-
-  _loading = true;
-  recipes.clear();
-  String url = "https://datascienceplc.com/api/ds_her/v1/recipe/search?page=1&per_page=10&query=$queryData";
-  // String url = "https://datascienceplc.com/api/ds_her/v1/recipe/popular?page=1&category=bread&per_page=15&category=$queryData";
-  Dio dio = Dio();
-  final response = await dio.get(url);
-
-  Recipe recipe;
-  print("from search recipes provider");
-  print(response.data["recipes"]);
-  response.data["recipes"].forEach((el) async => {
-    recipe = Recipe.fromJson(el),
-    recipes.add(recipe)
-  });
-  _loading = false;
-  notifyListeners();
-
-  
-}
-
-
- 
+    Recipe recipe;
+    print("from search recipes provider");
+    print(response.data["recipes"]);
+    response.data["recipes"].forEach(
+        (el) async => {recipe = Recipe.fromJson(el), recipes.add(recipe)});
+    _loading = false;
+    notifyListeners();
+  }
 }

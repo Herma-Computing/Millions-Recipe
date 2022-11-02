@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:millions_recipe/home_screen.dart';
+import 'package:millions_recipe/paginationWithout.dart';
 import './providers/meal_provider.dart';
 import './providers/recipe_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -27,7 +29,7 @@ class MyApp extends StatelessWidget {
           textTheme: GoogleFonts.montserratTextTheme(),
         ),
         debugShowCheckedModeBanner: false,
-        home: Explore(),
+        home: PaginationWithoutGetX(),
       ),
     );
   }
