@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../models/recipe_model.dart';
-import '../constants.dart';
+import '../common/constants.dart';
 // import '../models/meal_model.dart';
-import '../shared.dart';
+import '../common/shared.dart';
 // import '../data.dart';
 
 class DetailScreen extends StatelessWidget {
@@ -29,13 +29,13 @@ class DetailScreen extends StatelessWidget {
           ),
         ),
         actions: [
-          Padding(
-            padding: EdgeInsets.only(right: 16),
-            child: Icon(
-              Icons.favorite_border,
-              color: Colors.black,
-            ),
-          ),
+          // Padding(
+          //   padding: EdgeInsets.only(right: 16),
+          //   child: Icon(
+          //     Icons.favorite_border,
+          //     color: Colors.black,
+          //   ),
+          // ),
         ],
       ),
       body: SingleChildScrollView(

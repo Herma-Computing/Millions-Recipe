@@ -1,27 +1,24 @@
 import 'dart:convert';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:millions_recipe/constants.dart';
+import 'package:millions_recipe/common/constants.dart';
 import 'package:millions_recipe/providers/recipe_provider.dart';
 import 'package:millions_recipe/screens/detail_screen.dart';
-import 'package:millions_recipe/shared.dart';
+import 'package:millions_recipe/common/shared.dart';
 import 'package:provider/provider.dart';
-import './model_class.dart';
-import 'package:http/http.dart' as http;
 
 import 'models/recipe_model.dart';
 
-class PaginationWithoutGetX extends StatefulWidget {
-  PaginationWithoutGetX({Key? key}) : super(key: key);
+class Home extends StatefulWidget {
+  Home({Key? key}) : super(key: key);
 
   @override
-  State<PaginationWithoutGetX> createState() => _PaginationWithoutGetXState();
+  State<Home> createState() => _HomeState();
 }
 
-class _PaginationWithoutGetXState extends State<PaginationWithoutGetX> {
+class _HomeState extends State<Home> {
   List<bool> optionSelected = [false, false, false];
-  String category = "bread";
+  String category = "Bread";
   List<String> catgories = [
     'Bread',
     'Breakfast and Brunch',
@@ -191,6 +188,7 @@ class _PaginationWithoutGetXState extends State<PaginationWithoutGetX> {
                               category = selectedCategory;
                               isCategorySelecting = true;
                               fetchData(offset, searchQuery);
+                              recipeProvider.fetchRecipesByCategory(category);
 
                               Navigator.pop(context);
                             })),
@@ -214,7 +212,7 @@ class _PaginationWithoutGetXState extends State<PaginationWithoutGetX> {
               ],
             ),
           ),
-          const SizedBox(
+          isSearching ? SizedBox() : const SizedBox(
             height: 32,
           ),
           recipeProvider.subCategoryLoading
@@ -226,7 +224,7 @@ class _PaginationWithoutGetXState extends State<PaginationWithoutGetX> {
               //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
               //   children: recipeProvider.subCategories.map((e) => option(e.name)).toList()
               // ),
-              Container(
+              !isSearching ? Container(
                   height: 40,
                   width: MediaQuery.of(context).size.width,
                   child: ListView.builder(
@@ -237,11 +235,11 @@ class _PaginationWithoutGetXState extends State<PaginationWithoutGetX> {
                       itemBuilder: (context, index) {
                         return option(recipeProvider.subCategories[index].name);
                       }),
-                ),
+                ) : SizedBox(),
           const SizedBox(
             height: 24,
           ),
-          Container(
+          isSearching ? SizedBox(): Container(
             // width: 50,
             height: 350,
             child: Consumer<Recipes>(
@@ -313,9 +311,9 @@ class _PaginationWithoutGetXState extends State<PaginationWithoutGetX> {
                                                 .value +
                                             "  " +
                                             recipeProvider.recipes[index].nutritions[0].unit),
-                                        const Icon(
-                                          Icons.favorite_border,
-                                        )
+                                        // const Icon(
+                                        //   Icons.favorite_border,
+                                        // )
                                       ],
                                     ),
                                   ],
@@ -410,9 +408,9 @@ class _PaginationWithoutGetXState extends State<PaginationWithoutGetX> {
                                                   result[index]
                                                       .nutritions[0]
                                                       .unit),
-                                              Icon(
-                                                Icons.favorite_border,
-                                              )
+                                              // Icon(
+                                              //   Icons.favorite_border,
+                                              // )
                                             ],
                                           ),
                                         ),

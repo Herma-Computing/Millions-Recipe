@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:millions_recipe/home_screen.dart';
-import 'package:millions_recipe/paginationWithout.dart';
+import 'package:millions_recipe/home.dart';
 import './providers/meal_provider.dart';
 import './providers/recipe_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
-import './explore.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -29,7 +27,7 @@ class MyApp extends StatelessWidget {
           textTheme: GoogleFonts.montserratTextTheme(),
         ),
         debugShowCheckedModeBanner: false,
-        home: PaginationWithoutGetX(),
+        home: Home(),
       ),
     );
   }
