@@ -11,15 +11,15 @@ if (flutterRoot == null) {
     throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
 }
 
-def flutterVersionCode = '3' //localProperties.getProperty('flutter.VersionCode')
-//if (flutterVersionCode == null) {
-//    flutterVersionCode = '1'
-//}
+def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
+if (flutterVersionCode == null) {
+    flutterVersionCode = '1'
+}
 
-def flutterVersionName = '1.0.2' //localProperties.getProperty('flutter.VersionName')
-//if (flutterVersionName == null) {
-//    flutterVersionName = '1.0'
-//}
+def flutterVersionName = localProperties.getProperty('flutter.versionName')
+if (flutterVersionName == null) {
+    flutterVersionName = '1.0'
+}
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
@@ -44,17 +44,13 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.herma.millions_recipe"
+        applicationId "com.example.millon_recipe_ui"
         // You can update the following values to match your application needs.
-        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
+        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdkVersion flutter.minSdkVersion
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
-
-        ndk {
-            debugSymbolLevel 'FULL' //'SYMBOL_TABLE'
-        }
     }
 
     buildTypes {

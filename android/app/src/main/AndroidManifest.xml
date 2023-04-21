@@ -1,9 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.herma.millions_recipe">
+    package="com.example.millon_recipe_ui">
    <application
-        android:label="millions_recipe"
+        android:label="millon_recipe_ui"
         android:name="${applicationName}"
-        android:icon="@mipmap/launcher_icon">
+        android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -31,5 +31,4 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
-    <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
 </manifest>
