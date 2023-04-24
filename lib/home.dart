@@ -8,6 +8,7 @@ import 'package:millions_recipe/common/shared.dart';
 import 'package:provider/provider.dart';
 
 import 'models/recipe_model.dart';
+import 'widgets/foodDetails/details.dart';
 
 class Home extends StatefulWidget {
   Home({Key? key}) : super(key: key);
@@ -261,7 +262,8 @@ class _HomeState extends State<Home> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          DetailScreen(meal: recipeProvider.recipes[index])),
+                                          // DetailScreen(meal: recipeProvider.recipes[index])),
+                                    foodDetails(meal: recipeProvider.recipes[index])),
                                 );
                               },
                               child: Container(
@@ -350,7 +352,8 @@ class _HomeState extends State<Home> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      DetailScreen(meal: result[index])),
+                                      // DetailScreen(meal: result[index])),
+                                foodDetails(meal: recipeProvider.recipes[index])),
                             );
                           },
                           child: Container(
