@@ -29,18 +29,7 @@ class ingedients extends StatelessWidget {
                );
             }),
           ),
-                    Center(
-                    child: GestureDetector(
-                      onTap: ()=>CookingSteps,
-                      child: Container(
-                        width: 250,
-                        height: 50,
-                        decoration:BoxDecoration(
-                          color: kPrimaryColor,
-                           borderRadius: BorderRadius.circular(10)),
-                        child: Center(child: Text("Show cooking steps",style: TextStyle(color: Colors.white),),)),
-                    ),
-                  )
+                   
         ],
       ));
   }

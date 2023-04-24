@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:millions_recipe/models/ingredition.dart';
 import '../../models/recipe_model.dart';
 import '../../common/constants.dart';
+import '../../screens/cooking_steps_screen.dart';
 import 'Diet/diet.dart';
 import 'ingredients_page/ingredientpage.dart';
 import 'nutration/nutration.dart';
@@ -41,6 +42,7 @@ var pageviewSelected = 0;
 
       body: Container(
         width: double.infinity,
+
         child: Column(
          mainAxisAlignment: MainAxisAlignment.start,
          crossAxisAlignment: CrossAxisAlignment.start,
@@ -92,7 +94,6 @@ var pageviewSelected = 0;
                   ),
                  ],
                  ),
-         
                   Padding(
                    padding: const EdgeInsets.only(left:30.0),
                    child: Column(
@@ -107,21 +108,18 @@ var pageviewSelected = 0;
                          padding: const EdgeInsets.symmetric(vertical:6.0),
                         child: methdOfmenu(true,green,Icons.check_box ,()=>{},"You have all the ingredients"),
                       ),
-                   ],),
-                 )
-         
-               ],),
-         
-              
-                
-         
+                   ],
+                   ),
+                 )         
+               ],
+               ),
              ],
            ),
          ),
         ),
       
            Padding(
-        padding: EdgeInsets.only(left: 16,right: 16,top: 16),
+           padding: EdgeInsets.only(left: 16,right: 16,top: 16),
               
                 child:Row(
                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -144,7 +142,8 @@ var pageviewSelected = 0;
                 ],) ,
                 ),
 
-                Expanded(
+                  Expanded(
+                    flex: 8,
                   child: PageView(
                      onPageChanged: (int index){
                     setState(() {
@@ -157,7 +156,23 @@ var pageviewSelected = 0;
                    ),
                 ),
                 
-               
+               Expanded(
+                flex: 2,
+                child:  Center(
+                    child: GestureDetector(
+                      onTap: (){
+                        Navigator.push(context,MaterialPageRoute(builder: (BuildContext context)=>CookingSteps()));
+                      },
+                      child: Container(
+                        width: 250,
+                        height: 50,
+                        margin: EdgeInsets.only(bottom: 5),
+                        decoration:BoxDecoration(
+                          color: kPrimaryColor,
+                           borderRadius: BorderRadius.circular(10)),
+                        child: Center(child: Text("Show cooking steps",style: TextStyle(color: Colors.white),),)),
+                    ),
+                  ))
           ],
            
            
