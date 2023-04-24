@@ -16,8 +16,12 @@ class Recipes with ChangeNotifier {
   bool get popularLoading => _popularLoading;
 
   bool _apiLoading = false;
-  List<Recipe> recipeList = [];
+  List<Recipe> _recipeList = []; // I make this List Private, This List must be Prvate so that it's value must not be changed out side of this class
   bool get apiLoading => _apiLoading;
+  //I Add the below a public getter method for recipeList
+  //Provides a public getter method for recipeList, which is unmodifiable.
+  // External entities can only read the list of recipeList items.the value of recipeList must not be changed by External entities that is why i use public getter method for recipeList, which is unmodifiable.
+  List<Recipe>get getrecipeList =>List.unmodifiable(_recipeList);
 
   bool _subCategoryLoading = false;
   List<SubCategory> subCategories = [];
@@ -36,14 +40,14 @@ class Recipes with ChangeNotifier {
 
   Future getRecipeApi(String currentPage, String query, String category,
       bool isSearching) async {
-    recipeList.clear();
+    _recipeList.clear();
     String url =  "https://datascienceplc.com/api/ds_her/v1/recipe/search?page=$currentPage&per_page=15&category=$category&query=$query";
        
     Dio dio = Dio();
     final response = await dio.get(url);
     Recipe recipe;
     response.data["recipes"].forEach(
-        (el) async => {recipe = Recipe.fromJson(el), recipeList.add(recipe)});
+        (el) async => {recipe = Recipe.fromJson(el), _recipeList.add(recipe)});
 
   }
 
