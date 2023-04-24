@@ -44,6 +44,8 @@ dependencies:
   infinite_scroll_pagination: ^3.2.0
   sqflite: ^2.2.0+2
   flutter_launcher_icons: ^0.10.0
+  gender_selection: ^1.0.0
+  syncfusion_flutter_sliders: ^21.1.41
 
 dev_dependencies:
   flutter_test:
