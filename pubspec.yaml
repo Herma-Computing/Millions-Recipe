@@ -46,6 +46,7 @@ dependencies:
   flutter_launcher_icons: ^0.10.0
   gender_selection: ^1.0.0
   syncfusion_flutter_sliders: ^21.1.41
+  hexcolor: ^3.0.1
 
 dev_dependencies:
   flutter_test:
