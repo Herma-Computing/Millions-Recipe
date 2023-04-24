@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../common/constants.dart';
 import '../../../models/ingredition.dart';
+import '../../../screens/cooking_steps_screen.dart';
 
 class ingedients extends StatelessWidget {
   const ingedients({
@@ -30,6 +31,7 @@ class ingedients extends StatelessWidget {
           ),
                     Center(
                     child: GestureDetector(
+                      onTap: ()=>CookingSteps,
                       child: Container(
                         width: 250,
                         height: 50,
