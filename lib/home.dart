@@ -6,8 +6,8 @@ import 'package:millions_recipe/providers/recipe_provider.dart';
 import 'package:millions_recipe/screens/detail_screen.dart';
 import 'package:millions_recipe/common/shared.dart';
 import 'package:provider/provider.dart';
-
 import 'models/recipe_model.dart';
+import 'widgets/foodDetails/details.dart';
 
 class Home extends StatefulWidget {
   Home({Key? key}) : super(key: key);
@@ -19,7 +19,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   List<bool> optionSelected = [false, false, false];
   String category = "Bread";
-  List<String> catgories = [
+  List<String>  catgories = [
     'Bread',
     'Breakfast and Brunch',
     'Appetizers and Snacks',
@@ -108,6 +108,9 @@ class _HomeState extends State<Home> {
     final recipeProvider = Provider.of<Recipes>(context);
     return Scaffold(
       backgroundColor: Colors.grey[50],
+
+
+      //App bar 
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         brightness: Brightness.light,
@@ -126,7 +129,9 @@ class _HomeState extends State<Home> {
               isSearching
                   ? Container(
                       width: MediaQuery.of(context).size.width * 0.65,
+
                       child: TextField(
+
                         controller: searchController,
                         onChanged: ((value) => {
                               searchQuery = searchController.text,
@@ -163,6 +168,10 @@ class _HomeState extends State<Home> {
           )
         ],
       ),
+
+
+    //Drawer
+
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -198,32 +207,47 @@ class _HomeState extends State<Home> {
           ],
         ),
       ),
-      body: ListView(
+
+
+
+
+
+          //Body
+
+
+
+         body: ListView(
         controller: scrollController,
         children: [
+
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
+
+              child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+
                 buildTextTitleVariation1(category),
-                buildTextSubTitleVariation1(
-                    'Healthy and nutritious food recipes'),
+                
+                buildTextSubTitleVariation1('Healthy and nutritious food recipes'),
+
               ],
             ),
           ),
+          
           isSearching ? SizedBox() : const SizedBox(
             height: 32,
           ),
+          
           recipeProvider.subCategoryLoading
               ? SizedBox()
               :
               // Row(
-
               //   // should be changed to list view to support horizontal scroll
               //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
               //   children: recipeProvider.subCategories.map((e) => option(e.name)).toList()
               // ),
+
               !isSearching ? Container(
                   height: 40,
                   width: MediaQuery.of(context).size.width,
@@ -261,7 +285,7 @@ class _HomeState extends State<Home> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          DetailScreen(meal: recipeProvider.recipes[index])),
+                                          foodDetails(meal: recipeProvider.recipes[index])),
                                 );
                               },
                               child: Container(
@@ -306,6 +330,7 @@ class _HomeState extends State<Home> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
+                                        
                                         buildCalories(recipeProvider.recipes[index]
                                                 .nutritions[0]
                                                 .value +
@@ -326,6 +351,7 @@ class _HomeState extends State<Home> {
               },
             ),
           ),
+
           Consumer<Recipes>(builder: (context, value, child) {
             return  ListView.builder(
                     controller: sController,
@@ -350,7 +376,7 @@ class _HomeState extends State<Home> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      DetailScreen(meal: result[index])),
+                                      foodDetails(meal: result[index])),
                             );
                           },
                           child: Container(
@@ -425,6 +451,8 @@ class _HomeState extends State<Home> {
           })
         ],
       ),
+
+
     );
   }
 

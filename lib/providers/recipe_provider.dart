@@ -12,15 +12,22 @@ class Recipes with ChangeNotifier {
   bool get loading => _loading;
 
   bool _popularLoading = false;
+
   List<Recipe> popularRecipes = [];
+  
   bool get popularLoading => _popularLoading;
 
   bool _apiLoading = false;
+  
   List<Recipe> recipeList = [];
+
   bool get apiLoading => _apiLoading;
 
   bool _subCategoryLoading = false;
+
   List<SubCategory> subCategories = [];
+
+
   bool get subCategoryLoading => _subCategoryLoading;
 
   getRecipeApis(String page, String query, String category, isSearching) async {

@@ -5,6 +5,8 @@ import './providers/recipe_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import 'widgets/foodDetails/details.dart';
+
 void main() {
   runApp(MyApp());
 }
