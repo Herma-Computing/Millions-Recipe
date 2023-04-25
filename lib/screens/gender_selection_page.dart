@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gender_selection/gender_selection.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:horizontal_picker/horizontal_picker.dart';
 import 'package:millions_recipe/screens/onboardingScreen.dart';
-import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 class GenderSelections extends StatefulWidget {
   @override
@@ -16,7 +17,11 @@ class _GenderSelectionsState extends State<GenderSelections> {
   String selectedHeightValue = "cm";
   String selectedWeightValue = "kg";
   List<DropdownMenuItem<String>> dropdownHeightItems = [
-    DropdownMenuItem(child: Text("cm"), value: "cm"),
+    DropdownMenuItem(
+        child: Text(
+          "cm",
+        ),
+        value: "cm"),
     DropdownMenuItem(child: Text("mm"), value: "mm"),
   ];
   List<DropdownMenuItem<String>> dropdownWeightItems = [
@@ -26,202 +31,262 @@ class _GenderSelectionsState extends State<GenderSelections> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.white,
         body: SafeArea(
-      child: SingleChildScrollView(
-        child: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Row(
-                children: [
-                  IconButton(
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (BuildContext cxontext) {
-                          return Onbording();
-                        }));
-                      },
-                      icon: Icon(
-                        Icons.arrow_circle_left,
-                        color: Color.fromARGB(255, 156, 224, 158),
-                        size: 40,
-                      )),
-                  Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20),
-                        child: Text("Help us Get ",
-                            style: TextStyle(
-                                color: HexColor("#2E2E2E"),
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold)),
-                      ),
-                      Text(" your Dream Body",
-                          style: TextStyle(
-                              color: HexColor("#2E2E2E"),
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold)),
-                    ],
-                  )
-                ],
-              ),
-              Padding(
-                padding: EdgeInsets.all(10.0),
-                child: Text("get mails accourated for your needs",
-                    style: TextStyle(
-                        color: HexColor("#2E2E2E"),
-                        fontSize: 11,
-                        fontWeight: FontWeight.bold)),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: EdgeInsets.only(right: 80),
-                child: Text("Choose Your Gender",
-                    style: TextStyle(
-                        color: HexColor("#2E2E2E"),
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold)),
-              ),
-              GenderSelection(
-                femaleImage: const NetworkImage(
-                    "https://cdn1.iconfinder.com/data/icons/website-internet/48/website_-_female_user-512.png"),
-                maleImage: const NetworkImage(
-                    "https://cdn1.iconfinder.com/data/icons/website-internet/48/website_-_female_user-512.png"),
-                selectedGenderIconBackgroundColor: Colors.amber,
-                selectedGenderTextStyle: const TextStyle(
-                  color: Colors.amber,
-                  fontSize: 19,
-                  fontWeight: FontWeight.bold,
-                ),
-                checkIconAlignment: Alignment.centerRight,
-                selectedGenderCheckIcon: null,
-                onChanged: (Gender gender) {
-                  print(gender);
-                },
-                equallyAligned: true,
-                animationDuration: const Duration(milliseconds: 400),
-                isCircular: true,
-                isSelectedGenderIconCircular: true,
-                opacityOfGradient: 0.4,
-                padding: const EdgeInsets.all(3),
-                size: 120,
-              ),
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Icon(Icons.person),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text("Age"),
-                  ),
-                ],
-              ),
-              SfSlider(
-                min: 18.0,
-                max: 25,
-                value: ageValue,
-                interval: 1,
-                showTicks: true,
-                showLabels: true,
-                enableTooltip: true,
-                minorTicksPerInterval: 1,
-                onChanged: (dynamic value) {
-                  setState(() {
-                    ageValue = value;
-                  });
-                },
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Icon(Icons.height),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text("Height"),
-                  ),
-                  DropdownButton(
-                      value: selectedHeightValue,
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          selectedHeightValue = newValue!;
-                        });
-                      },
-                      items: dropdownHeightItems)
-                ],
-              ),
-              SfSlider(
-                min: 170.0,
-                max: 195,
-                value: heightValue,
-                interval: 5,
-                showTicks: true,
-                showLabels: true,
-                enableTooltip: true,
-                minorTicksPerInterval: 1,
-                onChanged: (dynamic value) {
-                  setState(() {
-                    heightValue = value;
-                  });
-                },
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Row(
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Icon(Icons.width_normal),
-                    ), //
-                    const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text("Weight"),
+                    CircleAvatar(
+                      radius: 30,
+                      backgroundColor: Colors.black,
+                      child: IconButton(
+                          onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(
+                                builder: (BuildContext cxontext) {
+                              return Onbording();
+                            }));
+                          },
+                          icon: Icon(
+                            Icons.arrow_circle_left,
+                            color: Color.fromARGB(255, 156, 224, 158),
+                            size: 46,
+                          )),
                     ),
-                    DropdownButton(
-                        value: selectedWeightValue,
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            selectedWeightValue = newValue!;
-                          });
-                        },
-                        items: dropdownWeightItems)
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 15, left: 20),
+                            child: Text(
+                              "Help us get you ",
+                              style: GoogleFonts.manrope(
+                                textStyle: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 24),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 15),
+                            child: Text(
+                              " your dream body",
+                              style: GoogleFonts.manrope(
+                                textStyle: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 24),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
                   ],
                 ),
-              ),
-              SfSlider(
-                min: 170.0,
-                max: 195,
-                value: weightVlue,
-                interval: 5,
-                showTicks: true,
-                showLabels: true,
-                enableTooltip: true,
-                minorTicksPerInterval: 1,
-                onChanged: (dynamic value) {
-                  setState(() {
-                    weightVlue = value;
-                  });
-                },
-              ),
-              SizedBox(
-                height: 50,
-              ),
-            ],
+                Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: Text(
+                    "get mails accourated for your needs",
+                    style: GoogleFonts.manrope(
+                      textStyle: TextStyle(
+                          color: HexColor("#2E2E2E80"),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(right: 120),
+                  child: Text(
+                    "Choose your gender",
+                    style: GoogleFonts.manrope(
+                      textStyle: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 25,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SvgPicture.asset(
+                      'assets/allSVG/girl.svg',
+                      width: 160.0,
+                      height: 160.0,
+                    ),
+                    SvgPicture.asset(
+                      'assets/allSVG/boy.svg',
+                      width: 160.0,
+                      height: 160.0,
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 35,
+                ),
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20, right: 10),
+                      child: SvgPicture.asset(
+                        'assets/allSVG/ageIcon.svg',
+                        width: 22.0,
+                        height: 22.0,
+                      ),
+                    ),
+                    Text(
+                      "Age",
+                      style: GoogleFonts.manrope(
+                        textStyle: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16),
+                      ),
+                    )
+                  ],
+                ),
+                HorizontalPicker(
+                  minValue: 18,
+                  maxValue: 150,
+                  divisions: 132,
+                  backgroundColor: Colors.white,
+                  showCursor: false,
+                  activeItemTextColor: HexColor("#53E88B"),
+                  passiveItemsTextColor: Colors.black38,
+                  onChanged: (value) {},
+                  height: 100,
+                ),
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20, right: 10),
+                      child: SvgPicture.asset(
+                        'assets/allSVG/heightIcon.svg',
+                        width: 18.0,
+                        height: 18.0,
+                      ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text("Height",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold)),
+                    ),
+                    DropdownButton(
+                        underline: Container(),
+                        value: selectedHeightValue,
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedHeightValue = newValue!;
+                          });
+                        },
+                        items: dropdownHeightItems)
+                  ],
+                ),
+                HorizontalPicker(
+                  minValue: 170,
+                  maxValue: 195,
+                  divisions: 100,
+                  backgroundColor: Colors.white,
+                  showCursor: false,
+                  activeItemTextColor: HexColor("#53E88B"),
+                  passiveItemsTextColor: Colors.black38,
+                  onChanged: (value) {},
+                  height: 100,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10, right: 10),
+                        child: SvgPicture.asset(
+                          'assets/allSVG/weightIcon.svg',
+                          width: 18.0,
+                          height: 18.0,
+                        ),
+                      ), //
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text("Weight",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold)),
+                      ),
+                      DropdownButton(
+                          underline: Container(),
+                          value: selectedWeightValue,
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              selectedWeightValue = newValue!;
+                            });
+                          },
+                          items: dropdownWeightItems)
+                    ],
+                  ),
+                ),
+                HorizontalPicker(
+                  minValue: 170,
+                  maxValue: 195,
+                  divisions: 5,
+                  backgroundColor: Colors.white,
+                  showCursor: false,
+                  activeItemTextColor: HexColor("#53E88B"),
+                  passiveItemsTextColor: Colors.black38,
+                  onChanged: (value) {},
+                  height: 100,
+                ),
+                InkWell(
+                  onTap: () {
+                    // route to page when this button pressed
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.all(60),
+                    width: 208.47,
+                    height: 44,
+                    decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          begin: Alignment.centerRight,
+                          end: Alignment.centerLeft,
+                          colors: [
+                            Color(0xff15BE77),
+                            Color(0xff53E88B),
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: const Center(
+                      child: Text(
+                        "Continue",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-      ),
-    ));
+        ));
   }
 }
