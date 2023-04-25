@@ -192,7 +192,7 @@ class _GenderSelectionsState extends State<GenderSelections> {
                       child: Text("Height",
                           style: TextStyle(
                               color: Colors.black,
-                              fontSize: 16,
+                              fontSize: 14,
                               fontWeight: FontWeight.bold)),
                     ),
                     DropdownButton(
@@ -206,6 +206,7 @@ class _GenderSelectionsState extends State<GenderSelections> {
                         items: dropdownHeightItems)
                   ],
                 ),
+                //Height section
                 HorizontalPicker(
                   minValue: 170,
                   maxValue: 195,
@@ -239,7 +240,7 @@ class _GenderSelectionsState extends State<GenderSelections> {
                         child: Text("Weight",
                             style: TextStyle(
                                 color: Colors.black,
-                                fontSize: 16,
+                                fontSize: 14,
                                 fontWeight: FontWeight.bold)),
                       ),
                       DropdownButton(
