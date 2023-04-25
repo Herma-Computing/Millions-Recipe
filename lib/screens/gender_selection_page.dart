@@ -180,7 +180,7 @@ class _GenderSelectionsState extends State<GenderSelections> {
                 Row(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 10, right: 10),
+                      padding: const EdgeInsets.only(left: 11, right: 10),
                       child: SvgPicture.asset(
                         'assets/allSVG/heightIcon.svg',
                         width: 27.0,
