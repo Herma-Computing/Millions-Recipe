@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:horizontal_picker/horizontal_picker.dart';
+import 'package:millions_recipe/home.dart';
 import 'package:millions_recipe/screens/onboardingScreen.dart';
 
 class GenderSelections extends StatefulWidget {
@@ -17,7 +18,7 @@ class _GenderSelectionsState extends State<GenderSelections> {
   String selectedHeightValue = "cm";
   String selectedWeightValue = "kg";
   List<DropdownMenuItem<String>> dropdownHeightItems = [
-    DropdownMenuItem(
+    const DropdownMenuItem(
         child: Text(
           "cm",
         ),
@@ -40,21 +41,24 @@ class _GenderSelectionsState extends State<GenderSelections> {
               children: <Widget>[
                 Row(
                   children: [
-                    CircleAvatar(
-                      radius: 30,
-                      backgroundColor: Colors.black,
-                      child: IconButton(
-                          onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(
-                                builder: (BuildContext cxontext) {
-                              return Onbording();
-                            }));
-                          },
-                          icon: Icon(
-                            Icons.arrow_circle_left,
-                            color: Color.fromARGB(255, 156, 224, 158),
-                            size: 46,
-                          )),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CircleAvatar(
+                        radius: 25,
+                        backgroundColor: Color.fromARGB(255, 187, 221, 189),
+                        child: IconButton(
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(
+                                  builder: (BuildContext cxontext) {
+                                return Onbording();
+                              }));
+                            },
+                            icon: Icon(
+                              Icons.arrow_back,
+                              color: HexColor("#53E88B"),
+                              size: 24,
+                            )),
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -65,7 +69,7 @@ class _GenderSelectionsState extends State<GenderSelections> {
                             child: Text(
                               "Help us get you ",
                               style: GoogleFonts.manrope(
-                                textStyle: TextStyle(
+                                textStyle: const TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 24),
@@ -77,7 +81,7 @@ class _GenderSelectionsState extends State<GenderSelections> {
                             child: Text(
                               " your dream body",
                               style: GoogleFonts.manrope(
-                                textStyle: TextStyle(
+                                textStyle: const TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 24),
@@ -101,7 +105,7 @@ class _GenderSelectionsState extends State<GenderSelections> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Padding(
@@ -109,14 +113,14 @@ class _GenderSelectionsState extends State<GenderSelections> {
                   child: Text(
                     "Choose your gender",
                     style: GoogleFonts.manrope(
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                           fontSize: 16),
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 25,
                 ),
                 Row(
@@ -134,7 +138,7 @@ class _GenderSelectionsState extends State<GenderSelections> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 35,
                 ),
                 Row(
@@ -166,7 +170,11 @@ class _GenderSelectionsState extends State<GenderSelections> {
                   showCursor: false,
                   activeItemTextColor: HexColor("#53E88B"),
                   passiveItemsTextColor: Colors.black38,
-                  onChanged: (value) {},
+                  onChanged: (value) {
+                    setState(() {
+                      ageValue = value;
+                    });
+                  },
                   height: 100,
                 ),
                 Row(
@@ -175,8 +183,8 @@ class _GenderSelectionsState extends State<GenderSelections> {
                       padding: const EdgeInsets.only(left: 20, right: 10),
                       child: SvgPicture.asset(
                         'assets/allSVG/heightIcon.svg',
-                        width: 18.0,
-                        height: 18.0,
+                        width: 22.0,
+                        height: 22.0,
                       ),
                     ),
                     const Padding(
@@ -201,15 +209,19 @@ class _GenderSelectionsState extends State<GenderSelections> {
                 HorizontalPicker(
                   minValue: 170,
                   maxValue: 195,
-                  divisions: 100,
+                  divisions: 25,
                   backgroundColor: Colors.white,
                   showCursor: false,
                   activeItemTextColor: HexColor("#53E88B"),
                   passiveItemsTextColor: Colors.black38,
-                  onChanged: (value) {},
+                  onChanged: (value) {
+                    setState(() {
+                      heightValue = value;
+                    });
+                  },
                   height: 100,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Padding(
@@ -220,8 +232,8 @@ class _GenderSelectionsState extends State<GenderSelections> {
                         padding: const EdgeInsets.only(left: 10, right: 10),
                         child: SvgPicture.asset(
                           'assets/allSVG/weightIcon.svg',
-                          width: 18.0,
-                          height: 18.0,
+                          width: 22.0,
+                          height: 22.0,
                         ),
                       ), //
                       const Padding(
@@ -247,17 +259,23 @@ class _GenderSelectionsState extends State<GenderSelections> {
                 HorizontalPicker(
                   minValue: 170,
                   maxValue: 195,
-                  divisions: 5,
+                  divisions: 25,
                   backgroundColor: Colors.white,
                   showCursor: false,
                   activeItemTextColor: HexColor("#53E88B"),
                   passiveItemsTextColor: Colors.black38,
-                  onChanged: (value) {},
+                  onChanged: (value) {
+                    weightVlue = value;
+                  },
                   height: 100,
                 ),
                 InkWell(
                   onTap: () {
                     // route to page when this button pressed
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (BuildContext context) {
+                      return Home();
+                    }));
                   },
                   child: Container(
                     margin: const EdgeInsets.all(60),
