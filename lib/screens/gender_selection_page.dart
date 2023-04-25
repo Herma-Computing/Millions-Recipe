@@ -45,7 +45,7 @@ class _GenderSelectionsState extends State<GenderSelections> {
                       padding: const EdgeInsets.all(8.0),
                       child: CircleAvatar(
                         radius: 25,
-                        backgroundColor: Color.fromARGB(255, 187, 221, 189),
+                        backgroundColor: Color.fromARGB(255, 224, 250, 225),
                         child: IconButton(
                             onPressed: () {
                               Navigator.push(context, MaterialPageRoute(
@@ -180,11 +180,11 @@ class _GenderSelectionsState extends State<GenderSelections> {
                 Row(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 20, right: 10),
+                      padding: const EdgeInsets.only(left: 10, right: 10),
                       child: SvgPicture.asset(
                         'assets/allSVG/heightIcon.svg',
-                        width: 22.0,
-                        height: 22.0,
+                        width: 27.0,
+                        height: 27.0,
                       ),
                     ),
                     const Padding(
@@ -209,9 +209,10 @@ class _GenderSelectionsState extends State<GenderSelections> {
                 HorizontalPicker(
                   minValue: 170,
                   maxValue: 195,
-                  divisions: 25,
+                  divisions: 50,
                   backgroundColor: Colors.white,
-                  showCursor: false,
+                  showCursor: true,
+                  cursorColor: Color.fromARGB(255, 131, 255, 135),
                   activeItemTextColor: HexColor("#53E88B"),
                   passiveItemsTextColor: Colors.black38,
                   onChanged: (value) {
@@ -220,9 +221,6 @@ class _GenderSelectionsState extends State<GenderSelections> {
                     });
                   },
                   height: 100,
-                ),
-                const SizedBox(
-                  height: 20,
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -259,9 +257,11 @@ class _GenderSelectionsState extends State<GenderSelections> {
                 HorizontalPicker(
                   minValue: 170,
                   maxValue: 195,
-                  divisions: 25,
+                  divisions: 50,
                   backgroundColor: Colors.white,
-                  showCursor: false,
+                  initialPosition: InitialPosition.center,
+                  showCursor: true,
+                  cursorColor: Color.fromARGB(255, 131, 255, 135),
                   activeItemTextColor: HexColor("#53E88B"),
                   passiveItemsTextColor: Colors.black38,
                   onChanged: (value) {
