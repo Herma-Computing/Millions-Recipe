@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:horizontal_picker/horizontal_picker.dart';
 import 'package:millions_recipe/home.dart';
+
 import './providers/meal_provider.dart';
 import './providers/recipe_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,6 +11,7 @@ import './screens/onboardingScreen.dart';
 void main() {
   runApp(MyApp());
 }
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -28,6 +31,7 @@ class MyApp extends StatelessWidget {
         ),
         debugShowCheckedModeBanner: false,
         home: Onbording(),
+        //
       ),
     );
   }

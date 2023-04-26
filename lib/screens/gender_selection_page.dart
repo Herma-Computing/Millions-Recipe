@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ruler_picker/flutter_ruler_picker.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:horizontal_picker/horizontal_picker.dart';
 import 'package:millions_recipe/home.dart';
 import 'package:millions_recipe/screens/onboardingScreen.dart';
+import 'package:millions_recipe/widgets/TrianglePainter.dart';
 
 class GenderSelections extends StatefulWidget {
   @override
@@ -15,8 +17,14 @@ class _GenderSelectionsState extends State<GenderSelections> {
   double ageValue = 18.0;
   double heightValue = 170.0;
   double weightVlue = 170.0;
-  String selectedHeightValue = "cm";
-  String selectedWeightValue = "kg";
+  String selectedHeight = "cm";
+  String selectedWeight = "kg";
+  RulerPickerController? _HeightPickerController;
+  RulerPickerController? _WeightPickerController;
+  final double _ruleScaleInterval = 10;
+
+  int currentHeightValue = 30;
+  int currentWeightValue = 30;
   List<DropdownMenuItem<String>> dropdownHeightItems = [
     const DropdownMenuItem(
         child: Text(
@@ -29,6 +37,14 @@ class _GenderSelectionsState extends State<GenderSelections> {
     DropdownMenuItem(child: Text("kg"), value: "kg"),
     DropdownMenuItem(child: Text("gram"), value: "gram"),
   ];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _HeightPickerController = RulerPickerController(value: 0);
+    _WeightPickerController = RulerPickerController(value: 0);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -197,31 +213,64 @@ class _GenderSelectionsState extends State<GenderSelections> {
                     ),
                     DropdownButton(
                         underline: Container(),
-                        value: selectedHeightValue,
+                        value: selectedHeight,
                         onChanged: (String? newValue) {
                           setState(() {
-                            selectedHeightValue = newValue!;
+                            selectedHeight = newValue!;
                           });
                         },
                         items: dropdownHeightItems)
                   ],
                 ),
-                //Height section
-                HorizontalPicker(
-                  minValue: 170,
-                  maxValue: 195,
-                  divisions: 50,
-                  backgroundColor: Colors.white,
-                  showCursor: true,
-                  cursorColor: Color.fromARGB(255, 131, 255, 135),
-                  activeItemTextColor: HexColor("#53E88B"),
-                  passiveItemsTextColor: Colors.black38,
-                  onChanged: (value) {
+                const SizedBox(
+                  height: 5,
+                ),
+                RulerPicker(
+                  controller: _HeightPickerController!,
+                  beginValue: 30,
+                  endValue: 195,
+                  initValue: currentHeightValue,
+                  scaleLineStyleList: const [
+                    ScaleLineStyle(
+                        color: Colors.grey, width: 1.5, height: 30, scale: 0),
+                    ScaleLineStyle(
+                        color: Colors.grey, width: 1, height: 25, scale: 5),
+                    ScaleLineStyle(
+                        color: Colors.grey, width: 1, height: 15, scale: -1)
+                  ],
+                  onValueChange: (value) {
                     setState(() {
-                      heightValue = value;
+                      currentHeightValue = value;
                     });
                   },
-                  height: 100,
+                  width: MediaQuery.of(context).size.width,
+                  height: 80,
+                  rulerMarginTop: 8,
+                  marker: Container(
+                    child: SizedBox(
+                      width: _ruleScaleInterval * 2,
+                      height: 45,
+                      child: Stack(
+                        children: <Widget>[
+                          Align(
+                              alignment: Alignment.topCenter,
+                              child: SizedBox(
+                                width: 15,
+                                height: 15,
+                                child: CustomPaint(
+                                  painter: TrianglePainter(),
+                                ),
+                              )),
+                          Align(
+                              child: Container(
+                            width: 3,
+                            height: 34,
+                            color: HexColor("#53E88B"),
+                          )),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -245,30 +294,65 @@ class _GenderSelectionsState extends State<GenderSelections> {
                       ),
                       DropdownButton(
                           underline: Container(),
-                          value: selectedWeightValue,
+                          value: selectedWeight,
                           onChanged: (String? newValue) {
                             setState(() {
-                              selectedWeightValue = newValue!;
+                              selectedWeight = newValue!;
                             });
                           },
                           items: dropdownWeightItems)
                     ],
                   ),
                 ),
-                HorizontalPicker(
-                  minValue: 170,
-                  maxValue: 195,
-                  divisions: 50,
-                  backgroundColor: Colors.white,
-                  initialPosition: InitialPosition.center,
-                  showCursor: true,
-                  cursorColor: Color.fromARGB(255, 131, 255, 135),
-                  activeItemTextColor: HexColor("#53E88B"),
-                  passiveItemsTextColor: Colors.black38,
-                  onChanged: (value) {
-                    weightVlue = value;
+                const SizedBox(
+                  height: 5,
+                ),
+                RulerPicker(
+                  controller: _WeightPickerController!,
+                  beginValue: 50,
+                  endValue: 195,
+                  initValue: currentWeightValue,
+                  scaleLineStyleList: const [
+                    ScaleLineStyle(
+                        color: Colors.grey, width: 1.5, height: 30, scale: 0),
+                    ScaleLineStyle(
+                        color: Colors.grey, width: 1, height: 25, scale: 5),
+                    ScaleLineStyle(
+                        color: Colors.grey, width: 1, height: 15, scale: -1)
+                  ],
+                  onValueChange: (value) {
+                    setState(() {
+                      currentWeightValue = value;
+                    });
                   },
-                  height: 100,
+                  width: MediaQuery.of(context).size.width,
+                  height: 80,
+                  rulerMarginTop: 8,
+                  marker: Container(
+                    child: SizedBox(
+                      width: _ruleScaleInterval * 2,
+                      height: 45,
+                      child: Stack(
+                        children: <Widget>[
+                          Align(
+                              alignment: Alignment.topCenter,
+                              child: SizedBox(
+                                width: 15,
+                                height: 15,
+                                child: CustomPaint(
+                                  painter: TrianglePainter(),
+                                ),
+                              )),
+                          Align(
+                              child: Container(
+                            width: 3,
+                            height: 34,
+                            color: HexColor("#53E88B"),
+                          )),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
                 InkWell(
                   onTap: () {

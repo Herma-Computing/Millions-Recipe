@@ -47,6 +47,9 @@ dependencies:
   hexcolor: ^3.0.1
   horizontal_picker: ^1.2.0
   flutter_svg: ^2.0.5
+  flutter_ruler_picker: ^1.0.3
+
+  
 
 
 dev_dependencies:
