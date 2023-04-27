@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../home.dart';
 import 'forgot_password.dart';
 import 'registration.dart';
 
@@ -82,6 +83,9 @@ class _LogInState extends State<LogIn> {
               onTap: () {
                 // todo:
                 //
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => Home(),
+                ));
               },
               child: Container(
                 margin: const EdgeInsets.only(top: 16),
