@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../home.dart';
+import '../screens/gender_selection_page.dart';
 import 'forgot_password.dart';
 import 'registration.dart';
 
@@ -84,7 +85,7 @@ class _LogInState extends State<LogIn> {
                 // todo:
                 //
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => Home(),
+                    builder: (context) => GenderSelections(),
                 ));
               },
               child: Container(
