@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
+import '../home.dart';
 import 'login.dart';
 import 'otp_verification.dart';
 
@@ -93,7 +94,7 @@ class _RegisterState extends State<Register> {
                 // todo:
                 //
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => Otp(),
+                  builder: (context) => Home(),//Otp(),
                 ));
               },
               child: Container(
