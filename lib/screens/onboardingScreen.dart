@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:millions_recipe/home.dart';
+import 'package:millions_recipe/screens/gender_selection_page.dart';
 
 class Onbording extends StatefulWidget {
   @override
@@ -92,7 +93,8 @@ class _OnbordingState extends State<Onbording> {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => Home(),
+                    builder: (_) =>GenderSelections(),
+                    // Home(),
                   ),
                 );
               }
