@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:millions_recipe/home.dart';
 
+import '../auth/registration.dart';
+
 class Onbording extends StatefulWidget {
   @override
   _OnbordingState createState() => _OnbordingState();
@@ -92,7 +94,7 @@ class _OnbordingState extends State<Onbording> {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => Home(),
+                    builder: (_) => Register(),
                   ),
                 );
               }
