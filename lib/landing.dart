@@ -50,8 +50,20 @@ class _LandingState extends State<Landing> {
         },
         tooltip: "Add Recipe",
         elevation: 0,
-        backgroundColor: const Color(0xff53E88B),
-        child: const Icon(Icons.add, color: Colors.white),
+        backgroundColor: Colors.transparent,
+        foregroundColor: Colors.white,
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [kActiveColor, kGradientColorTo],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(50),
+          ),
+          padding: const EdgeInsets.all(16),
+          child: const Icon(Icons.add),
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomNavigationBar(
