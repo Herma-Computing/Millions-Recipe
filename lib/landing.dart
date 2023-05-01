@@ -53,6 +53,8 @@ class _LandingState extends State<Landing> {
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.white,
         child: Container(
+          width: 48,
+          height: 48,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [kActiveColor, kGradientColorTo],
@@ -61,79 +63,95 @@ class _LandingState extends State<Landing> {
             ),
             borderRadius: BorderRadius.circular(50),
           ),
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(8),
           child: const Icon(Icons.add),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: kActiveColor,
-        unselectedItemColor: Colors.grey,
-        type: BottomNavigationBarType.fixed,
-        currentIndex: currentTab,
-        onTap: (int index) {
-          setState(() {
-            currentTab = index;
-          });
-        },
-        items: [
-          BottomNavigationBarItem(
-            activeIcon: SvgPicture.asset(
-              'assets/allSVG/Home-Icon.svg',
-              color: kActiveColor,
+      bottomNavigationBar: Container(
+        decoration: const BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Color(0x262E2E2E),
+              spreadRadius: 1,
+              blurRadius: 10,
+              offset: Offset(0, 3), // changes position of shadow
             ),
-            icon: Opacity(
-              opacity: 0.25,
-              child: SvgPicture.asset(
+          ],
+        ),
+        child: BottomNavigationBar(
+          elevation: 8.0,
+          selectedItemColor: kActiveColor,
+          unselectedItemColor: Colors.grey,
+          type: BottomNavigationBarType.fixed,
+          currentIndex: currentTab,
+          onTap: (int index) {
+            setState(() {
+              currentTab = index;
+            });
+          },
+          items: [
+            BottomNavigationBarItem(
+              activeIcon: SvgPicture.asset(
                 'assets/allSVG/Home-Icon.svg',
+                color: kActiveColor,
               ),
+              icon: Opacity(
+                opacity: 0.25,
+                child: SvgPicture.asset(
+                  'assets/allSVG/Home-Icon.svg',
+                ),
+              ),
+              label: "Home",
             ),
-            label: "Home",
-          ),
-          BottomNavigationBarItem(
-            activeIcon: SvgPicture.asset(
-              'assets/allSVG/My-Recipe-Icon.svg',
-              color: kActiveColor,
-            ),
-            icon: Opacity(
-              opacity: 0.25,
-              child: SvgPicture.asset(
+            BottomNavigationBarItem(
+              activeIcon: SvgPicture.asset(
                 'assets/allSVG/My-Recipe-Icon.svg',
+                color: kActiveColor,
               ),
+              icon: Opacity(
+                opacity: 0.25,
+                child: SvgPicture.asset(
+                  'assets/allSVG/My-Recipe-Icon.svg',
+                ),
+              ),
+              label: "Recipes",
             ),
-            label: "Recipes",
-          ),
-          const BottomNavigationBarItem(
-            icon: Icon(Icons.add),
-            label: "Add Recipe",
-          ),
-          BottomNavigationBarItem(
-            activeIcon: SvgPicture.asset(
-              'assets/allSVG/Favorite-Icon.svg',
-              color: kActiveColor,
+            const BottomNavigationBarItem(
+              icon: Icon(
+                Icons.add,
+                color: Colors.transparent,
+              ),
+              label: "Add Recipe",
             ),
-            icon: Opacity(
-              opacity: 0.25,
-              child: SvgPicture.asset(
+            BottomNavigationBarItem(
+              activeIcon: SvgPicture.asset(
                 'assets/allSVG/Favorite-Icon.svg',
+                color: kActiveColor,
               ),
+              icon: Opacity(
+                opacity: 0.25,
+                child: SvgPicture.asset(
+                  'assets/allSVG/Favorite-Icon.svg',
+                ),
+              ),
+              label: "Favourites",
             ),
-            label: "Favourites",
-          ),
-          BottomNavigationBarItem(
-            activeIcon: SvgPicture.asset(
-              'assets/allSVG/Profile-Icon.svg',
-              color: kActiveColor,
-            ),
-            icon: Opacity(
-              opacity: 0.25,
-              child: SvgPicture.asset(
+            BottomNavigationBarItem(
+              activeIcon: SvgPicture.asset(
                 'assets/allSVG/Profile-Icon.svg',
+                color: kActiveColor,
               ),
+              icon: Opacity(
+                opacity: 0.25,
+                child: SvgPicture.asset(
+                  'assets/allSVG/Profile-Icon.svg',
+                ),
+              ),
+              label: "Profile",
             ),
-            label: "Profile",
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
