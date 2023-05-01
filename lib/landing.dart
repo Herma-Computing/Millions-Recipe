@@ -48,9 +48,9 @@ class _LandingState extends State<Landing> {
           });
         },
         tooltip: "Add Recipe",
-        child: Icon(Icons.add, color: Colors.white),
         elevation: 0,
-        backgroundColor: Color(0xff53E88B),
+        backgroundColor: const Color(0xff53E88B),
+        child: const Icon(Icons.add, color: Colors.white),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomNavigationBar(
@@ -66,19 +66,27 @@ class _LandingState extends State<Landing> {
         items: [
           BottomNavigationBarItem(
             activeIcon: SvgPicture.asset(
-              'assets/allSVG/Active-Home-Icon.svg',
-            ),
-            icon: SvgPicture.asset(
               'assets/allSVG/Home-Icon.svg',
+              color: const Color(0xff53E88B),
+            ),
+            icon: Opacity(
+              opacity: 0.25,
+              child: SvgPicture.asset(
+                'assets/allSVG/Home-Icon.svg',
+              ),
             ),
             label: "Home",
           ),
           BottomNavigationBarItem(
             activeIcon: SvgPicture.asset(
-              'assets/allSVG/Active-My-Recipe-Icon.svg',
-            ),
-            icon: SvgPicture.asset(
               'assets/allSVG/My-Recipe-Icon.svg',
+              color: const Color(0xff53E88B),
+            ),
+            icon: Opacity(
+              opacity: 0.25,
+              child: SvgPicture.asset(
+                'assets/allSVG/My-Recipe-Icon.svg',
+              ),
             ),
             label: "Recipes",
           ),
@@ -88,19 +96,27 @@ class _LandingState extends State<Landing> {
           ),
           BottomNavigationBarItem(
             activeIcon: SvgPicture.asset(
-              'assets/allSVG/Active-Favorite-Icon.svg',
-            ),
-            icon: SvgPicture.asset(
               'assets/allSVG/Favorite-Icon.svg',
+              color: const Color(0xff53E88B),
+            ),
+            icon: Opacity(
+              opacity: 0.25,
+              child: SvgPicture.asset(
+                'assets/allSVG/Favorite-Icon.svg',
+              ),
             ),
             label: "Favourites",
           ),
           BottomNavigationBarItem(
             activeIcon: SvgPicture.asset(
-              'assets/allSVG/Active-Profile-Icon.svg',
-            ),
-            icon: SvgPicture.asset(
               'assets/allSVG/Profile-Icon.svg',
+              color: const Color(0xff53E88B),
+            ),
+            icon: Opacity(
+              opacity: 0.25,
+              child: SvgPicture.asset(
+                'assets/allSVG/Profile-Icon.svg',
+              ),
             ),
             label: "Profile",
           ),
