@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:millions_recipe/common/constants.dart';
-import 'package:millions_recipe/home.dart';
+import 'package:millions_recipe/newhome.dart';
 import 'package:millions_recipe/screens/add_recipe.dart';
 import 'package:millions_recipe/screens/favourites.dart';
 import 'package:millions_recipe/screens/profile.dart';
@@ -18,7 +18,7 @@ class _LandingState extends State<Landing> {
   int currentTab = 0;
 
   final List<Widget> screens = [
-    Home(),
+    NewHome(),
     RecipesPage(),
     AddRecipe(),
     Favourites(),
@@ -26,7 +26,7 @@ class _LandingState extends State<Landing> {
   ];
 
   final PageStorageBucket bucket = PageStorageBucket();
-  Widget currentScreen = Home();
+  Widget currentScreen = NewHome();
 
   @override
   void initState() {
