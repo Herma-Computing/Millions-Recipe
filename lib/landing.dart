@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:millions_recipe/common/constants.dart';
 import 'package:millions_recipe/home.dart';
 import 'package:millions_recipe/screens/add_recipe.dart';
 import 'package:millions_recipe/screens/favourites.dart';
@@ -54,7 +55,7 @@ class _LandingState extends State<Landing> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: const Color(0xff53E88B),
+        selectedItemColor: kActiveColor,
         unselectedItemColor: Colors.grey,
         type: BottomNavigationBarType.fixed,
         currentIndex: currentTab,
@@ -67,7 +68,7 @@ class _LandingState extends State<Landing> {
           BottomNavigationBarItem(
             activeIcon: SvgPicture.asset(
               'assets/allSVG/Home-Icon.svg',
-              color: const Color(0xff53E88B),
+              color: kActiveColor,
             ),
             icon: Opacity(
               opacity: 0.25,
@@ -80,7 +81,7 @@ class _LandingState extends State<Landing> {
           BottomNavigationBarItem(
             activeIcon: SvgPicture.asset(
               'assets/allSVG/My-Recipe-Icon.svg',
-              color: const Color(0xff53E88B),
+              color: kActiveColor,
             ),
             icon: Opacity(
               opacity: 0.25,
@@ -97,7 +98,7 @@ class _LandingState extends State<Landing> {
           BottomNavigationBarItem(
             activeIcon: SvgPicture.asset(
               'assets/allSVG/Favorite-Icon.svg',
-              color: const Color(0xff53E88B),
+              color: kActiveColor,
             ),
             icon: Opacity(
               opacity: 0.25,
@@ -110,7 +111,7 @@ class _LandingState extends State<Landing> {
           BottomNavigationBarItem(
             activeIcon: SvgPicture.asset(
               'assets/allSVG/Profile-Icon.svg',
-              color: const Color(0xff53E88B),
+              color: kActiveColor,
             ),
             icon: Opacity(
               opacity: 0.25,
