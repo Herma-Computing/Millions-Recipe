@@ -39,17 +39,17 @@ class _ChangePasswordState extends State<ChangePassword> {
               textAlign: TextAlign.start, style: TextStyle(color: Colors.grey)),
           Padding(
             padding: const EdgeInsets.only(bottom: 13),
-            child: Reusable_TextField("OPT Code"),
+            child: reusableTextField("OPT Code"),
           ),
           const Text("Password", style: TextStyle(color: Colors.grey)),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 13),
-            child: Reusable_TextField("Password"),
+            child: reusableTextField("Password"),
           ),
           const Text("Confirm Password", style: TextStyle(color: Colors.grey)),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 13),
-            child: Reusable_TextField("Password"),
+            child: reusableTextField("Password"),
           ),
           const SizedBox(
             height: 7,
@@ -89,7 +89,7 @@ class _ChangePasswordState extends State<ChangePassword> {
     );
   }
 
-  Container Reusable_TextField(String hint_text) {
+  Container reusableTextField(String hintText) {
     Color secondbackgroundColor = Theme.of(context).cardColor;
     final inputBorder = OutlineInputBorder(
         borderSide: Divider.createBorderSide(context),
@@ -118,7 +118,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                 child: TextFormField(
                     cursorColor: Colors.blue,
                     decoration: InputDecoration(
-                      hintText: hint_text,
+                      hintText: hintText,
                       hintStyle: TextStyle(color: Colors.grey[400]),
                       fillColor: secondbackgroundColor,
                       filled: true,

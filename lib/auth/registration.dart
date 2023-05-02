@@ -53,11 +53,11 @@ class _RegisterState extends State<Register> {
             const SizedBox(
               height: 38,
             ),
-            Reusable_TextField(
+            reusableTextField(
                 "First Name", Icons.person_outline, null, others),
-            Reusable_TextField("Last Name", Icons.person_outline, null, others),
-            Reusable_TextField("Email", Icons.email_outlined, null, others),
-            Reusable_TextField("Password", Icons.lock_outline,
+            reusableTextField("Last Name", Icons.person_outline, null, others),
+            reusableTextField("Email", Icons.email_outlined, null, others),
+            reusableTextField("Password", Icons.lock_outline,
                 Icons.visibility_off_outlined, passwd),
             Container(),
             const SizedBox(
@@ -237,8 +237,8 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  Container Reusable_TextField(
-      String hint_text, IconData icons, IconData? suffixicon, bool hide) {
+  Container reusableTextField(
+      String hintText, IconData icons, IconData? suffixicon, bool hide) {
     Color secondbackgroundColor = Theme.of(context).cardColor;
     final inputBorder = OutlineInputBorder(
         borderSide: Divider.createBorderSide(context),
@@ -290,7 +290,7 @@ class _RegisterState extends State<Register> {
                               : Icon(null)),
                       prefixIconColor: Color(0xff2E2E2E40),
                       iconColor: const Color(0xff2E2E2E40),
-                      hintText: hint_text,
+                      hintText: hintText,
                       hintStyle: TextStyle(color: Colors.grey[400]),
                       fillColor: secondbackgroundColor,
                       filled: true,

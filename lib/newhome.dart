@@ -38,7 +38,6 @@ class _NewHomeState extends State<NewHome> {
 
   @override
   Widget build(BuildContext context) {
-    final recipeProvider = Provider.of<Recipes>(context);
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: PreferredSize(

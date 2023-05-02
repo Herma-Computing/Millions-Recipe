@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import '../home.dart';
 import '../screens/gender_selection_page.dart';
 import 'forgot_password.dart';
 import 'registration.dart';
@@ -46,8 +44,8 @@ class _LogInState extends State<LogIn> {
             const SizedBox(
               height: 38,
             ),
-            Reusable_TextField("Email", Icons.email_outlined, null),
-            Reusable_TextField(
+            reusableTextField("Email", Icons.email_outlined, null),
+            reusableTextField(
                 "Password", Icons.lock_outline, Icons.visibility_off_outlined),
             Container(),
             const SizedBox(
@@ -227,8 +225,8 @@ class _LogInState extends State<LogIn> {
     );
   }
 
-  Container Reusable_TextField(
-      String hint_text, IconData icons, IconData? suffixicon) {
+  Container reusableTextField(
+      String hintText, IconData icons, IconData? suffixicon) {
     Color secondbackgroundColor = Theme.of(context).cardColor;
     final inputBorder = OutlineInputBorder(
         borderSide: Divider.createBorderSide(
@@ -280,7 +278,7 @@ class _LogInState extends State<LogIn> {
                               : Icon(null)),
                       prefixIconColor: Color(0xff2E2E2E40),
                       iconColor: const Color(0xff2E2E2E40),
-                      hintText: hint_text,
+                      hintText: hintText,
                       hintStyle: TextStyle(color: Colors.grey[400]),
                       fillColor: secondbackgroundColor,
                       filled: true,

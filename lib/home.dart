@@ -1,9 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:millions_recipe/common/constants.dart';
 import 'package:millions_recipe/providers/recipe_provider.dart';
-import 'package:millions_recipe/screens/detail_screen.dart';
 import 'package:millions_recipe/common/shared.dart';
 import 'package:provider/provider.dart';
 

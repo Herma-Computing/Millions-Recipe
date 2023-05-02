@@ -23,7 +23,7 @@ class _foodDetailsState extends State<foodDetails> {
       
    
 var pageviewSelected = 0;
- final  List <Widget> Pages =[
+ final  List <Widget> pages =[
   ingedients(),
   nutration(),
   Diet()
@@ -152,7 +152,7 @@ var pageviewSelected = 0;
                       
                      },
                      controller: _pageController,
-                     children:Pages,
+                     children:pages,
                    ),
                 ),
                 

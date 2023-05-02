@@ -7,7 +7,7 @@ class Items {
   Items(this.image, this.name, this.weight, this.place,this.status);
     }
 
-   List <Items> ingredients_items=[
+   List <Items> ingredientsItems=[
    Items("https://media.istockphoto.com/id/1388403435/photo/fresh-carrots-isolated-on-white-background.jpg?b=1&s=170667a&w=0&k=20&c=PJAHETwd9svcjPbrmnmnEmLsTFHLmxjpLpFfKiRzm-4=",
    "Carrot", "250 mg", "In your fridge",1),
    Items("https://images.unsplash.com/photo-1619546813926-a78fa6372cd2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTR8fGFwcGxlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60", 

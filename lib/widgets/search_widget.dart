@@ -57,7 +57,7 @@ class SearchResult extends StatelessWidget {
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.only(top: 10, bottom: 10),
-                  child: Resuable_Card(),
+                  child: resuableCard(),
                 );
               },
             ),
@@ -67,7 +67,7 @@ class SearchResult extends StatelessWidget {
     );
   }
 
-  Expanded Resuable_Card() {
+  Expanded resuableCard() {
     return Expanded(
       child: Card(
         shape: RoundedRectangleBorder(
@@ -160,15 +160,15 @@ class SearchResult extends StatelessWidget {
                         begin: Alignment.centerRight,
                         end: Alignment.centerLeft,
                         colors: [
-                          Color(0xff15BE77),
-                          Color(0xff53E88B),
+                          const Color(0xff15BE77),
+                          const Color(0xff53E88B),
                         ],
                       ),
                       borderRadius: BorderRadius.circular(10)),
-                  child: Center(
-                    child: Text(
+                  child: const Center(
+                    child: const Text(
                       "Show Recipe",
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
                           color: Colors.white),
@@ -187,12 +187,12 @@ class SearchResult extends StatelessWidget {
     return Row(
       children: [
         Icon(ico),
-        SizedBox(
+        const SizedBox(
           width: 8,
         ),
         Text(
           txt,
-          style: TextStyle(
+          style: const TextStyle(
               color: Colors.grey, fontSize: 12, fontWeight: FontWeight.w500),
         )
       ],

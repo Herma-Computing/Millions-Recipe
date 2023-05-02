@@ -31,7 +31,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           const SizedBox(
             height: 15,
           ),
-          Reusable_TextField(),
+          reusableTextField(),
           const SizedBox(
             height: 30,
           ),
@@ -73,7 +73,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     );
   }
 
-  Container Reusable_TextField() {
+  Container reusableTextField() {
     Color secondbackgroundColor = Theme.of(context).cardColor;
     final inputBorder = OutlineInputBorder(
         borderSide: Divider.createBorderSide(context),
