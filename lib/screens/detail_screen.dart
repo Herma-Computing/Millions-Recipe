@@ -8,8 +8,9 @@ import '../common/shared.dart';
 
 class DetailScreen extends StatelessWidget {
   final Recipe meal;
+  final Key? key;
 
-  const DetailScreen({required this.meal});
+  const DetailScreen({required this.meal, this.key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,12 +25,12 @@ class DetailScreen extends StatelessWidget {
           onTap: () {
             Navigator.pop(context);
           },
-          child: Icon(
+          child: const Icon(
             Icons.arrow_back_ios,
             color: Colors.black,
           ),
         ),
-        actions: [
+        actions: const [
           // Padding(
           //   padding: EdgeInsets.only(right: 16),
           //   child: Icon(

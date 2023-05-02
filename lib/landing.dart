@@ -18,15 +18,15 @@ class _LandingState extends State<Landing> {
   int currentTab = 0;
 
   final List<Widget> screens = [
-    NewHome(),
-    RecipesPage(),
-    AddRecipe(),
-    Favourites(),
-    Profile(),
+    const NewHome(),
+    const RecipesPage(),
+    const AddRecipe(),
+    const Favourites(),
+    const Profile(),
   ];
 
   final PageStorageBucket bucket = PageStorageBucket();
-  Widget currentScreen = NewHome();
+  Widget currentScreen = const NewHome();
 
   @override
   void initState() {

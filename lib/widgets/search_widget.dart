@@ -15,10 +15,10 @@ class SearchResult extends StatelessWidget {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(width: 2, color: Colors.grey)),
-            child: Expanded(
+            child: const Expanded(
               child: Padding(
                 padding: EdgeInsets.only(top: 5),
-                child: const TextField(
+                child: TextField(
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.search),
                     hintText: "Search recipes",
@@ -122,18 +122,18 @@ class SearchResult extends StatelessWidget {
                             //   onChanged: (value) {},
                             // ),
 
-                            const Icon(
+                            Icon(
                               Icons.check_box_outlined,
-                              color: const Color(0xff53E88B),
+                              color: Color(0xff53E88B),
                             ),
 
-                            const SizedBox(
+                            SizedBox(
                               width: 8,
                             ),
-                            const Flexible(
-                              child: const Text(
+                            Flexible(
+                              child: Text(
                                 "You have all the ingredients",
-                                style: const TextStyle(
+                                style: TextStyle(
                                     color: Color(0xff53E88B),
                                     fontSize: 12,
                                     fontWeight: FontWeight.w500),
@@ -159,9 +159,9 @@ class SearchResult extends StatelessWidget {
                       gradient: const LinearGradient(
                         begin: Alignment.centerRight,
                         end: Alignment.centerLeft,
-                        colors: const [
-                          const Color(0xff15BE77),
-                          const Color(0xff53E88B),
+                        colors: [
+                          Color(0xff15BE77),
+                          Color(0xff53E88B),
                         ],
                       ),
                       borderRadius: BorderRadius.circular(10)),
@@ -192,7 +192,7 @@ class SearchResult extends StatelessWidget {
         ),
       Text(
           txt,
-          style: TextStyle(
+          style: const TextStyle(
               color: Colors.grey, fontSize: 12, fontWeight: FontWeight.w500),
         )
       ],

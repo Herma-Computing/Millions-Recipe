@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../common/constants.dart';
 import '../../../models/ingredition.dart';
 
-class ingedients extends StatelessWidget {
-  const ingedients({
+class Ingredients extends StatelessWidget {
+  const Ingredients({
     super.key,
   });
 

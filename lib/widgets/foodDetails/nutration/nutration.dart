@@ -12,8 +12,8 @@ class Nutrition extends StatelessWidget {
      return Column(
        children: [
          const ListTile(
-          leading: const Text("Protein"),
-          trailing: const Text("27g"),
+          leading: Text("Protein"),
+          trailing: Text("27g"),
          ),
          Container(
           margin: const EdgeInsets.symmetric(horizontal: 10

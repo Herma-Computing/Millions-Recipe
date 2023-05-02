@@ -7,7 +7,7 @@ import 'package:millions_recipe/screens/all_recipes.dart';
 import 'package:millions_recipe/screens/recipes_page.dart';
 
 class NewHome extends StatefulWidget {
-  NewHome({Key? key}) : super(key: key);
+  const NewHome({Key? key}) : super(key: key);
 
   @override
   State<NewHome> createState() => _NewHomeState();
@@ -389,7 +389,7 @@ class _NewHomeState extends State<NewHome> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => RecipesPage()));
+                                builder: (context) => const RecipesPage()));
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),

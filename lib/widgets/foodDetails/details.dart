@@ -21,7 +21,7 @@ class FoodDetailsState extends State<FoodDetails> {
    
 var pageviewSelected = 0;
  final  List <Widget> pages =[
-   const ingedients(),
+   const Ingredients(),
    const Nutrition(),
    const Diet()
  ];
@@ -31,7 +31,7 @@ var pageviewSelected = 0;
   @override
   Widget build(BuildContext context) {
    
-  Color black=Color.fromARGB(115, 46, 46, 46);
+  Color black = const Color.fromARGB(115, 46, 46, 46);
   Color green=kPrimaryColor;
   Color white=const Color(0xFFFFFFFF);
     return Scaffold(

@@ -90,7 +90,7 @@ class _RegisterState extends State<Register> {
                 // todo:
                 //
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => Landing(), //Otp(),
+                  builder: (context) => const Landing(), //Otp(),
                 ));
               },
               child: Container(

@@ -79,7 +79,7 @@ Future<List<Meal>> fetchMeals() async {
 
   List<dynamic> fec = fetchedMeals;
   fec.forEach((meal) {
-    Meal m = new Meal(meal["idMeal"], meal["strMeal"], meal["strCategory"],
+    Meal m = Meal(meal["idMeal"], meal["strMeal"], meal["strCategory"],
         meal["strMealThumb"]);
 
     recipeList.add(m);

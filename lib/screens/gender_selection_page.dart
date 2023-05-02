@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:horizontal_picker/horizontal_picker.dart';
 import 'package:millions_recipe/home.dart';
-import 'package:millions_recipe/screens/onboardingScreen.dart';
+import 'package:millions_recipe/screens/on_boarding_screen.dart';
 import 'package:millions_recipe/widgets/triangle_painter.dart';
 
 class GenderSelections extends StatefulWidget {
@@ -69,7 +69,7 @@ class _GenderSelectionsState extends State<GenderSelections> {
                             onPressed: () {
                               Navigator.push(context, MaterialPageRoute(
                                   builder: (BuildContext cxontext) {
-                                return Onbording();
+                                return const Onbording();
                               }));
                             },
                             icon: Icon(
