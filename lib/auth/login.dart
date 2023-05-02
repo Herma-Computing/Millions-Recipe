@@ -23,11 +23,11 @@ class _LogInState extends State<LogIn> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 60,
             ),
             Image.asset('assets/logo.png'),
-            SizedBox(
+            const SizedBox(
               height: 36,
             ),
             const Text(
@@ -54,7 +54,7 @@ class _LogInState extends State<LogIn> {
             GestureDetector(
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => ForgotPassword(),
+                  builder: (context) => const ForgotPassword(),
                 ));
               },
               child: RichText(
@@ -176,8 +176,8 @@ class _LogInState extends State<LogIn> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Don't have an account?",
-                    style: TextStyle(
+                const Text("Don't have an account?",
+                    style: const TextStyle(
                         color: Colors.black,
                         fontSize: 17,
                         fontWeight: FontWeight.w400)),
@@ -185,13 +185,13 @@ class _LogInState extends State<LogIn> {
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => Register(),
+                        builder: (context) => const Register(),
                       ),
                     );
                   },
-                  child: Text(" Signup",
-                      style: TextStyle(
-                          color: Color(0xff53E88B),
+                  child: const Text(" Signup",
+                      style: const TextStyle(
+                          color: const Color(0xff53E88B),
                           fontSize: 17,
                           fontWeight: FontWeight.w700)),
                 )
@@ -246,7 +246,7 @@ class _LogInState extends State<LogIn> {
             Theme(
               data: Theme.of(context).copyWith(
                 colorScheme: ThemeData().colorScheme.copyWith(
-                    primary: Color(0xff2E2E2E40), secondary: Colors.white),
+                    primary: const Color(0xff2E2E2E), secondary: Colors.white),
               ),
               child: Container(
                 decoration: BoxDecoration(
@@ -276,8 +276,8 @@ class _LogInState extends State<LogIn> {
                                       color: Colors.grey,
                                     )
                               : const Icon(null)),
-                      prefixIconColor: const Color(0xff2E2E2E40),
-                      iconColor: const Color(0xff2E2E2E40),
+                      prefixIconColor: const Color(0xff2E2E2E),
+                      iconColor: const Color(0xff2E2E2E),
                       hintText: hintText,
                       hintStyle: TextStyle(color: Colors.grey[400]),
                       fillColor: secondbackgroundColor,

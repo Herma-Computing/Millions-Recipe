@@ -107,7 +107,7 @@ class _ChangePasswordState extends State<ChangePassword> {
             Theme(
               data: Theme.of(context).copyWith(
                 colorScheme: ThemeData().colorScheme.copyWith(
-                    primary: const Color(0xff2E2E2E40),
+                    primary: const Color(0xff2E2E2E),
                     secondary: Colors.white),
               ),
               child: Container(
