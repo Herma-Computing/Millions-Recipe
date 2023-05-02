@@ -56,7 +56,7 @@ class _OnbordingState extends State<Onbording> {
                       Image.asset(
                         contents[i].image,
                       ),
-                      Text(
+                    Text(
                         textAlign: TextAlign.center,
                         contents[i].title,
                         style: const TextStyle(
@@ -65,7 +65,7 @@ class _OnbordingState extends State<Onbording> {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      Text(
+                    Text(
                         contents[i].discription,
                         textAlign: TextAlign.center,
                         style: const TextStyle(

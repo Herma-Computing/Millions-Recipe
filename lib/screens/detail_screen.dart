@@ -274,7 +274,7 @@ class DetailScreen extends StatelessWidget {
       //     ),
       //     label: Text(
       //       "Watch Video",
-      //       style: TextStyle(
+      //       style: const TextStyle(
       //         color: Colors.white,
       //         fontSize: 16,
       //         fontWeight: FontWeight.bold,
@@ -308,7 +308,7 @@ class DetailScreen extends StatelessWidget {
             child: Center(
               child: Text(
                 value.toString(),
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
@@ -328,15 +328,15 @@ class DetailScreen extends StatelessWidget {
                   title,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-              Text(
+            const Text(
                 subTitle,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
                   color: Colors.grey[400],

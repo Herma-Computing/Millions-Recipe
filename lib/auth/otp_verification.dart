@@ -39,7 +39,7 @@ class _OtpState extends State<Otp> {
               const Text(
                 textAlign: TextAlign.center,
                 "We've Sent you an email with\n your verification code",
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
@@ -49,7 +49,7 @@ class _OtpState extends State<Otp> {
               ),
               const Text(
                 "Check Your Email",
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
@@ -102,7 +102,7 @@ class _OtpState extends State<Otp> {
                         child: const Center(
                           child: Text(
                             "Verify",
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white),
@@ -118,7 +118,7 @@ class _OtpState extends State<Otp> {
               ),
               const Text(
                 "Didn't you receive any code?",
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
                   color: Colors.black38,
@@ -130,7 +130,7 @@ class _OtpState extends State<Otp> {
               ),
               const Text(
                 "Resend New Code",
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: Color(0xff53E88B),
