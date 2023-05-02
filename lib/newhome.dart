@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:millions_recipe/screens/Notifcations.dart';
+import 'package:millions_recipe/screens/notifcations.dart';
 import 'package:millions_recipe/screens/all_recipes.dart';
-import 'package:millions_recipe/screens/recipesPage.dart';
+import 'package:millions_recipe/screens/recipes_page.dart';
 
 class NewHome extends StatefulWidget {
   NewHome({Key? key}) : super(key: key);

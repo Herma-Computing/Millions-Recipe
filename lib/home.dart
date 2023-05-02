@@ -260,7 +260,7 @@ class _HomeState extends State<Home> {
                                   MaterialPageRoute(
                                       builder: (context) =>
                                           // DetailScreen(meal: recipeProvider.recipes[index])),
-                                    foodDetails(meal: recipeProvider.recipes[index])),
+                                    FoodDetails(meal: recipeProvider.recipes[index])),
                                 );
                               },
                               child: Container(
@@ -350,7 +350,7 @@ class _HomeState extends State<Home> {
                               MaterialPageRoute(
                                   builder: (context) =>
                                       // DetailScreen(meal: result[index])),
-                                foodDetails(meal: recipeProvider.recipes[index])),
+                                FoodDetails(meal: recipeProvider.recipes[index])),
                             );
                           },
                           child: Container(

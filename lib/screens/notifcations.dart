@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/ticker_provider.dart';
 
 class Notifications extends StatefulWidget {
   const Notifications({super.key});
@@ -32,7 +30,7 @@ class _NotificationsState extends State<Notifications>
         title: const Text('Notifications'),
       ),
       body: const Center(
-        child: const Text('Notifcations Screen'),
+        child: Text('Notifcations Screen'),
       ),
     );
   }

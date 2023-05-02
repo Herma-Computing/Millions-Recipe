@@ -9,7 +9,7 @@ class Recipes with ChangeNotifier {
 
   bool get loading => _loading;
 
-  bool _popularLoading = false;
+  final bool _popularLoading = false;
   List<Recipe> popularRecipes = [];
   bool get popularLoading => _popularLoading;
 

@@ -134,7 +134,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
-                    style: textTheme.headline2
+                    style: textTheme.displayMedium
                         ?.copyWith(fontSize: 15, fontWeight: FontWeight.w400),
                     keyboardType: TextInputType.text,
                     textInputAction: TextInputAction.next,

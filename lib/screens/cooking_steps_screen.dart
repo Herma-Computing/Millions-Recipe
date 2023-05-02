@@ -31,7 +31,7 @@ class CookingSteps extends StatelessWidget {
         ),
         title: const Text(
           'Cooking Steps',
-          style: const TextStyle(
+          style: TextStyle(
             color: Colors.black,
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -55,7 +55,7 @@ class CookingSteps extends StatelessWidget {
                       ),
                       child: const Text(
                         '1',
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,
                         ),
@@ -68,9 +68,9 @@ class CookingSteps extends StatelessWidget {
                       width: cWidth - 16,
                       child: Column(
                         children: const <Widget>[
-                        const Text(
+                        Text(
                             "Lorem ipsum dolor sit amet consectetur adipisicing elit Ut et massa mi. Aliquam in henderit urna.",
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 16,
                               height: 1.5,
                               fontWeight: FontWeight.w500,
@@ -112,9 +112,9 @@ class CookingSteps extends StatelessWidget {
                       width: cWidth - 16,
                       child: Column(
                         children: const <Widget>[
-                        const Text(
+                        Text(
                             "Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellius.",
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 16,
                               height: 1.5,
                               fontWeight: FontWeight.w500,
@@ -135,7 +135,7 @@ class CookingSteps extends StatelessWidget {
                       ),
                       child: const Text(
                         '2',
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,
                         ),
@@ -177,7 +177,7 @@ class CookingSteps extends StatelessWidget {
                       ),
                       child: const Text(
                         '3',
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,
                         ),
@@ -190,9 +190,9 @@ class CookingSteps extends StatelessWidget {
                       width: cWidth - 16,
                       child: Column(
                         children: const <Widget>[
-                        const Text(
+                        Text(
                             "Nullam quis imperdiet augue Vesitbulum auctor ornare leo, non suscipit magna interdum eu. Curabitur pellentesque nibh nibh, at maximus ante.",
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 16,
                               height: 1.5,
                               fontWeight: FontWeight.w500,

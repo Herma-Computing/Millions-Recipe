@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:millions_recipe/models/ingredition.dart';
 import '../../models/recipe_model.dart';
 import '../../common/constants.dart';
 import '../../screens/cooking_steps_screen.dart';
@@ -10,23 +7,23 @@ import 'Diet/diet.dart';
 import 'ingredients_page/ingredientpage.dart';
 import 'nutration/nutration.dart';
 
-   class foodDetails extends StatefulWidget {
+   class FoodDetails extends StatefulWidget {
     final Recipe meal;
-  const foodDetails({super.key, required this.meal});
+  const FoodDetails({super.key, required this.meal});
 
   @override
-  State<foodDetails> createState() => _foodDetailsState();
+  State<FoodDetails> createState() => FoodDetailsState();
 }
 
-class _foodDetailsState extends State<foodDetails> {
+class FoodDetailsState extends State<FoodDetails> {
   final PageController _pageController=PageController();
       
    
 var pageviewSelected = 0;
  final  List <Widget> pages =[
-  ingedients(),
-  nutration(),
-  Diet()
+   const ingedients(),
+   const Nutrition(),
+   const Diet()
  ];
 
      
@@ -36,8 +33,7 @@ var pageviewSelected = 0;
    
   Color black=Color.fromARGB(115, 46, 46, 46);
   Color green=kPrimaryColor;
-  Color red=Color(0xffE23E3E);
-  Color white=Color(0xFFFFFFFF);
+  Color white=const Color(0xFFFFFFFF);
     return Scaffold(
 
       body: Container(
@@ -119,24 +115,24 @@ var pageviewSelected = 0;
         ),
       
            Padding(
-           padding: EdgeInsets.only(left: 16,right: 16,top: 16),
+           padding: const EdgeInsets.only(left: 16,right: 16,top: 16),
               
                 child:Row(
                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                  children: [
 
                  Expanded(child: pageViewTextButton( 0, "Ingredients",true,green,(){
-                 _pageController.animateToPage(0, duration: Duration(milliseconds: 500), curve: Curves.easeInOut);
+                 _pageController.animateToPage(0, duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
                    }),
                    ),
 
                  Expanded( child: pageViewTextButton( 1,"Nutrition",false ,green,(){
-                     _pageController.animateToPage(1, duration: Duration(milliseconds: 500), curve: Curves.easeInOut);
+                     _pageController.animateToPage(1, duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
                      })),
                  
                  
                  Expanded(child: pageViewTextButton(2,"Diet",false,green,(){
-                   _pageController.animateToPage(3, duration: Duration(milliseconds: 500), curve: Curves.easeInOut);
+                   _pageController.animateToPage(3, duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
                    })),
        
                 ],) ,
@@ -161,16 +157,16 @@ var pageviewSelected = 0;
                 child:  Center(
                     child: GestureDetector(
                       onTap: (){
-                        Navigator.push(context,MaterialPageRoute(builder: (BuildContext context)=>CookingSteps()));
+                        Navigator.push(context,MaterialPageRoute(builder: (BuildContext context)=> const CookingSteps()));
                       },
                       child: Container(
                         width: 250,
                         height: 50,
-                        margin: EdgeInsets.only(bottom: 5),
+                        margin: const EdgeInsets.only(bottom: 5),
                         decoration:BoxDecoration(
                           color: kPrimaryColor,
                            borderRadius: BorderRadius.circular(10)),
-                        child: Center(child: Text("Show cooking steps",style: TextStyle(color: Colors.white),),)),
+                        child: const Center(child: Text("Show cooking steps",style: TextStyle(color: Colors.white),),)),
                     ),
                   ))
           ],
@@ -190,7 +186,7 @@ var pageviewSelected = 0;
                   children: [
                     Text(title,style: GoogleFonts.poppins(color: pageviewSelected==index?green:Colors.black,fontSize: 18,fontWeight: FontWeight.bold),),
                     Container(
-                      margin: EdgeInsets.only(top: 5),
+                      margin: const EdgeInsets.only(top: 5),
                       width: 100,
                     height: 3,
                     decoration: BoxDecoration(borderRadius: BorderRadius.circular(50),color: pageviewSelected==index?green:Colors.transparent),

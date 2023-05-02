@@ -28,8 +28,7 @@ class Meals with ChangeNotifier {
   _loading = true;
   meals = await fetchMeals();
   _loading = false;
-  print('me');
-  print(meals);
+  // print(meals);
   notifyListeners();
 } 
 
@@ -103,7 +102,7 @@ Future<List<Meal>> fetchMealsByCategory(String category) async {
 
   List<dynamic> fec = fetchedMeals;
   fec.forEach((meal) {
-    Meal m = new Meal(meal["idMeal"], meal["strMeal"], meal["strCategory"],
+    Meal m = Meal(meal["idMeal"], meal["strMeal"], meal["strCategory"],
         meal["strMealThumb"]);
 
     recipeList.add(m);
@@ -125,7 +124,7 @@ Future<List<Meal>> searchMeals(String query) async {
 
   List<dynamic> fec = fetchedMeals;
   fec.forEach((meal) {
-    Meal m = new Meal(meal["idMeal"], meal["strMeal"], meal["strCategory"],
+    Meal m = Meal(meal["idMeal"], meal["strMeal"], meal["strCategory"],
         meal["strMealThumb"]);
 
     recipeList.add(m);
@@ -141,27 +140,20 @@ Future<List<Meal>> searchMeals(String query) async {
 
 Future<List<RecipeMeal>> getTestJson() async{
 
-String url = "https://datascienceplc.com/api/ds_her/v1/recipe/popular?page=1&category=bread&per_page=15&category=bread";
+// String url = "https://datascienceplc.com/api/ds_her/v1/recipe/popular?page=1&category=bread&per_page=15&category=bread";
 
-final res = await http.get(Uri.parse(url));
+// final res = await http.get(Uri.parse(url));
 
-  var result = jsonDecode(res.body);
+  // var result = jsonDecode(res.body);
 
-  var fetchedRecipes = result["recipes"];
-  var fetchedRecipes2 = result["recipes"][1];
+  // var fetchedRecipes = result["recipes"];
+  // var fetchedRecipes2 = result["recipes"][1];
 
   List<RecipeMeal> recipes = [];
 
-
-
-  final _baseUrl = "https://www.themealdb.com";
     Dio dio = Dio();
-    print("before the request");
     final response = await dio.get("https://datascienceplc.com/api/ds_her/v1/recipe/popular?page=1&per_page=15&category=bread");
-    print("before the request");
-      print(response.data["recipes"].length);
     if (response.statusCode == 200) {
-      print("Status code is okay");
       // var x = RecipeMeal.fromJson(response.data);
 
 RecipeMeal recipe;
@@ -178,8 +170,6 @@ RecipeMeal recipe;
       throw Exception("Failed to get random meals");
     }
 
-print(recipes[0].ingredients[0].name);
-  
 
   // print('Testing json...................');
   // print(fetchedRecipes);

@@ -15,9 +15,9 @@ class SearchResult extends StatelessWidget {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(width: 2, color: Colors.grey)),
-            child: const Expanded(
-              child: const Padding(
-                padding: const EdgeInsets.only(top: 5),
+            child: Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(top: 5),
                 child: const TextField(
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.search),
@@ -35,20 +35,20 @@ class SearchResult extends StatelessWidget {
             ),
           ),
           const Padding(
-            padding: const EdgeInsets.only(left: 30),
+            padding: EdgeInsets.only(left: 30),
             child: Align(
               alignment: Alignment.centerLeft,
-              child: const Text(
+              child: Text(
                 "12 Recipes found",
                 textAlign: TextAlign.start,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
                 ),
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 14,
           ),
           Expanded(
@@ -82,8 +82,8 @@ class SearchResult extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Align(
-                alignment: const Alignment(1, -1),
-                child: const Icon(
+                alignment: Alignment(1, -1),
+                child: Icon(
                   Icons.favorite_border_rounded,
                   color: Colors.red,
                 ),
@@ -94,7 +94,7 @@ class SearchResult extends StatelessWidget {
                   Container(
                       width: 128,
                       height: 155,
-                      child: const Image(image: const AssetImage("assets/pancake.png"))),
+                      child: const Image(image: AssetImage("assets/pancake.png"))),
                   const SizedBox(
                     width: 10,
                   ),
@@ -105,7 +105,7 @@ class SearchResult extends StatelessWidget {
                       children: [
                         const Text(
                           "Home made cute pancake",
-                          style: const TextStyle(
+                          style: TextStyle(
                               fontSize: 14, fontWeight: FontWeight.w600),
                         ),
                         const SizedBox(
@@ -115,23 +115,23 @@ class SearchResult extends StatelessWidget {
                         reusableRow("10 - 15 mins", Icons.access_time),
                         reusableRow("350kcal", CupertinoIcons.flame),
                         Row(
-                          children: [
+                          children: const [
                             // Checkbox(
                             //   activeColor: Color(0xff53E88B),
                             //   value: true,
                             //   onChanged: (value) {},
                             // ),
 
-                            Icon(
+                            const Icon(
                               Icons.check_box_outlined,
-                              color: Color(0xff53E88B),
+                              color: const Color(0xff53E88B),
                             ),
 
-                            SizedBox(
+                            const SizedBox(
                               width: 8,
                             ),
-                            Flexible(
-                              child: Text(
+                            const Flexible(
+                              child: const Text(
                                 "You have all the ingredients",
                                 style: const TextStyle(
                                     color: Color(0xff53E88B),
@@ -152,23 +152,23 @@ class SearchResult extends StatelessWidget {
                   //
                 },
                 child: Container(
-                  margin: EdgeInsets.only(top: 16),
+                  margin: const EdgeInsets.only(top: 16),
                   width: 208.47,
                   height: 44,
                   decoration: BoxDecoration(
-                      gradient: LinearGradient(
+                      gradient: const LinearGradient(
                         begin: Alignment.centerRight,
                         end: Alignment.centerLeft,
-                        colors: [
+                        colors: const [
                           const Color(0xff15BE77),
                           const Color(0xff53E88B),
                         ],
                       ),
                       borderRadius: BorderRadius.circular(10)),
                   child: const Center(
-                    child: const Text(
+                    child: Text(
                       "Show Recipe",
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
                           color: Colors.white),
@@ -190,9 +190,9 @@ class SearchResult extends StatelessWidget {
         const SizedBox(
           width: 8,
         ),
-      const Text(
+      Text(
           txt,
-          style: const TextStyle(
+          style: TextStyle(
               color: Colors.grey, fontSize: 12, fontWeight: FontWeight.w500),
         )
       ],

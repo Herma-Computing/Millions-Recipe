@@ -91,7 +91,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             Theme(
               data: Theme.of(context).copyWith(
                 colorScheme: ThemeData().colorScheme.copyWith(
-                    primary: const Color(0xff2E2E2E40),
+                    primary: const Color(0xff2E2E2E),
                     secondary: Colors.white),
               ),
               child: Container(
@@ -118,7 +118,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
-                    style: textTheme.headline2
+                    style: textTheme.displayMedium
                         ?.copyWith(fontSize: 15, fontWeight: FontWeight.w400),
                     keyboardType: TextInputType.text,
                     textInputAction: TextInputAction.next,
