@@ -184,7 +184,7 @@ class _RegisterState extends State<Register> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text("Already have an account?",
-                    style: const TextStyle(
+                    style: TextStyle(
                         color: Colors.black,
                         fontSize: 17,
                         fontWeight: FontWeight.w400)),
@@ -197,8 +197,8 @@ class _RegisterState extends State<Register> {
                     );
                   },
                   child: const Text(" Login",
-                      style: const TextStyle(
-                          color: const Color(0xff53E88B),
+                      style: TextStyle(
+                          color: Color(0xff53E88B),
                           fontSize: 17,
                           fontWeight: FontWeight.w700)),
                 )
@@ -251,7 +251,7 @@ class _RegisterState extends State<Register> {
             Theme(
               data: Theme.of(context).copyWith(
                 colorScheme: ThemeData().colorScheme.copyWith(
-                    primary: const Color(0xff2E2E2E40), secondary: Colors.white),
+                    primary: const Color(0xff2E2E2E), secondary: Colors.white),
               ),
               child: Container(
                 decoration: BoxDecoration(
@@ -283,8 +283,8 @@ class _RegisterState extends State<Register> {
                                       color: Colors.grey,
                                     )
                               : const Icon(null)),
-                      prefixIconColor: const Color(0xff2E2E2E40),
-                      iconColor: const Color(0xff2E2E2E40),
+                      prefixIconColor: const Color(0xff2E2E2E),
+                      iconColor: const Color(0xff2E2E2E),
                       hintText: hintText,
                       hintStyle: TextStyle(color: Colors.grey[400]),
                       fillColor: secondbackgroundColor,
@@ -301,7 +301,7 @@ class _RegisterState extends State<Register> {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
-                    style: textTheme.headline2
+                    style: textTheme.displayMedium
                         ?.copyWith(fontSize: 15, fontWeight: FontWeight.w400),
                     keyboardType: TextInputType.text,
                     textInputAction: TextInputAction.next,

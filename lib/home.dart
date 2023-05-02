@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:millions_recipe/common/constants.dart';
 import 'package:millions_recipe/providers/recipe_provider.dart';
 import 'package:millions_recipe/common/shared.dart';
@@ -108,7 +109,7 @@ class _HomeState extends State<Home> {
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        brightness: Brightness.light,
+        systemOverlayStyle: SystemUiOverlayStyle.light,
         elevation: 0,
         leading: Builder(
           builder: (context) => IconButton(
@@ -210,11 +211,11 @@ class _HomeState extends State<Home> {
               ],
             ),
           ),
-          isSearching ? SizedBox() : const SizedBox(
+          isSearching ? const SizedBox() : const SizedBox(
             height: 32,
           ),
           recipeProvider.subCategoryLoading
-              ? SizedBox()
+              ? const SizedBox()
               :
               // Row(
 
@@ -358,7 +359,7 @@ class _HomeState extends State<Home> {
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: const BorderRadius.all(
-                                const Radius.circular(20),
+                                Radius.circular(20),
                               ),
                               boxShadow: [kBoxShadow],
                             ),
@@ -437,7 +438,7 @@ class _HomeState extends State<Home> {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: const BorderRadius.all(
-              const Radius.circular(20),
+              Radius.circular(20),
             ),
             boxShadow: [kBoxShadow],
           ),

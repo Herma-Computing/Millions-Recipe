@@ -8,7 +8,7 @@ import 'package:millions_recipe/screens/profile.dart';
 import 'package:millions_recipe/screens/recipes_page.dart';
 
 class Landing extends StatefulWidget {
-  Landing({Key? key}) : super(key: key);
+  const Landing({Key? key}) : super(key: key);
 
   @override
   State<Landing> createState() => _LandingState();
@@ -94,7 +94,10 @@ class _LandingState extends State<Landing> {
             BottomNavigationBarItem(
               activeIcon: SvgPicture.asset(
                 'assets/allSVG/Home-Icon.svg',
-                color: kActiveColor,
+                colorFilter: ColorFilter.mode(
+                  kActiveColor,
+                  BlendMode.srcIn,
+                ),
               ),
               icon: Opacity(
                 opacity: 0.25,
@@ -107,7 +110,10 @@ class _LandingState extends State<Landing> {
             BottomNavigationBarItem(
               activeIcon: SvgPicture.asset(
                 'assets/allSVG/My-Recipe-Icon.svg',
-                color: kActiveColor,
+                colorFilter: ColorFilter.mode(
+                  kActiveColor,
+                  BlendMode.srcIn,
+                ),
               ),
               icon: Opacity(
                 opacity: 0.25,
@@ -127,7 +133,10 @@ class _LandingState extends State<Landing> {
             BottomNavigationBarItem(
               activeIcon: SvgPicture.asset(
                 'assets/allSVG/Favorite-Icon.svg',
-                color: kActiveColor,
+                colorFilter: ColorFilter.mode(
+                  kActiveColor,
+                  BlendMode.srcIn,
+                ),
               ),
               icon: Opacity(
                 opacity: 0.25,
@@ -140,7 +149,10 @@ class _LandingState extends State<Landing> {
             BottomNavigationBarItem(
               activeIcon: SvgPicture.asset(
                 'assets/allSVG/Profile-Icon.svg',
-                color: kActiveColor,
+                colorFilter: ColorFilter.mode(
+                  kActiveColor,
+                  BlendMode.srcIn,
+                ),
               ),
               icon: Opacity(
                 opacity: 0.25,

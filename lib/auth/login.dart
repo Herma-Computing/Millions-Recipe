@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../screens/gender_selection_page.dart';
 import 'forgot_password.dart';
@@ -177,7 +176,7 @@ class _LogInState extends State<LogIn> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text("Don't have an account?",
-                    style: const TextStyle(
+                    style: TextStyle(
                         color: Colors.black,
                         fontSize: 17,
                         fontWeight: FontWeight.w400)),
@@ -190,8 +189,8 @@ class _LogInState extends State<LogIn> {
                     );
                   },
                   child: const Text(" Signup",
-                      style: const TextStyle(
-                          color: const Color(0xff53E88B),
+                      style: TextStyle(
+                          color: Color(0xff53E88B),
                           fontSize: 17,
                           fontWeight: FontWeight.w700)),
                 )
@@ -294,7 +293,7 @@ class _LogInState extends State<LogIn> {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
-                    style: textTheme.headline2
+                    style: textTheme.displayMedium
                         ?.copyWith(fontSize: 15, fontWeight: FontWeight.w400),
                     keyboardType: TextInputType.text,
                     textInputAction: TextInputAction.next,
