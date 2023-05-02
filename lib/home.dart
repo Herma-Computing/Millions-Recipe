@@ -8,7 +8,7 @@ import 'models/recipe_model.dart';
 import 'widgets/foodDetails/details.dart';
 
 class Home extends StatefulWidget {
-  Home({Key? key}) : super(key: key);
+  const Home({Key? key}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
@@ -227,17 +227,17 @@ class _HomeState extends State<Home> {
                   width: MediaQuery.of(context).size.width,
                   child: ListView.builder(
                       itemCount: recipeProvider.subCategories.length,
-                      physics: BouncingScrollPhysics(),
+                      physics: const BouncingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
                         return option(recipeProvider.subCategories[index].name);
                       }),
-                ) : SizedBox(),
+                ) : const SizedBox(),
           const SizedBox(
             height: 24,
           ),
-          isSearching ? SizedBox(): Container(
+          isSearching ? const SizedBox(): Container(
             // width: 50,
             height: 350,
             child: Consumer<Recipes>(
@@ -245,7 +245,7 @@ class _HomeState extends State<Home> {
                 return Container(
                   child: recipeProvider.loading
                       ? const Center(
-                          child: const CircularProgressIndicator(
+                          child: CircularProgressIndicator(
                           strokeWidth: 4,
                         ))
                       : ListView.builder(
@@ -357,18 +357,18 @@ class _HomeState extends State<Home> {
                             margin: const EdgeInsets.fromLTRB(16, 5, 16, 5),
                             decoration: BoxDecoration(
                               color: Colors.white,
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(20),
+                              borderRadius: const BorderRadius.all(
+                                const Radius.circular(20),
                               ),
                               boxShadow: [kBoxShadow],
                             ),
                             child: Row(
                               children: [
-                                SizedBox(
+                                const SizedBox(
                                   width: 5,
                                 ),
                                 Container(
-                                  padding: EdgeInsets.all(8),
+                                  padding: const EdgeInsets.all(8),
                                   height: 160,
                                   width: 160,
                                   child: Image.network(
@@ -382,7 +382,7 @@ class _HomeState extends State<Home> {
                                       MediaQuery.of(context).size.width * 0.45,
                                   child: Padding(
                                     padding:
-                                        EdgeInsets.symmetric(horizontal: 16),
+                                    const EdgeInsets.symmetric(horizontal: 16),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -436,20 +436,20 @@ class _HomeState extends State<Home> {
           height: 40,
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.all(
-              Radius.circular(20),
+            borderRadius: const BorderRadius.all(
+              const Radius.circular(20),
             ),
             boxShadow: [kBoxShadow],
           ),
-          padding: EdgeInsets.symmetric(horizontal: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 12),
           child: Row(
             children: [
-              SizedBox(
+              const SizedBox(
                 width: 8,
               ),
               Text(
                 text,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.black,
                   fontSize: 14,
                   fontWeight: FontWeight.bold,

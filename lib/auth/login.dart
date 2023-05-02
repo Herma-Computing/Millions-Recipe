@@ -267,16 +267,16 @@ class _LogInState extends State<LogIn> {
                           },
                           icon: (suffixicon != null)
                               ? (isPressed)
-                                  ? Icon(
+                                  ? const Icon(
                                       Icons.visibility_off_outlined,
                                       color: Colors.grey,
                                     )
-                                  : Icon(
+                                  : const Icon(
                                       Icons.visibility_outlined,
                                       color: Colors.grey,
                                     )
-                              : Icon(null)),
-                      prefixIconColor: Color(0xff2E2E2E40),
+                              : const Icon(null)),
+                      prefixIconColor: const Color(0xff2E2E2E40),
                       iconColor: const Color(0xff2E2E2E40),
                       hintText: hintText,
                       hintStyle: TextStyle(color: Colors.grey[400]),

@@ -1,11 +1,6 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:millions_recipe/landing.dart';
-
-import '../home.dart';
 import 'login.dart';
-import 'otp_verification.dart';
 
 bool isPressed = true;
 bool others = false;
@@ -22,7 +17,7 @@ class _RegisterState extends State<Register> {
   bool checked = false;
   Future ab() {
     return Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => LogIn(),
+      builder: (context) => const LogIn(),
     ));
   }
 
@@ -35,7 +30,7 @@ class _RegisterState extends State<Register> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 60,
             ),
             Image.asset('assets/logo.png'),
@@ -188,8 +183,8 @@ class _RegisterState extends State<Register> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Already have an account?",
-                    style: TextStyle(
+                const Text("Already have an account?",
+                    style: const TextStyle(
                         color: Colors.black,
                         fontSize: 17,
                         fontWeight: FontWeight.w400)),
@@ -197,13 +192,13 @@ class _RegisterState extends State<Register> {
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => LogIn(),
+                        builder: (context) => const LogIn(),
                       ),
                     );
                   },
-                  child: Text(" Login",
-                      style: TextStyle(
-                          color: Color(0xff53E88B),
+                  child: const Text(" Login",
+                      style: const TextStyle(
+                          color: const Color(0xff53E88B),
                           fontSize: 17,
                           fontWeight: FontWeight.w700)),
                 )
@@ -256,7 +251,7 @@ class _RegisterState extends State<Register> {
             Theme(
               data: Theme.of(context).copyWith(
                 colorScheme: ThemeData().colorScheme.copyWith(
-                    primary: Color(0xff2E2E2E40), secondary: Colors.white),
+                    primary: const Color(0xff2E2E2E40), secondary: Colors.white),
               ),
               child: Container(
                 decoration: BoxDecoration(
@@ -279,16 +274,16 @@ class _RegisterState extends State<Register> {
                           },
                           icon: (suffixicon != null)
                               ? (isPressed)
-                                  ? Icon(
+                                  ? const Icon(
                                       Icons.visibility_off_outlined,
                                       color: Colors.grey,
                                     )
-                                  : Icon(
+                                  : const Icon(
                                       Icons.visibility_outlined,
                                       color: Colors.grey,
                                     )
-                              : Icon(null)),
-                      prefixIconColor: Color(0xff2E2E2E40),
+                              : const Icon(null)),
+                      prefixIconColor: const Color(0xff2E2E2E40),
                       iconColor: const Color(0xff2E2E2E40),
                       hintText: hintText,
                       hintStyle: TextStyle(color: Colors.grey[400]),
