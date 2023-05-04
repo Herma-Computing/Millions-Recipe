@@ -1,9 +1,14 @@
+import 'package:another_flushbar/flushbar.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
-import '../screens/gender_selection_page.dart';
+
+import 'package:millions_recipe/auth/registration.dart';
+import 'package:millions_recipe/screens/gender_selection_page.dart';
+import '../api_service/api_provider.dart';
 import 'forgot_password.dart';
-import 'registration.dart';
 
 bool isPressed = true;
+bool isPasswd = true;
 
 class LogIn extends StatefulWidget {
   const LogIn({super.key});
@@ -13,6 +18,8 @@ class LogIn extends StatefulWidget {
 }
 
 class _LogInState extends State<LogIn> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,9 +50,15 @@ class _LogInState extends State<LogIn> {
             const SizedBox(
               height: 38,
             ),
-            reusableTextField("Email", Icons.email_outlined, null),
-            reusableTextField(
-                "Password", Icons.lock_outline, Icons.visibility_off_outlined),
+            Reusable_TextField("Email", Icons.email_outlined, null,
+                emailController, TextInputType.emailAddress, false),
+            Reusable_TextField(
+                "Password",
+                Icons.lock_outline,
+                Icons.visibility_off_outlined,
+                passwordController,
+                TextInputType.text,
+                isPasswd),
             Container(),
             const SizedBox(
               height: 20,
@@ -65,7 +78,6 @@ class _LogInState extends State<LogIn> {
                           fontSize: 14,
                           fontWeight: FontWeight.w500)),
                   TextSpan(
-                      //recognizer: TapGestureRecognizer()..onTap = widget.onClickedRegister,
                       text: " Password?",
                       style: TextStyle(
                           color: Colors.black,
@@ -80,10 +92,7 @@ class _LogInState extends State<LogIn> {
             GestureDetector(
               onTap: () {
                 // todo:
-                //
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const GenderSelections(),
-                ));
+                login();
               },
               child: Container(
                 margin: const EdgeInsets.only(top: 16),
@@ -224,8 +233,54 @@ class _LogInState extends State<LogIn> {
     );
   }
 
-  Container reusableTextField(
-      String hintText, IconData icons, IconData? suffixicon) {
+  Future login() async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+
+    String res = await ApiProvider().loginUser(
+        emailController.text, passwordController.text, 'email_password');
+
+    if (res == "success") {
+      Fluttertoast.showToast(
+        msg: res,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => const GenderSelections(),
+      ));
+    } else {
+      // ignore: use_build_context_synchronously
+      Flushbar(
+        flushbarPosition: FlushbarPosition.BOTTOM,
+        margin: const EdgeInsets.fromLTRB(10, 20, 10, 5),
+        titleSize: 20,
+        messageSize: 17,
+        borderRadius: BorderRadius.circular(8),
+        message: res,
+        duration: const Duration(seconds: 5),
+      ).show(context);
+    }
+  }
+
+  Container Reusable_TextField(
+      String hintText,
+      IconData icons,
+      IconData? suffixicon,
+      TextEditingController controller,
+      TextInputType keybordtype,
+      bool hide) {
     Color secondbackgroundColor = Theme.of(context).cardColor;
     final inputBorder = OutlineInputBorder(
         borderSide: Divider.createBorderSide(
@@ -245,7 +300,8 @@ class _LogInState extends State<LogIn> {
             Theme(
               data: Theme.of(context).copyWith(
                 colorScheme: ThemeData().colorScheme.copyWith(
-                    primary: const Color(0xff2E2E2E), secondary: Colors.white),
+                    primary: const Color(0xff2E2E2E40),
+                    secondary: Colors.white),
               ),
               child: Container(
                 decoration: BoxDecoration(
@@ -253,6 +309,8 @@ class _LogInState extends State<LogIn> {
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: TextFormField(
+                    obscureText: hide,
+                    controller: controller,
                     cursorColor: Colors.blue,
                     decoration: InputDecoration(
                       prefixIcon: Icon(
@@ -262,6 +320,7 @@ class _LogInState extends State<LogIn> {
                           onPressed: () {
                             setState(() {
                               isPressed = !isPressed;
+                              isPasswd = !isPasswd;
                             });
                           },
                           icon: (suffixicon != null)
@@ -275,8 +334,8 @@ class _LogInState extends State<LogIn> {
                                       color: Colors.grey,
                                     )
                               : const Icon(null)),
-                      prefixIconColor: const Color(0xff2E2E2E),
-                      iconColor: const Color(0xff2E2E2E),
+                      prefixIconColor: const Color(0xff2E2E2E40),
+                      iconColor: const Color(0xff2E2E2E40),
                       hintText: hintText,
                       hintStyle: TextStyle(color: Colors.grey[400]),
                       fillColor: secondbackgroundColor,
@@ -295,7 +354,7 @@ class _LogInState extends State<LogIn> {
                     ),
                     style: textTheme.displayMedium
                         ?.copyWith(fontSize: 15, fontWeight: FontWeight.w400),
-                    keyboardType: TextInputType.text,
+                    keyboardType: keybordtype,
                     textInputAction: TextInputAction.next,
                     validator: (value) {}),
               ),
