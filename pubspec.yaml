@@ -50,6 +50,13 @@ dependencies:
   cloud_firestore: ^4.5.2
   google_sign_in: ^6.1.0
   shared_preferences: ^2.1.0
+  hexcolor: ^3.0.1
+  horizontal_picker: ^1.2.0
+  flutter_svg: ^2.0.5
+  flutter_ruler_picker: ^1.0.3
+
+
+
 
 dev_dependencies:
   flutter_test:
@@ -83,6 +90,9 @@ flutter:
     - assets/Eating donuts-bro 1.png
     - assets/Baker-bro 1.png
     - assets/Eating together-bro 1.png
+    - assets/google_logo.png
+    - assets/
+    - assets/allSVG/
 
 
 

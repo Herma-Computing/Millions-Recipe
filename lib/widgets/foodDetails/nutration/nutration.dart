@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 
-class nutration extends StatelessWidget {
-  const nutration({
+class Nutrition extends StatelessWidget {
+  const Nutrition({
     super.key,
   });
 
@@ -11,16 +11,16 @@ class nutration extends StatelessWidget {
     return Container(child: ListView.builder(itemBuilder: (context,index){
      return Column(
        children: [
-         ListTile(
+         const ListTile(
           leading: Text("Protein"),
           trailing: Text("27g"),
          ),
          Container(
-          margin: EdgeInsets.symmetric(horizontal: 10
+          margin: const EdgeInsets.symmetric(horizontal: 10
           ),
           width: double.infinity,
           height: 1,
-           color: Color.fromARGB(48, 85, 84, 84),
+           color: const Color.fromARGB(48, 85, 84, 84),
          )
        ],
      );

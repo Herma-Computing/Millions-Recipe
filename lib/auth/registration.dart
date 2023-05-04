@@ -1,9 +1,6 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-
+import 'package:millions_recipe/landing.dart';
 import 'login.dart';
-import 'otp_verification.dart';
 
 bool isPressed = true;
 bool others = false;
@@ -20,7 +17,7 @@ class _RegisterState extends State<Register> {
   bool checked = false;
   Future ab() {
     return Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => LogIn(),
+      builder: (context) => const LogIn(),
     ));
   }
 
@@ -33,7 +30,7 @@ class _RegisterState extends State<Register> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 60,
             ),
             Image.asset('assets/logo.png'),
@@ -51,11 +48,11 @@ class _RegisterState extends State<Register> {
             const SizedBox(
               height: 38,
             ),
-            Reusable_TextField(
+            reusableTextField(
                 "First Name", Icons.person_outline, null, others),
-            Reusable_TextField("Last Name", Icons.person_outline, null, others),
-            Reusable_TextField("Email", Icons.email_outlined, null, others),
-            Reusable_TextField("Password", Icons.lock_outline,
+            reusableTextField("Last Name", Icons.person_outline, null, others),
+            reusableTextField("Email", Icons.email_outlined, null, others),
+            reusableTextField("Password", Icons.lock_outline,
                 Icons.visibility_off_outlined, passwd),
             Container(),
             const SizedBox(
@@ -93,7 +90,7 @@ class _RegisterState extends State<Register> {
                 // todo:
                 //
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => Otp(),
+                  builder: (context) => const Landing(), //Otp(),
                 ));
               },
               child: Container(
@@ -186,7 +183,7 @@ class _RegisterState extends State<Register> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Already have an account?",
+                const Text("Already have an account?",
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 17,
@@ -195,11 +192,11 @@ class _RegisterState extends State<Register> {
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => LogIn(),
+                        builder: (context) => const LogIn(),
                       ),
                     );
                   },
-                  child: Text(" Login",
+                  child: const Text(" Login",
                       style: TextStyle(
                           color: Color(0xff53E88B),
                           fontSize: 17,
@@ -235,8 +232,8 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  Container Reusable_TextField(
-      String hint_text, IconData icons, IconData? suffixicon, bool hide) {
+  Container reusableTextField(
+      String hintText, IconData icons, IconData? suffixicon, bool hide) {
     Color secondbackgroundColor = Theme.of(context).cardColor;
     final inputBorder = OutlineInputBorder(
         borderSide: Divider.createBorderSide(context),
@@ -254,7 +251,7 @@ class _RegisterState extends State<Register> {
             Theme(
               data: Theme.of(context).copyWith(
                 colorScheme: ThemeData().colorScheme.copyWith(
-                    primary: Color(0xff2E2E2E40), secondary: Colors.white),
+                    primary: const Color(0xff2E2E2E), secondary: Colors.white),
               ),
               child: Container(
                 decoration: BoxDecoration(
@@ -277,18 +274,18 @@ class _RegisterState extends State<Register> {
                           },
                           icon: (suffixicon != null)
                               ? (isPressed)
-                                  ? Icon(
+                                  ? const Icon(
                                       Icons.visibility_off_outlined,
                                       color: Colors.grey,
                                     )
-                                  : Icon(
+                                  : const Icon(
                                       Icons.visibility_outlined,
                                       color: Colors.grey,
                                     )
-                              : Icon(null)),
-                      prefixIconColor: Color(0xff2E2E2E40),
-                      iconColor: const Color(0xff2E2E2E40),
-                      hintText: hint_text,
+                              : const Icon(null)),
+                      prefixIconColor: const Color(0xff2E2E2E),
+                      iconColor: const Color(0xff2E2E2E),
+                      hintText: hintText,
                       hintStyle: TextStyle(color: Colors.grey[400]),
                       fillColor: secondbackgroundColor,
                       filled: true,
@@ -304,7 +301,7 @@ class _RegisterState extends State<Register> {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
-                    style: textTheme.headline2
+                    style: textTheme.displayMedium
                         ?.copyWith(fontSize: 15, fontWeight: FontWeight.w400),
                     keyboardType: TextInputType.text,
                     textInputAction: TextInputAction.next,

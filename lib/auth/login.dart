@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import '../screens/gender_selection_page.dart';
 import 'forgot_password.dart';
 import 'registration.dart';
 
@@ -23,11 +22,11 @@ class _LogInState extends State<LogIn> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 60,
             ),
             Image.asset('assets/logo.png'),
-            SizedBox(
+            const SizedBox(
               height: 36,
             ),
             const Text(
@@ -44,8 +43,8 @@ class _LogInState extends State<LogIn> {
             const SizedBox(
               height: 38,
             ),
-            Reusable_TextField("Email", Icons.email_outlined, null),
-            Reusable_TextField(
+            reusableTextField("Email", Icons.email_outlined, null),
+            reusableTextField(
                 "Password", Icons.lock_outline, Icons.visibility_off_outlined),
             Container(),
             const SizedBox(
@@ -54,7 +53,7 @@ class _LogInState extends State<LogIn> {
             GestureDetector(
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => ForgotPassword(),
+                  builder: (context) => const ForgotPassword(),
                 ));
               },
               child: RichText(
@@ -82,6 +81,9 @@ class _LogInState extends State<LogIn> {
               onTap: () {
                 // todo:
                 //
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const GenderSelections(),
+                ));
               },
               child: Container(
                 margin: const EdgeInsets.only(top: 16),
@@ -173,7 +175,7 @@ class _LogInState extends State<LogIn> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Don't have an account?",
+                const Text("Don't have an account?",
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 17,
@@ -182,11 +184,11 @@ class _LogInState extends State<LogIn> {
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => Register(),
+                        builder: (context) => const Register(),
                       ),
                     );
                   },
-                  child: Text(" Signup",
+                  child: const Text(" Signup",
                       style: TextStyle(
                           color: Color(0xff53E88B),
                           fontSize: 17,
@@ -222,8 +224,8 @@ class _LogInState extends State<LogIn> {
     );
   }
 
-  Container Reusable_TextField(
-      String hint_text, IconData icons, IconData? suffixicon) {
+  Container reusableTextField(
+      String hintText, IconData icons, IconData? suffixicon) {
     Color secondbackgroundColor = Theme.of(context).cardColor;
     final inputBorder = OutlineInputBorder(
         borderSide: Divider.createBorderSide(
@@ -243,7 +245,7 @@ class _LogInState extends State<LogIn> {
             Theme(
               data: Theme.of(context).copyWith(
                 colorScheme: ThemeData().colorScheme.copyWith(
-                    primary: Color(0xff2E2E2E40), secondary: Colors.white),
+                    primary: const Color(0xff2E2E2E), secondary: Colors.white),
               ),
               child: Container(
                 decoration: BoxDecoration(
@@ -264,18 +266,18 @@ class _LogInState extends State<LogIn> {
                           },
                           icon: (suffixicon != null)
                               ? (isPressed)
-                                  ? Icon(
+                                  ? const Icon(
                                       Icons.visibility_off_outlined,
                                       color: Colors.grey,
                                     )
-                                  : Icon(
+                                  : const Icon(
                                       Icons.visibility_outlined,
                                       color: Colors.grey,
                                     )
-                              : Icon(null)),
-                      prefixIconColor: Color(0xff2E2E2E40),
-                      iconColor: const Color(0xff2E2E2E40),
-                      hintText: hint_text,
+                              : const Icon(null)),
+                      prefixIconColor: const Color(0xff2E2E2E),
+                      iconColor: const Color(0xff2E2E2E),
+                      hintText: hintText,
                       hintStyle: TextStyle(color: Colors.grey[400]),
                       fillColor: secondbackgroundColor,
                       filled: true,
@@ -291,7 +293,7 @@ class _LogInState extends State<LogIn> {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
-                    style: textTheme.headline2
+                    style: textTheme.displayMedium
                         ?.copyWith(fontSize: 15, fontWeight: FontWeight.w400),
                     keyboardType: TextInputType.text,
                     textInputAction: TextInputAction.next,

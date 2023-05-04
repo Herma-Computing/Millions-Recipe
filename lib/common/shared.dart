@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 buildTextTitleVariation1(String text){
   return Padding(
-    padding: EdgeInsets.only(bottom: 8),
+    padding: const EdgeInsets.only(bottom: 8),
     child: Text(
       text,
       style: GoogleFonts.breeSerif(
@@ -17,7 +17,7 @@ buildTextTitleVariation1(String text){
 
 buildTextTitleVariation2(String text, bool opacity){
   return Padding(
-    padding: EdgeInsets.only(bottom: 16),
+    padding: const EdgeInsets.only(bottom: 16),
     child: Text(
       text,
       style: TextStyle(
@@ -31,7 +31,7 @@ buildTextTitleVariation2(String text, bool opacity){
 
 buildTextSubTitleVariation1(String text){
   return Padding(
-    padding: EdgeInsets.only(bottom: 8),
+    padding: const EdgeInsets.only(bottom: 8),
     child: Text(
       text,
       style: TextStyle(
@@ -45,7 +45,7 @@ buildTextSubTitleVariation1(String text){
 
 buildTextSubTitleVariation2(String text){
   return Padding(
-    padding: EdgeInsets.only(bottom: 8),
+    padding: const EdgeInsets.only(bottom: 8),
     child: Text(
       text,
       overflow: TextOverflow.ellipsis,
@@ -59,11 +59,11 @@ buildTextSubTitleVariation2(String text){
 
 buildRecipeTitle(String text){
   return Padding(
-    padding: EdgeInsets.only(bottom: 8),
+    padding: const EdgeInsets.only(bottom: 8),
     child: Text(
       text,
       overflow: TextOverflow.ellipsis,
-      style: TextStyle(
+      style: const TextStyle(
         fontSize: 22,
         fontWeight: FontWeight.bold,
       ),
@@ -73,7 +73,7 @@ buildRecipeTitle(String text){
 
 buildRecipeSubTitle(String text){
   return Padding(
-    padding: EdgeInsets.only(bottom: 16),
+    padding: const EdgeInsets.only(bottom: 16),
     child: Text(
       text,
       maxLines: 3,
@@ -89,7 +89,7 @@ buildRecipeSubTitle(String text){
 buildCalories(String text){
   return Text(
     text,
-    style: TextStyle(
+    style: const TextStyle(
       fontSize: 16,
       color: Colors.black,
       fontWeight: FontWeight.bold,

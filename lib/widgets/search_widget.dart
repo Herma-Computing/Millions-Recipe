@@ -11,14 +11,14 @@ class SearchResult extends StatelessWidget {
         appBar: AppBar(elevation: 0, backgroundColor: Colors.white),
         body: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 26, vertical: 10),
+            margin: const EdgeInsets.symmetric(horizontal: 26, vertical: 10),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(width: 2, color: Colors.grey)),
-            child: Expanded(
+            child: const Expanded(
               child: Padding(
-                padding: const EdgeInsets.only(top: 5),
-                child: const TextField(
+                padding: EdgeInsets.only(top: 5),
+                child: TextField(
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.search),
                     hintText: "Search recipes",
@@ -34,11 +34,11 @@ class SearchResult extends StatelessWidget {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 30),
+          const Padding(
+            padding: EdgeInsets.only(left: 30),
             child: Align(
               alignment: Alignment.centerLeft,
-              child: const Text(
+              child: Text(
                 "12 Recipes found",
                 textAlign: TextAlign.start,
                 style: TextStyle(
@@ -48,7 +48,7 @@ class SearchResult extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 14,
           ),
           Expanded(
@@ -57,7 +57,7 @@ class SearchResult extends StatelessWidget {
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.only(top: 10, bottom: 10),
-                  child: Resuable_Card(),
+                  child: resuableCard(),
                 );
               },
             ),
@@ -67,21 +67,21 @@ class SearchResult extends StatelessWidget {
     );
   }
 
-  Expanded Resuable_Card() {
+  Expanded resuableCard() {
     return Expanded(
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),
-        margin: EdgeInsets.only(left: 22, right: 30),
+        margin: const EdgeInsets.only(left: 22, right: 30),
         elevation: 10,
         child: Container(
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(60)),
-          padding: EdgeInsets.all(11),
+          padding: const EdgeInsets.all(11),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Align(
+              const Align(
                 alignment: Alignment(1, -1),
                 child: Icon(
                   Icons.favorite_border_rounded,
@@ -94,8 +94,8 @@ class SearchResult extends StatelessWidget {
                   Container(
                       width: 128,
                       height: 155,
-                      child: Image(image: AssetImage("assets/pancake.png"))),
-                  SizedBox(
+                      child: const Image(image: AssetImage("assets/pancake.png"))),
+                  const SizedBox(
                     width: 10,
                   ),
                   Flexible(
@@ -103,19 +103,19 @@ class SearchResult extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           "Home made cute pancake",
                           style: TextStyle(
                               fontSize: 14, fontWeight: FontWeight.w600),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 12,
                         ),
                         reusableRow("2 people", Icons.people_outline),
                         reusableRow("10 - 15 mins", Icons.access_time),
                         reusableRow("350kcal", CupertinoIcons.flame),
                         Row(
-                          children: [
+                          children: const [
                             // Checkbox(
                             //   activeColor: Color(0xff53E88B),
                             //   value: true,
@@ -152,11 +152,11 @@ class SearchResult extends StatelessWidget {
                   //
                 },
                 child: Container(
-                  margin: EdgeInsets.only(top: 16),
+                  margin: const EdgeInsets.only(top: 16),
                   width: 208.47,
                   height: 44,
                   decoration: BoxDecoration(
-                      gradient: LinearGradient(
+                      gradient: const LinearGradient(
                         begin: Alignment.centerRight,
                         end: Alignment.centerLeft,
                         colors: [
@@ -165,7 +165,7 @@ class SearchResult extends StatelessWidget {
                         ],
                       ),
                       borderRadius: BorderRadius.circular(10)),
-                  child: Center(
+                  child: const Center(
                     child: Text(
                       "Show Recipe",
                       style: TextStyle(
@@ -187,12 +187,12 @@ class SearchResult extends StatelessWidget {
     return Row(
       children: [
         Icon(ico),
-        SizedBox(
+        const SizedBox(
           width: 8,
         ),
-        Text(
+      Text(
           txt,
-          style: TextStyle(
+          style: const TextStyle(
               color: Colors.grey, fontSize: 12, fontWeight: FontWeight.w500),
         )
       ],

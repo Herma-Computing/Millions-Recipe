@@ -1,9 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:millions_recipe/common/constants.dart';
 import 'package:millions_recipe/providers/recipe_provider.dart';
-import 'package:millions_recipe/screens/detail_screen.dart';
 import 'package:millions_recipe/common/shared.dart';
 import 'package:provider/provider.dart';
 
@@ -11,7 +9,7 @@ import 'models/recipe_model.dart';
 import 'widgets/foodDetails/details.dart';
 
 class Home extends StatefulWidget {
-  Home({Key? key}) : super(key: key);
+  const Home({Key? key}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
@@ -111,7 +109,7 @@ class _HomeState extends State<Home> {
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        brightness: Brightness.light,
+        systemOverlayStyle: SystemUiOverlayStyle.light,
         elevation: 0,
         leading: Builder(
           builder: (context) => IconButton(
@@ -213,11 +211,11 @@ class _HomeState extends State<Home> {
               ],
             ),
           ),
-          isSearching ? SizedBox() : const SizedBox(
+          isSearching ? const SizedBox() : const SizedBox(
             height: 32,
           ),
           recipeProvider.subCategoryLoading
-              ? SizedBox()
+              ? const SizedBox()
               :
               // Row(
 
@@ -230,17 +228,17 @@ class _HomeState extends State<Home> {
                   width: MediaQuery.of(context).size.width,
                   child: ListView.builder(
                       itemCount: recipeProvider.subCategories.length,
-                      physics: BouncingScrollPhysics(),
+                      physics: const BouncingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
                         return option(recipeProvider.subCategories[index].name);
                       }),
-                ) : SizedBox(),
+                ) : const SizedBox(),
           const SizedBox(
             height: 24,
           ),
-          isSearching ? SizedBox(): Container(
+          isSearching ? const SizedBox(): Container(
             // width: 50,
             height: 350,
             child: Consumer<Recipes>(
@@ -248,7 +246,7 @@ class _HomeState extends State<Home> {
                 return Container(
                   child: recipeProvider.loading
                       ? const Center(
-                          child: const CircularProgressIndicator(
+                          child: CircularProgressIndicator(
                           strokeWidth: 4,
                         ))
                       : ListView.builder(
@@ -263,7 +261,7 @@ class _HomeState extends State<Home> {
                                   MaterialPageRoute(
                                       builder: (context) =>
                                           // DetailScreen(meal: recipeProvider.recipes[index])),
-                                    foodDetails(meal: recipeProvider.recipes[index])),
+                                    FoodDetails(meal: recipeProvider.recipes[index])),
                                 );
                               },
                               child: Container(
@@ -353,25 +351,25 @@ class _HomeState extends State<Home> {
                               MaterialPageRoute(
                                   builder: (context) =>
                                       // DetailScreen(meal: result[index])),
-                                foodDetails(meal: recipeProvider.recipes[index])),
+                                FoodDetails(meal: recipeProvider.recipes[index])),
                             );
                           },
                           child: Container(
                             margin: const EdgeInsets.fromLTRB(16, 5, 16, 5),
                             decoration: BoxDecoration(
                               color: Colors.white,
-                              borderRadius: BorderRadius.all(
+                              borderRadius: const BorderRadius.all(
                                 Radius.circular(20),
                               ),
                               boxShadow: [kBoxShadow],
                             ),
                             child: Row(
                               children: [
-                                SizedBox(
+                                const SizedBox(
                                   width: 5,
                                 ),
                                 Container(
-                                  padding: EdgeInsets.all(8),
+                                  padding: const EdgeInsets.all(8),
                                   height: 160,
                                   width: 160,
                                   child: Image.network(
@@ -385,7 +383,7 @@ class _HomeState extends State<Home> {
                                       MediaQuery.of(context).size.width * 0.45,
                                   child: Padding(
                                     padding:
-                                        EdgeInsets.symmetric(horizontal: 16),
+                                    const EdgeInsets.symmetric(horizontal: 16),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -439,20 +437,20 @@ class _HomeState extends State<Home> {
           height: 40,
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.all(
+            borderRadius: const BorderRadius.all(
               Radius.circular(20),
             ),
             boxShadow: [kBoxShadow],
           ),
-          padding: EdgeInsets.symmetric(horizontal: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 12),
           child: Row(
             children: [
-              SizedBox(
+              const SizedBox(
                 width: 8,
               ),
               Text(
                 text,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.black,
                   fontSize: 14,
                   fontWeight: FontWeight.bold,

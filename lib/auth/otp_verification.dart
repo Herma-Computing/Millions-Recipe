@@ -157,7 +157,7 @@ class _OtpState extends State<Otp> {
               if (value.length == 1 && last == false) {
                 FocusScope.of(context).nextFocus();
               }
-              if (value.length == 0 && first == false) {
+              if (value.isEmpty && first == false) {
                 FocusScope.of(context).previousFocus();
               }
             },
