@@ -1,15 +1,16 @@
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../api/shared_preference/shared_preference.dart';
+import '../models/auth_model.dart';
 import 'constants.dart';
 
 class ApiProvider {
-  Future<String> registerUser(String email, String firstname, String lastname,
-      String password, String registerWith) async {
+
+  Future<String> registerUser(String email, String firstname, String lastname, String password, String registerWith) async {
     String res = "Some error is occured";
-    http.Response? response;
 
     try {
       String passwordParam = "password";
@@ -20,34 +21,64 @@ class ApiProvider {
         firstNameParam = "given_name";
         lastNameParam = "family_name";
       }
-      response = await http.post(Uri.parse(AppUrl.userregisterUrl),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-          },
-          body: jsonEncode(<String, dynamic>{
-            "registed_with": registerWith,
-            "email": email,
-            firstNameParam: firstname,
-            lastNameParam: lastname,
-            passwordParam: password
-          }));
-
+      var dio = Dio();
+      Map<String, dynamic> requestBody = {
+        "registed_with": registerWith,
+        "email": email,
+        firstNameParam: firstname,
+        lastNameParam: lastname,
+        passwordParam: password
+      };
+      Response response = await dio.post(
+        AppUrl.userregisterUrl,
+        data: requestBody,
+      );
       if (response.statusCode == 200) {
         res = "success";
-      } else {
-        var temp = jsonDecode(response.body.toString());
-        String message = temp['message'];
-        res = message;
+
+        if (registerWith == "google") {
+          var userInfo = jsonDecode(response.data.toString());
+          String? image = "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50";
+          if (userInfo['image'] != null) {
+            image = userInfo['image'];
+          }
+          UserPreferences.setuser(image!, userInfo['username']!, userInfo['first_name'], userInfo['last_name'], email.toString());
+        }
+      } else {}
+    } catch (e) {
+      if (e is DioError) {
+        Response response = e.response!;
+        res = response.data['message'];
       }
-    } on Exception {
-      //res = "Some error is occured";
     }
-    //
+
     return res;
   }
 
-  Future<String> loginUser(
-      String email, String password, String loginWith) async {
+  Future<String> verification(String email, int otp) async {
+    String res = "Some error is occured";
+    try {
+      var dio = Dio();
+      Map<String, dynamic> requestBody = {"email": email, "code": otp};
+      Response response = await dio.post(
+        AppUrl.activateaccount,
+        data: requestBody,
+      );
+      if (response.statusCode == 200) {
+        res = "success";
+      } else {
+        var temp = jsonDecode(response.data.toString());
+        String message = temp['message'];
+        res = message;
+      }
+    } catch (_) {
+      res = "Some error is occured";
+    }
+
+    return res;
+  }
+
+  Future<String> loginUser(String email, String password, String loginWith) async {
     String res = "Some error is occured";
     try {
       var dio = Dio();
@@ -62,36 +93,29 @@ class ApiProvider {
 
       if (response.statusCode == 200) {
         res = "success";
-      } else {
-        String? message = response.statusMessage;
-        res = message!;
+        final responseBody = response.data;
+        final AuthModel authModel = authModelFromJson(responseBody);
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+        prefs.setString("token", authModel.token);
+
+        UserPreferences.setuser(
+          authModel.userImage.toString(),
+          authModel.username.toString(),
+          authModel.userFirstName.toString(),
+          authModel.userLastName.toString(),
+          authModel.userEmail.toString(),
+        );
       }
-    } on Exception {
-      res = "Some error is occured";
+    } catch (e) {
+      if (e is DioError) {
+        Response response = e.response!;
+        res = response.data['message'];
+      } else {
+        res = "Some error is occured";
+      }
     }
     return res;
   }
 
-  Future<String> verification(String email, int otp) async {
-    String res = "Some error is occured";
-    http.Response? response;
-    try {
-      response = await http.post(Uri.parse(AppUrl.activateaccount),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-          },
-          body: jsonEncode(<String, dynamic>{"email": email, "code": otp}));
-      if (response.statusCode == 200) {
-        res = "success";
-      } else {
-        var temp = jsonDecode(response.body.toString());
-        String message = temp['message'];
-        res = message;
-      }
-    } on Exception {
-      res = "Some error is occured";
-    }
-
-    return res;
-  }
 }

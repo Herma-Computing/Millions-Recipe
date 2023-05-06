@@ -3,8 +3,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 
 import 'package:millions_recipe/auth/registration.dart';
-import 'package:millions_recipe/screens/gender_selection_page.dart';
 import '../api_service/api_provider.dart';
+import '../landing.dart';
 import 'forgot_password.dart';
 
 bool isPressed = true;
@@ -258,7 +258,7 @@ class _LogInState extends State<LogIn> {
         fontSize: 16.0,
       );
       Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const GenderSelections(),
+        builder: (context) => const Landing(),//GenderSelections(),
       ));
     } else {
       // ignore: use_build_context_synchronously
