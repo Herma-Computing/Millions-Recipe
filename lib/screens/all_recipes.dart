@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class AllRecipes extends StatefulWidget {
   const AllRecipes({super.key});
@@ -14,10 +12,10 @@ class _AllRecipesState extends State<AllRecipes> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('All Recipes'),
+        title: const Text('All Recipes'),
       ),
       body: Container(
-        child: Center(child: Text('All Recipes Screen')),
+        child: const Center(child: Text('All Recipes Screen')),
       ),
     );
   }

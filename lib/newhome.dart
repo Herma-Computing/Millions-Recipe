@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:millions_recipe/providers/recipe_provider.dart';
-import 'package:millions_recipe/screens/Notifcations.dart';
+import 'package:millions_recipe/screens/notifcations.dart';
 import 'package:millions_recipe/screens/all_recipes.dart';
-import 'package:millions_recipe/screens/recipesPage.dart';
-import 'package:provider/provider.dart';
+import 'package:millions_recipe/screens/recipes_page.dart';
 
 class NewHome extends StatefulWidget {
-  NewHome({Key? key}) : super(key: key);
+  const NewHome({Key? key}) : super(key: key);
 
   @override
   State<NewHome> createState() => _NewHomeState();
@@ -38,14 +37,13 @@ class _NewHomeState extends State<NewHome> {
 
   @override
   Widget build(BuildContext context) {
-    final recipeProvider = Provider.of<Recipes>(context);
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(70),
         child: AppBar(
           backgroundColor: Colors.transparent,
-          brightness: Brightness.light,
+          systemOverlayStyle: SystemUiOverlayStyle.light,
           elevation: 0,
           automaticallyImplyLeading: false,
           title: Container(
@@ -216,7 +214,6 @@ class _NewHomeState extends State<NewHome> {
                   child: GestureDetector(
                     onTap: () {
                       setState(() {
-                        print(index);
                       });
                     },
                     child: Stack(
@@ -296,15 +293,16 @@ class _NewHomeState extends State<NewHome> {
                                           height: 30,
                                           decoration: BoxDecoration(
                                             color: !isEven
-                                                ? Color(0xffE23E3E)
+                                                ? const Color(0xffE23E3E)
                                                 : Colors.white,
                                             shape: BoxShape.circle,
                                           ),
                                           child: SvgPicture.asset(
                                             'assets/allSVG/Favorite-Icon.svg',
-                                            color: isEven
-                                                ? const Color(0xff2E2E2E)
-                                                : const Color(0xffffffff),
+                                            colorFilter: ColorFilter.mode(
+                                              isEven ? const Color(0xff2E2E2E) : const Color(0xffffffff),
+                                              BlendMode.srcIn,
+                                            ),
                                           ),
                                         ),
                                       ],
@@ -322,7 +320,7 @@ class _NewHomeState extends State<NewHome> {
                           // decoration:
                           //     ShapeDecoration(shape: CircleBorder(), color: Colors.white),
                           child: Padding(
-                            padding: EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(8.0),
                             child: CircleAvatar(
                               radius: 50, // specify the radius of the circle
                               backgroundImage: AssetImage(_imgs[index]),
@@ -388,11 +386,10 @@ class _NewHomeState extends State<NewHome> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        print(index);
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => RecipesPage()));
+                                builder: (context) => const RecipesPage()));
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),

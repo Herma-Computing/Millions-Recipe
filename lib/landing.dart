@@ -5,10 +5,10 @@ import 'package:millions_recipe/newhome.dart';
 import 'package:millions_recipe/screens/add_recipe.dart';
 import 'package:millions_recipe/screens/favourites.dart';
 import 'package:millions_recipe/screens/profile.dart';
-import 'package:millions_recipe/screens/recipesPage.dart';
+import 'package:millions_recipe/screens/recipes_page.dart';
 
 class Landing extends StatefulWidget {
-  Landing({Key? key}) : super(key: key);
+  const Landing({Key? key}) : super(key: key);
 
   @override
   State<Landing> createState() => _LandingState();
@@ -18,15 +18,15 @@ class _LandingState extends State<Landing> {
   int currentTab = 0;
 
   final List<Widget> screens = [
-    NewHome(),
-    RecipesPage(),
-    AddRecipe(),
-    Favourites(),
-    Profile(),
+    const NewHome(),
+    const RecipesPage(),
+    const AddRecipe(),
+    const Favourites(),
+    const Profile(),
   ];
 
   final PageStorageBucket bucket = PageStorageBucket();
-  Widget currentScreen = NewHome();
+  Widget currentScreen = const NewHome();
 
   @override
   void initState() {
@@ -94,7 +94,10 @@ class _LandingState extends State<Landing> {
             BottomNavigationBarItem(
               activeIcon: SvgPicture.asset(
                 'assets/allSVG/Home-Icon.svg',
-                color: kActiveColor,
+                colorFilter: ColorFilter.mode(
+                  kActiveColor,
+                  BlendMode.srcIn,
+                ),
               ),
               icon: Opacity(
                 opacity: 0.25,
@@ -107,7 +110,10 @@ class _LandingState extends State<Landing> {
             BottomNavigationBarItem(
               activeIcon: SvgPicture.asset(
                 'assets/allSVG/My-Recipe-Icon.svg',
-                color: kActiveColor,
+                colorFilter: ColorFilter.mode(
+                  kActiveColor,
+                  BlendMode.srcIn,
+                ),
               ),
               icon: Opacity(
                 opacity: 0.25,
@@ -127,7 +133,10 @@ class _LandingState extends State<Landing> {
             BottomNavigationBarItem(
               activeIcon: SvgPicture.asset(
                 'assets/allSVG/Favorite-Icon.svg',
-                color: kActiveColor,
+                colorFilter: ColorFilter.mode(
+                  kActiveColor,
+                  BlendMode.srcIn,
+                ),
               ),
               icon: Opacity(
                 opacity: 0.25,
@@ -140,7 +149,10 @@ class _LandingState extends State<Landing> {
             BottomNavigationBarItem(
               activeIcon: SvgPicture.asset(
                 'assets/allSVG/Profile-Icon.svg',
-                color: kActiveColor,
+                colorFilter: ColorFilter.mode(
+                  kActiveColor,
+                  BlendMode.srcIn,
+                ),
               ),
               icon: Opacity(
                 opacity: 0.25,

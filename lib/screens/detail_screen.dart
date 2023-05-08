@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../models/recipe_model.dart';
 import '../common/constants.dart';
 // import '../models/meal_model.dart';
@@ -7,8 +8,9 @@ import '../common/shared.dart';
 
 class DetailScreen extends StatelessWidget {
   final Recipe meal;
+  final Key? key;
 
-  DetailScreen({required this.meal});
+  const DetailScreen({required this.meal, this.key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,18 +19,18 @@ class DetailScreen extends StatelessWidget {
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        brightness: Brightness.light,
+        systemOverlayStyle: SystemUiOverlayStyle.light,
         elevation: 0,
         leading: GestureDetector(
           onTap: () {
             Navigator.pop(context);
           },
-          child: Icon(
+          child: const Icon(
             Icons.arrow_back_ios,
             color: Colors.black,
           ),
         ),
-        actions: [
+        actions: const [
           // Padding(
           //   padding: EdgeInsets.only(right: 16),
           //   child: Icon(
@@ -39,12 +41,12 @@ class DetailScreen extends StatelessWidget {
         ],
       ),
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -53,12 +55,12 @@ class DetailScreen extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             Container(
               height: 310,
-              padding: EdgeInsets.only(left: 16),
+              padding: const EdgeInsets.only(left: 16),
               child: Stack(
                 children: [
                   SingleChildScrollView(
@@ -70,7 +72,7 @@ class DetailScreen extends StatelessWidget {
                                 children: [
                                   buildNutrition(nutrition.value,
                                       nutrition.name, nutrition.unit),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 16,
                                   ),
                                 ],
@@ -112,12 +114,12 @@ class DetailScreen extends StatelessWidget {
                                               child: IconButton(
                                                   onPressed: () => {
                                                         controller.previousPage(
-                                                            duration: Duration(
+                                                            duration: const Duration(
                                                                 milliseconds:
                                                                     300),
                                                             curve: Curves.ease)
                                                       },
-                                                  icon: Icon(
+                                                  icon: const Icon(
                                                     Icons.arrow_back_ios,
                                                     size: 35,
                                                   ))),
@@ -127,12 +129,12 @@ class DetailScreen extends StatelessWidget {
                                               child: IconButton(
                                                   onPressed: () => {
                                                         controller.nextPage(
-                                                            duration: Duration(
+                                                            duration: const Duration(
                                                                 milliseconds:
                                                                     300),
                                                             curve: Curves.ease)
                                                       },
-                                                  icon: Icon(
+                                                  icon: const Icon(
                                                     Icons.arrow_forward_ios,
                                                     size: 35,
                                                   )))
@@ -196,7 +198,7 @@ class DetailScreen extends StatelessWidget {
             //   ),
             // ),
             Padding(
-              padding: EdgeInsets.only(left: 16, right: 16, bottom: 80),
+              padding: const EdgeInsets.only(left: 16, right: 16, bottom: 80),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -240,12 +242,12 @@ class DetailScreen extends StatelessWidget {
 
                       // ],
                       ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   buildTextTitleVariation2('Recipe preparation', false),
                   ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: meal.steps.length,
                     itemBuilder: (context, index) {
@@ -274,7 +276,7 @@ class DetailScreen extends StatelessWidget {
       //     ),
       //     label: Text(
       //       "Watch Video",
-      //       style: TextStyle(
+      //       style: const TextStyle(
       //         color: Colors.white,
       //         fontSize: 16,
       //         fontWeight: FontWeight.bold,
@@ -287,11 +289,11 @@ class DetailScreen extends StatelessWidget {
     return Container(
       height: 60,
       width: 150,
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: Colors.grey[50],
-        borderRadius: BorderRadius.all(
-          Radius.circular(50),
+        borderRadius: const BorderRadius.all(
+          const Radius.circular(50),
         ),
         boxShadow: [kBoxShadow],
       ),
@@ -308,14 +310,14 @@ class DetailScreen extends StatelessWidget {
             child: Center(
               child: Text(
                 value.toString(),
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 20,
           ),
           Column(
@@ -328,13 +330,13 @@ class DetailScreen extends StatelessWidget {
                   title,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-              Text(
+            Text(
                 subTitle,
                 style: TextStyle(
                   fontSize: 12,

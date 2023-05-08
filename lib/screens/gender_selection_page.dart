@@ -5,10 +5,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:horizontal_picker/horizontal_picker.dart';
 import 'package:millions_recipe/home.dart';
-import 'package:millions_recipe/screens/onboardingScreen.dart';
-import 'package:millions_recipe/widgets/TrianglePainter.dart';
+import 'package:millions_recipe/screens/on_boarding_screen.dart';
+import 'package:millions_recipe/widgets/triangle_painter.dart';
 
 class GenderSelections extends StatefulWidget {
+  const GenderSelections({
+    super.key,
+  });
   @override
   State<GenderSelections> createState() => _GenderSelectionsState();
 }
@@ -19,8 +22,8 @@ class _GenderSelectionsState extends State<GenderSelections> {
   double weightVlue = 170.0;
   String selectedHeight = "cm";
   String selectedWeight = "kg";
-  RulerPickerController? _HeightPickerController;
-  RulerPickerController? _WeightPickerController;
+  RulerPickerController? heightPickerController;
+  RulerPickerController? weightPickerController;
   final double _ruleScaleInterval = 10;
 
   int currentHeightValue = 30;
@@ -31,18 +34,18 @@ class _GenderSelectionsState extends State<GenderSelections> {
           "cm",
         ),
         value: "cm"),
-    DropdownMenuItem(child: Text("mm"), value: "mm"),
+    const DropdownMenuItem(child: Text("mm"), value: "mm"),
   ];
   List<DropdownMenuItem<String>> dropdownWeightItems = [
-    DropdownMenuItem(child: Text("kg"), value: "kg"),
-    DropdownMenuItem(child: Text("gram"), value: "gram"),
+    const DropdownMenuItem(child: Text("kg"), value: "kg"),
+    const DropdownMenuItem(child: Text("gram"), value: "gram"),
   ];
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _HeightPickerController = RulerPickerController(value: 0);
-    _WeightPickerController = RulerPickerController(value: 0);
+    heightPickerController = RulerPickerController(value: 0);
+    weightPickerController = RulerPickerController(value: 0);
   }
 
   @override
@@ -61,12 +64,12 @@ class _GenderSelectionsState extends State<GenderSelections> {
                       padding: const EdgeInsets.all(8.0),
                       child: CircleAvatar(
                         radius: 25,
-                        backgroundColor: Color.fromARGB(255, 224, 250, 225),
+                        backgroundColor: const Color.fromARGB(255, 224, 250, 225),
                         child: IconButton(
                             onPressed: () {
                               Navigator.push(context, MaterialPageRoute(
                                   builder: (BuildContext cxontext) {
-                                return Onbording();
+                                return const Onbording();
                               }));
                             },
                             icon: Icon(
@@ -110,7 +113,7 @@ class _GenderSelectionsState extends State<GenderSelections> {
                   ],
                 ),
                 Padding(
-                  padding: EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: Text(
                     "get mails accourated for your needs",
                     style: GoogleFonts.manrope(
@@ -125,7 +128,7 @@ class _GenderSelectionsState extends State<GenderSelections> {
                   height: 20,
                 ),
                 Padding(
-                  padding: EdgeInsets.only(right: 120),
+                  padding: const EdgeInsets.only(right: 120),
                   child: Text(
                     "Choose your gender",
                     style: GoogleFonts.manrope(
@@ -226,7 +229,7 @@ class _GenderSelectionsState extends State<GenderSelections> {
                   height: 5,
                 ),
                 RulerPicker(
-                  controller: _HeightPickerController!,
+                  controller: heightPickerController!,
                   beginValue: 30,
                   endValue: 195,
                   initValue: currentHeightValue,
@@ -308,7 +311,7 @@ class _GenderSelectionsState extends State<GenderSelections> {
                   height: 5,
                 ),
                 RulerPicker(
-                  controller: _WeightPickerController!,
+                  controller: weightPickerController!,
                   beginValue: 50,
                   endValue: 195,
                   initValue: currentWeightValue,
@@ -359,7 +362,7 @@ class _GenderSelectionsState extends State<GenderSelections> {
                     // route to page when this button pressed
                     Navigator.push(context,
                         MaterialPageRoute(builder: (BuildContext context) {
-                      return Home();
+                      return const Home();
                     }));
                   },
                   child: Container(

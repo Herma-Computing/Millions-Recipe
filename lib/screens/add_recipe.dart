@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class AddRecipe extends StatefulWidget {
+  const AddRecipe({
+    super.key,
+  });
   @override
   State<AddRecipe> createState() => _AddRecipeState();
 }
@@ -10,9 +13,9 @@ class _AddRecipeState extends State<AddRecipe> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Recipe'),
+        title: const Text('Add Recipe'),
       ),
-      body: Center(child: Text('Add Recipe Screen')),
+      body: const Center(child: Text('Add Recipe Screen')),
     );
   }
 }

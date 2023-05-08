@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:millions_recipe/models/sub_category.dart';
 import '../models/recipe_model.dart';
@@ -11,7 +9,7 @@ class Recipes with ChangeNotifier {
 
   bool get loading => _loading;
 
-  bool _popularLoading = false;
+  final bool _popularLoading = false;
   List<Recipe> popularRecipes = [];
   bool get popularLoading => _popularLoading;
 

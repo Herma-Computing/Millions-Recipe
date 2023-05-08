@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/animation/animation_controller.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/ticker_provider.dart';
 
 class Notifications extends StatefulWidget {
   const Notifications({super.key});
@@ -31,9 +27,9 @@ class _NotificationsState extends State<Notifications>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Notifications'),
+        title: const Text('Notifications'),
       ),
-      body: Center(
+      body: const Center(
         child: Text('Notifcations Screen'),
       ),
     );

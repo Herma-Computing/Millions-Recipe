@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:millions_recipe/home.dart';
-
 import '../auth/registration.dart';
 
 class Onbording extends StatefulWidget {
+  const Onbording({
+    super.key,
+  });
   @override
   _OnbordingState createState() => _OnbordingState();
 }
@@ -56,7 +57,7 @@ class _OnbordingState extends State<Onbording> {
                       Image.asset(
                         contents[i].image,
                       ),
-                      Text(
+                    Text(
                         textAlign: TextAlign.center,
                         contents[i].title,
                         style: const TextStyle(
@@ -65,7 +66,7 @@ class _OnbordingState extends State<Onbording> {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      Text(
+                    Text(
                         contents[i].discription,
                         textAlign: TextAlign.center,
                         style: const TextStyle(
@@ -94,7 +95,7 @@ class _OnbordingState extends State<Onbording> {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => Register(),
+                    builder: (_) => const Register(),
                   ),
                 );
               }
