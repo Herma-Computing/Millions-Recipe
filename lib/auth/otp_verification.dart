@@ -1,13 +1,21 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 
+import '../api_service/api_provider.dart';
+import 'login.dart';
+
 class Otp extends StatefulWidget {
-  const Otp({Key? key}) : super(key: key);
+  final String email;
+  const Otp({super.key, required this.email});
 
   @override
+  // ignore: library_private_types_in_public_api
   _OtpState createState() => _OtpState();
 }
 
 class _OtpState extends State<Otp> {
+  // ignore: prefer_final_fields
+  List<String> _otpValues = ['', '', '', '', ''];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,11 +78,11 @@ class _OtpState extends State<Otp> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        _textFieldOTP(first: true, last: false),
-                        _textFieldOTP(first: false, last: false),
-                        _textFieldOTP(first: false, last: false),
-                        _textFieldOTP(first: false, last: false),
-                        _textFieldOTP(first: false, last: true),
+                        _textFieldOTP(first: true, last: false, index: 0),
+                        _textFieldOTP(first: false, last: false, index: 1),
+                        _textFieldOTP(first: false, last: false, index: 2),
+                        _textFieldOTP(first: false, last: false, index: 3),
+                        _textFieldOTP(first: false, last: true, index: 4),
                       ],
                     ),
                     const SizedBox(
@@ -83,7 +91,7 @@ class _OtpState extends State<Otp> {
                     GestureDetector(
                       onTap: () {
                         // todo:
-                        //
+                        verify();
                       },
                       child: Container(
                         margin: const EdgeInsets.only(top: 16),
@@ -128,14 +136,17 @@ class _OtpState extends State<Otp> {
               const SizedBox(
                 height: 20,
               ),
-              const Text(
-                "Resend New Code",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xff53E88B),
+              GestureDetector(
+                onTap: () => resendActivation(),
+                child: const Text(
+                  "Resend New Code",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xff53E88B),
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
               ),
             ],
           ),
@@ -144,7 +155,78 @@ class _OtpState extends State<Otp> {
     );
   }
 
-  Widget _textFieldOTP({bool? first, bool? last}) {
+  Future verify() async {
+    if (_otpValues.length >= 4) {
+      int code = int.parse(_otpValues.join(''));
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => const Center(
+                child: CircularProgressIndicator(color: Colors.blue),
+              ));
+
+      String res = await ApiProvider().verification(widget.email, code);
+
+      if (res == "success") {
+        // ignore: use_build_context_synchronously
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => const LogIn(),
+        ));
+      } else {
+        // ignore: use_build_context_synchronously
+        Flushbar(
+          flushbarPosition: FlushbarPosition.BOTTOM,
+          margin: const EdgeInsets.fromLTRB(10, 20, 10, 5),
+          titleSize: 20,
+          messageSize: 17,
+          backgroundColor: Colors.blue,
+          borderRadius: BorderRadius.circular(8),
+          message: res,
+          duration: const Duration(seconds: 5),
+        ).show(context);
+      }
+    } else {
+      return null;
+    }
+  }
+
+  Future resendActivation() async {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const Center(
+              child: CircularProgressIndicator(color: Colors.blue),
+            ));
+    String res = await ApiProvider().resendActivation(widget.email);
+
+    if (res == "success") {
+      // ignore: use_build_context_synchronously
+      Flushbar(
+        flushbarPosition: FlushbarPosition.BOTTOM,
+        margin: const EdgeInsets.fromLTRB(10, 20, 10, 5),
+        titleSize: 20,
+        messageSize: 17,
+        backgroundColor: Colors.blue,
+        borderRadius: BorderRadius.circular(8),
+        message: 'sent, check your email !!',
+        duration: const Duration(seconds: 3),
+      ).show(context);
+    } else {
+      // ignore: use_build_context_synchronously
+      Flushbar(
+        flushbarPosition: FlushbarPosition.BOTTOM,
+        margin: const EdgeInsets.fromLTRB(10, 20, 10, 5),
+        titleSize: 20,
+        messageSize: 17,
+        backgroundColor: Colors.blue,
+        borderRadius: BorderRadius.circular(8),
+        message: res,
+        duration: const Duration(seconds: 5),
+      ).show(context);
+    }
+  }
+
+  Widget _textFieldOTP({bool? first, bool? last, required int index}) {
     return Expanded(
       child: Container(
         padding: const EdgeInsets.only(left: 2, right: 3),
@@ -154,6 +236,10 @@ class _OtpState extends State<Otp> {
           child: TextField(
             autofocus: true,
             onChanged: (value) {
+              setState(() {
+                _otpValues[index] = value;
+              });
+
               if (value.length == 1 && last == false) {
                 FocusScope.of(context).nextFocus();
               }
