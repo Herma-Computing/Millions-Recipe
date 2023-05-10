@@ -1,5 +1,7 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 
+import '../api_service/api_provider.dart';
 import 'change_password.dart';
 
 class ForgotPassword extends StatefulWidget {
@@ -10,6 +12,8 @@ class ForgotPassword extends StatefulWidget {
 }
 
 class _ForgotPasswordState extends State<ForgotPassword> {
+  final TextEditingController emailController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +28,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const Text(
-            "Enter the email associated with your account and we will send you OTP to the Email",
+            "Enter the email associated with your account and we will send you\n OTP to the Email",
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
           ),
@@ -38,10 +42,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           GestureDetector(
             onTap: () {
               // todo:
-              //
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const ChangePassword(),
-              ));
+              sendInstraction();
             },
             child: Container(
               margin: const EdgeInsets.only(top: 16),
@@ -73,6 +74,38 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     );
   }
 
+  Future sendInstraction() async {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const Center(
+              child: CircularProgressIndicator(color: Colors.blue),
+            ));
+
+    String res = await ApiProvider().sendInstruction(
+      emailController.text,
+    );
+
+    if (res == "success") {
+      // ignore: use_build_context_synchronously
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => ChangePassword(email: emailController.text),
+      ));
+    } else {
+      // ignore: use_build_context_synchronously
+      Flushbar(
+        flushbarPosition: FlushbarPosition.BOTTOM,
+        margin: const EdgeInsets.fromLTRB(10, 20, 10, 5),
+        titleSize: 20,
+        messageSize: 17,
+        backgroundColor: Colors.green,
+        borderRadius: BorderRadius.circular(8),
+        message: res,
+        duration: const Duration(seconds: 5),
+      ).show(context);
+    }
+  }
+
   Container reusableTextField() {
     Color secondbackgroundColor = Theme.of(context).cardColor;
     final inputBorder = OutlineInputBorder(
@@ -91,7 +124,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             Theme(
               data: Theme.of(context).copyWith(
                 colorScheme: ThemeData().colorScheme.copyWith(
-                    primary: const Color(0xff2E2E2E),
+                    // ignore: use_full_hex_values_for_flutter_colors
+                    primary: const Color(0xFF2E2E2E40),
                     secondary: Colors.white),
               ),
               child: Container(
@@ -100,6 +134,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: TextFormField(
+                    controller: emailController,
                     cursorColor: Colors.blue,
                     decoration: InputDecoration(
                       hintText: "Email",
@@ -120,9 +155,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     ),
                     style: textTheme.displayMedium
                         ?.copyWith(fontSize: 15, fontWeight: FontWeight.w400),
-                    keyboardType: TextInputType.text,
+                    keyboardType: TextInputType.emailAddress,
                     textInputAction: TextInputAction.next,
-                    validator: (value) {}),
+                    validator: (value) =>
+                        value != null && !value.contains('@') ||
+                                !value!.contains('.')
+                            ? 'Enter a valid Email'
+                            : null),
               ),
             ),
           ],
