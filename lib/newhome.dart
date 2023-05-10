@@ -132,8 +132,9 @@ class _NewHomeState extends State<NewHome> {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(width: 1, color: const Color(0xffD9D9D9))),
-            child: const TextField(
-              decoration: InputDecoration(
+            child: TextField(
+              cursorColor: kPrimaryColor,
+              decoration: const InputDecoration(
                 prefixIcon: Icon(
                   Icons.search,
                   color: Color(0xffD9D9D9),
@@ -407,6 +408,8 @@ class _NewHomeState extends State<NewHome> {
                                                 padding:
                                                     const EdgeInsets.all(8.0),
                                                 child: CircleAvatar(
+                                                  backgroundColor:
+                                                      kPrimaryColor,
                                                   radius: 50,
                                                   backgroundImage: NetworkImage(
                                                       recipeProvider
