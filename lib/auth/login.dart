@@ -342,7 +342,7 @@ class _LogInState extends State<LogIn> {
       );
       // ignore: use_build_context_synchronously
       Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const GenderSelections(), //Landing(),
+        builder: (context) => const Landing(), //GenderSelections(), //Landing(),
       ));
     } else {
       // ignore: use_build_context_synchronously
