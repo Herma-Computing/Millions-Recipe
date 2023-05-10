@@ -4,7 +4,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:millions_recipe/screens/notifcations.dart';
 import 'package:millions_recipe/screens/all_recipes.dart';
-import 'package:millions_recipe/screens/recipes_page.dart';
+import 'package:millions_recipe/common/constants.dart';
+import 'package:millions_recipe/providers/recipe_provider.dart';
+import 'package:millions_recipe/widgets/foodDetails/details.dart';
+import 'package:provider/provider.dart';
+import 'models/recipe_model.dart';
 
 class NewHome extends StatefulWidget {
   const NewHome({Key? key}) : super(key: key);
@@ -14,18 +18,31 @@ class NewHome extends StatefulWidget {
 }
 
 class _NewHomeState extends State<NewHome> {
+  List<Recipe> result = [];
+  Future<List<Recipe>> results = Future.value([]);
+  bool loading = true;
+  int offset = 0;
+  int currentPage = 1;
+
   @override
   void initState() {
     super.initState();
+    fetchPopular();
+    fetchRecent();
   }
 
-  final List<String> _imgs = [
-    'assets/Food-1.png',
-    'assets/Food-2.png',
-    'assets/Food-1.png',
-    'assets/Food-2.png',
-    'assets/Food-1.png',
-  ];
+  void fetchPopular() {
+    final recipeProvider = Provider.of<Recipes>(context, listen: false);
+    recipeProvider.fetchRecipesByCategory(_categories[_selectedIndex]);
+    setState(() {
+      results = Future.value(recipeProvider.recipes);
+    });
+  }
+
+  void fetchRecent() async {
+    final recipeProvider = Provider.of<Recipes>(context, listen: false);
+    await recipeProvider.getRecipeApis('1', '', '', false);
+  }
 
   final List<String> _categories = [
     'Breakfast',
@@ -37,6 +54,7 @@ class _NewHomeState extends State<NewHome> {
 
   @override
   Widget build(BuildContext context) {
+    final recipeProvider = Provider.of<Recipes>(context);
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: PreferredSize(
@@ -157,6 +175,7 @@ class _NewHomeState extends State<NewHome> {
                     setState(() {
                       _selectedIndex = index;
                     });
+                    fetchPopular();
                   },
                   child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -203,136 +222,218 @@ class _NewHomeState extends State<NewHome> {
           ),
           SizedBox(
             height: 265.0,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              physics: const BouncingScrollPhysics(),
-              itemCount: _categories.length,
-              itemBuilder: (BuildContext context, int index) {
-                bool isEven = index % 2 == 0;
+            child: Consumer<Recipes>(
+              builder: (context, fs, child) {
                 return Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 19.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                      });
-                    },
-                    child: Stack(
-                      // alignment: Alignment.topCenter,
-                      children: <Widget>[
-                        Container(
-                          margin: const EdgeInsets.only(top: 100.0 / 4.0),
-                          padding: const EdgeInsets.only(top: 100.0 / 2.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              color: const Color(0xffF1F1F1),
+                    child: recipeProvider.loading
+                        ? Center(
+                            child: CircularProgressIndicator(
+                              strokeWidth: 4,
+                              color: kPrimaryColor,
                             ),
-                            padding: const EdgeInsets.only(top: 100.0 / 2.0),
-                            //replace this Container with your Card
-                            width: 150,
-                            height: 176.0,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                // give it a padding
-                                const Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Text(
-                                    // make the text center aligned
-                                    textAlign: TextAlign.center,
-                                    'Pepper sweetcorn ramen',
-                                    style: TextStyle(
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.w700,
-                                    ),
+                          )
+                        : recipeProvider.recipes.isNotEmpty
+                            ? ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                physics: const BouncingScrollPhysics(),
+                                itemCount: recipeProvider.recipes.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  bool isEven = index % 2 == 0;
+                                  try {
+                                    return Container(
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 19.0),
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    FoodDetails(
+                                                        meal: recipeProvider
+                                                            .recipes[index])),
+                                          );
+                                        },
+                                        child: Stack(
+                                          children: <Widget>[
+                                            Container(
+                                              margin: const EdgeInsets.only(
+                                                  top: 100.0 / 4.0),
+                                              padding: const EdgeInsets.only(
+                                                  top: 100.0 / 2.0),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                  color:
+                                                      const Color(0xffF1F1F1),
+                                                ),
+                                                padding: const EdgeInsets.only(
+                                                    top: 100.0 / 2.0),
+                                                width: 150,
+                                                height: 176.0,
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: <Widget>[
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: Text(
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        recipeProvider
+                                                            .recipes[index]
+                                                            .name,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        maxLines: 3,
+                                                        style: const TextStyle(
+                                                          fontSize: 14.0,
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            const Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      left:
+                                                                          8.0),
+                                                              child: Text(
+                                                                'Time',
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Color(
+                                                                      0x402E2E2E),
+                                                                  fontSize:
+                                                                      12.0,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .only(
+                                                                left: 8.0,
+                                                                bottom: 14,
+                                                              ),
+                                                              child: Text(
+                                                                '${recipeProvider.recipes[index].time} Min',
+                                                                style:
+                                                                    const TextStyle(
+                                                                  color: Color(
+                                                                      0xff2E2E2E),
+                                                                  fontSize:
+                                                                      12.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w700,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Container(
+                                                              margin:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      right:
+                                                                          10.0,
+                                                                      bottom:
+                                                                          10.0),
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(5.0),
+                                                              width: 30,
+                                                              height: 30,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: !isEven
+                                                                    ? const Color(
+                                                                        0xffE23E3E)
+                                                                    : Colors
+                                                                        .white,
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                              ),
+                                                              child: SvgPicture
+                                                                  .asset(
+                                                                'assets/allSVG/Favorite-Icon.svg',
+                                                                colorFilter:
+                                                                    ColorFilter
+                                                                        .mode(
+                                                                  isEven
+                                                                      ? const Color(
+                                                                          0xff2E2E2E)
+                                                                      : const Color(
+                                                                          0xffffffff),
+                                                                  BlendMode
+                                                                      .srcIn,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        )
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: const EdgeInsets.only(
+                                                  left: 10.0),
+                                              width: 125.0,
+                                              height: 125.0,
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: CircleAvatar(
+                                                  radius: 50,
+                                                  backgroundImage: NetworkImage(
+                                                      recipeProvider
+                                                          .recipes[index]
+                                                          .images[0]
+                                                          .url),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  } catch (err) {
+                                    return Container();
+                                  }
+                                },
+                              )
+                            : const Center(
+                                child: Text(
+                                  'No Recipes Found',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w800,
                                   ),
                                 ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: const [
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 8.0),
-                                          child: Text(
-                                            'Time',
-                                            style: TextStyle(
-                                              color: Color(0x402E2E2E),
-                                              fontSize: 12.0,
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                            left: 8.0,
-                                            bottom: 14,
-                                          ),
-                                          child: Text(
-                                            '10 Mins',
-                                            style: TextStyle(
-                                              color: Color(0xff2E2E2E),
-                                              fontSize: 12.0,
-                                              fontWeight: FontWeight.w700,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          margin: const EdgeInsets.only(
-                                              right: 10.0, bottom: 10.0),
-                                          padding: const EdgeInsets.all(5.0),
-                                          width: 30, // adjust size as needed
-                                          height: 30,
-                                          decoration: BoxDecoration(
-                                            color: !isEven
-                                                ? const Color(0xffE23E3E)
-                                                : Colors.white,
-                                            shape: BoxShape.circle,
-                                          ),
-                                          child: SvgPicture.asset(
-                                            'assets/allSVG/Favorite-Icon.svg',
-                                            colorFilter: ColorFilter.mode(
-                                              isEven ? const Color(0xff2E2E2E) : const Color(0xffffffff),
-                                              BlendMode.srcIn,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(left: 10.0),
-                          width: 125.0,
-                          height: 125.0,
-                          // decoration:
-                          //     ShapeDecoration(shape: CircleBorder(), color: Colors.white),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: CircleAvatar(
-                              radius: 50, // specify the radius of the circle
-                              backgroundImage: AssetImage(_imgs[index]),
-                              // AssetImage(
-                              //     'assets/Food-2.png') // provide the image path
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                );
+                              ));
               },
             ),
           ),
@@ -377,51 +478,84 @@ class _NewHomeState extends State<NewHome> {
           ),
           SizedBox(
             height: 200.0,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              physics: const BouncingScrollPhysics(),
-              itemCount: 3,
-              itemBuilder: (BuildContext context, int index) {
-                return Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const RecipesPage()));
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        height: 200,
-                        width: 150,
-                        child: Column(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(10.0),
-                              child: Image.network(
-                                'https://via.placeholder.com/186x200',
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            const Text(
-                              'Indonesian chicken burger',
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            )
-                          ],
+            child: recipeProvider.apiLoading
+                ? Center(
+                    child: CircularProgressIndicator(
+                      color: kPrimaryColor,
+                    ),
+                  )
+                : recipeProvider.recipeList.isNotEmpty
+                    ? ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: recipeProvider.recipeList.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          try {
+                            return Row(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => FoodDetails(
+                                          meal:
+                                              recipeProvider.recipeList[index],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16.0),
+                                    height: 200,
+                                    width: 150,
+                                    child: Column(
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          child: Image.network(
+                                            recipeProvider.recipes[index].images
+                                                    .isNotEmpty
+                                                ? recipeProvider
+                                                    .recipeList[index]
+                                                    .images[0]
+                                                    .url
+                                                : "https://cdn.dribbble.com/users/1013019/screenshots/3281397/media/9de100ad01c34ec34d35e843d33504f9.jpg?compress=1&resize=400x300",
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 8,
+                                        ),
+                                        Text(
+                                          recipeProvider.recipeList[index].name,
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              ],
+                            );
+                          } catch (err) {
+                            return Container();
+                          }
+                        },
+                      )
+                    : const Center(
+                        child: Text(
+                          'No Recipes Found',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w800,
+                          ),
                         ),
                       ),
-                    )
-                  ],
-                );
-              },
-            ),
           ),
         ],
       ),
