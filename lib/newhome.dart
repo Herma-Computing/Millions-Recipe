@@ -518,15 +518,19 @@ class _NewHomeState extends State<NewHome> {
                                         ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(10.0),
-                                          child: Image.network(
-                                            recipeProvider.recipes[index].images
-                                                    .isNotEmpty
-                                                ? recipeProvider
-                                                    .recipeList[index]
-                                                    .images[0]
-                                                    .url
-                                                : "https://cdn.dribbble.com/users/1013019/screenshots/3281397/media/9de100ad01c34ec34d35e843d33504f9.jpg?compress=1&resize=400x300",
-                                            fit: BoxFit.cover,
+                                          child: SizedBox(
+                                            width: 186,
+                                            height: 124,
+                                            child: Image.network(
+                                              recipeProvider.recipes[index]
+                                                      .images.isNotEmpty
+                                                  ? recipeProvider
+                                                      .recipeList[index]
+                                                      .images[0]
+                                                      .url
+                                                  : "https://cdn.dribbble.com/users/1013019/screenshots/3281397/media/9de100ad01c34ec34d35e843d33504f9.jpg?compress=1&resize=400x300",
+                                              fit: BoxFit.contain,
+                                            ),
                                           ),
                                         ),
                                         const SizedBox(
@@ -534,6 +538,8 @@ class _NewHomeState extends State<NewHome> {
                                         ),
                                         Text(
                                           recipeProvider.recipeList[index].name,
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 3,
                                           style: const TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w700,
