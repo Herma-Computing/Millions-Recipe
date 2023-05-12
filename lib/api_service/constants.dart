@@ -2,6 +2,7 @@ class AppUrl {
   static var username = 'esubalew11@gmail.com';
   static var password = '105672864563817565';
   static var loginWith = 'google';
+  static var baseDSPLCUrl = 'https://datascienceplc.com/api/ds_her/v1/recipe/';
   static var baseUrl = 'https://dashencon.com/recipes/api';
   static var lessonUrl = '$baseUrl/ds_lc/v1/lesson';
   static var userregisterUrl = '$baseUrl/wp/v2/users/register';

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:millions_recipe/models/sub_category.dart';
 import '../models/recipe_model.dart';
 import 'package:dio/dio.dart';
+import '../api_service/constants.dart';
 
 class Recipes with ChangeNotifier {
   bool _loading = false;
@@ -35,23 +36,21 @@ class Recipes with ChangeNotifier {
   Future getRecipeApi(String currentPage, String query, String category,
       bool isSearching) async {
     recipeList.clear();
-    String url =  "https://datascienceplc.com/api/ds_her/v1/recipe/search?page=$currentPage&per_page=15&category=$category&query=$query";
-       
+    String url =
+        "${AppUrl.baseDSPLCUrl}/search?page=$currentPage&per_page=15&category=$category&query=$query";
+
     Dio dio = Dio();
     final response = await dio.get(url);
     Recipe recipe;
     response.data["recipes"].forEach(
         (el) async => {recipe = Recipe.fromJson(el), recipeList.add(recipe)});
-
   }
-
-
 
   Future fetchRecipesByCategory(String category) async {
     _loading = true;
     recipes.clear();
     String url =
-        "https://datascienceplc.com/api/ds_her/v1/recipe/popular?page=1&per_page=15&category=$category";
+        "${AppUrl.baseDSPLCUrl}/popular?page=1&per_page=15&category=$category";
 
     Dio dio = Dio();
     final response = await dio.get(url);
@@ -63,12 +62,12 @@ class Recipes with ChangeNotifier {
           recipe = Recipe.fromJson(el),
           recipes.add(recipe),
         });
-       subCategories.clear();
-      SubCategory subCategory;
-      response.data["sub_categories"].forEach((el) async => {
-            subCategory = SubCategory.fromJson(el),
-            subCategories.add(subCategory)
-          });
+    subCategories.clear();
+    SubCategory subCategory;
+    response.data["sub_categories"].forEach((el) async => {
+          subCategory = SubCategory.fromJson(el),
+          subCategories.add(subCategory)
+        });
 
     _loading = false;
     notifyListeners();
@@ -78,7 +77,7 @@ class Recipes with ChangeNotifier {
     _loading = true;
     recipes.clear();
     String url =
-        "https://datascienceplc.com/api/ds_her/v1/recipe/popular?page=1&per_page=15&category=$query";
+        "${AppUrl.baseDSPLCUrl}/popular?page=1&per_page=15&category=$query";
 
     Dio dio = Dio();
     final response = await dio.get(url);
@@ -94,5 +93,4 @@ class Recipes with ChangeNotifier {
     _loading = false;
     notifyListeners();
   }
-
 }
