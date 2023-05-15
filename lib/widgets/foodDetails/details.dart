@@ -109,9 +109,7 @@ class FoodDetailsState extends State<FoodDetails> {
                                     black,
                                     Icons.egg_outlined,
                                     () => {},
-                                    widget.meal.nutritions[0].value +
-                                        ' ' +
-                                        widget.meal.nutritions[0].unit),
+                                    '${widget.meal.nutritions[0].value} ${widget.meal.nutritions[0].unit}'),
                               ),
                               Padding(
                                 padding:
@@ -150,7 +148,7 @@ class FoodDetailsState extends State<FoodDetails> {
                   })),
                   Expanded(
                       child: pageViewTextButton(2, "Diet", false, green, () {
-                    _pageController.animateToPage(3,
+                    _pageController.animateToPage(2,
                         duration: const Duration(milliseconds: 500),
                         curve: Curves.easeInOut);
                   })),
@@ -177,8 +175,9 @@ class FoodDetailsState extends State<FoodDetails> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  const CookingSteps()));
+                              builder: (BuildContext context) => CookingSteps(
+                                    meal: widget.meal,
+                                  )));
                     },
                     child: Container(
                         width: 250,

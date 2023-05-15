@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import '../common/constants.dart';
+import '../models/recipe_model.dart';
 
 class CookingSteps extends StatelessWidget {
-  const CookingSteps({super.key});
+  final Recipe meal;
+  const CookingSteps({super.key, required this.meal});
   @override
   Widget build(BuildContext context) {
+    List steps = meal.steps[0].step.split(".");
     double cWidth = MediaQuery.of(context).size.width * 0.8;
     return Scaffold(
       backgroundColor: Colors.grey[50],
@@ -38,175 +41,91 @@ class CookingSteps extends StatelessWidget {
           ),
         ),
       ),
-      body: Container(
-        margin: const EdgeInsets.all(24),
-        child: ListView(
-          children: [
-            Row(
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: kPrimaryColor,
-                      ),
-                      child: const Text(
-                        '1',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 18,
-                    ),
-                    SizedBox(
-                      width: cWidth - 16,
-                      child: Column(
-                        children: const <Widget>[
-                        Text(
-                            "Lorem ipsum dolor sit amet consectetur adipisicing elit Ut et massa mi. Aliquam in henderit urna.",
-                            style: TextStyle(
-                              fontSize: 16,
-                              height: 1.5,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            textAlign: TextAlign.left,
-                          )
+      body: SafeArea(
+        child: Container(
+          margin: const EdgeInsets.all(24),
+          child: ListView.builder(
+            itemCount: steps.length - 1,
+            itemBuilder: (context, index) {
+              return Column(
+                children: [
+                  Row(
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ((index + 1) % 2 == 0)
+                              ? toogleStep(cWidth, steps, index)
+                              : toogleIndex(index),
+                          const SizedBox(
+                            width: 18,
+                          ),
+                          ((index + 1) % 2 == 0)
+                              ? toogleIndex(index)
+                              : toogleStep(cWidth, steps, index),
                         ],
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 24,
-            ),
-            Row(
-              children: [
-                Container(
-                  color: kPrimaryColor,
-                  width: (cWidth / 0.8) - 48,
-                  height: 180,
-                  child: Image.network(
-                    "https://cdn.dribbble.com/users/1013019/screenshots/3281397/media/9de100ad01c34ec34d35e843d33504f9.jpg?compress=1&resize=400x300",
-                    fit: BoxFit.fitWidth,
+                    ],
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 24,
-            ),
-            Row(
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: cWidth - 16,
-                      child: Column(
-                        children: const <Widget>[
-                        Text(
-                            "Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellius.",
-                            style: TextStyle(
-                              fontSize: 16,
-                              height: 1.5,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            textAlign: TextAlign.left,
-                          )
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 18,
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: kPrimaryColor,
-                      ),
-                      child: const Text(
-                        '2',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 24,
-            ),
-            Row(
-              children: [
-                Container(
-                  color: kPrimaryColor,
-                  width: (cWidth / 0.8) - 48,
-                  height: 180,
-                  child: Image.network(
-                    "https://cdn.dribbble.com/users/1013019/screenshots/3281397/media/9de100ad01c34ec34d35e843d33504f9.jpg?compress=1&resize=400x300",
-                    fit: BoxFit.fitWidth,
+                  const SizedBox(
+                    height: 24,
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 24,
-            ),
-            Row(
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
+                  Row(
+                    children: [
+                      Container(
                         color: kPrimaryColor,
-                      ),
-                      child: const Text(
-                        '3',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
+                        width: (cWidth / 0.8) - 48,
+                        height: 180,
+                        child: Image.network(
+                          "https://cdn.dribbble.com/users/1013019/screenshots/3281397/media/9de100ad01c34ec34d35e843d33504f9.jpg?compress=1&resize=400x300",
+                          fit: BoxFit.fitWidth,
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      width: 18,
-                    ),
-                    SizedBox(
-                      width: cWidth - 16,
-                      child: Column(
-                        children: const <Widget>[
-                        Text(
-                            "Nullam quis imperdiet augue Vesitbulum auctor ornare leo, non suscipit magna interdum eu. Curabitur pellentesque nibh nibh, at maximus ante.",
-                            style: TextStyle(
-                              fontSize: 16,
-                              height: 1.5,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            textAlign: TextAlign.left,
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  SizedBox toogleStep(double cWidth, List<dynamic> steps, int index) {
+    return SizedBox(
+      width: cWidth - 16,
+      child: Column(
+        children: <Widget>[
+          Text(
+            "${steps[index]}",
+            style: const TextStyle(
+              fontSize: 16,
+              height: 1.5,
+              fontWeight: FontWeight.w500,
             ),
-          ],
+            textAlign: TextAlign.left,
+          )
+        ],
+      ),
+    );
+  }
+
+  Container toogleIndex(int index) {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
+        color: kPrimaryColor,
+      ),
+      child: Text(
+        "${index + 1}",
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 20,
         ),
       ),
     );
