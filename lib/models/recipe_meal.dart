@@ -37,10 +37,20 @@ class RecipeMeal with ChangeNotifier {
         rating = json['recipeRating'] as String,
         numOfRatings = json['numOfRatings'] as String,
         category = json['recipeMainCategory'] as String,
-        images = (json['images'] as List<dynamic>).map((image) => ImageModel.fromJson(image as Map<String, dynamic>)).toList(),
-        ingredients = (json['ingredients'] as List<dynamic>).map((ingredient) => Ingredient.fromJson(ingredient as Map<String, dynamic>)).toList(),
-        nutritions = (json['nutritions'] as List<dynamic>).map((nutrition) => Nutrition.fromJson(nutrition as Map<String, dynamic>)).toList(),
-        steps = (json['directions'] as List<dynamic>).map((step) => Step.fromJson(step as Map<String, dynamic>)).toList();
+        images = (json['images'] as List<dynamic>)
+            .map((image) => ImageModel.fromJson(image as Map<String, dynamic>))
+            .toList(),
+        ingredients = (json['ingredients'] as List<dynamic>)
+            .map((ingredient) =>
+                Ingredient.fromJson(ingredient as Map<String, dynamic>))
+            .toList(),
+        nutritions = (json['nutritions'] as List<dynamic>)
+            .map((nutrition) =>
+                Nutrition.fromJson(nutrition as Map<String, dynamic>))
+            .toList(),
+        steps = (json['directions'] as List<dynamic>)
+            .map((step) => Step.fromJson(step as Map<String, dynamic>))
+            .toList();
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -53,7 +63,7 @@ class RecipeMeal with ChangeNotifier {
         'ingredients': ingredients,
         'nutritions': nutritions,
         'directions': steps,
-        
+
         // 'strInstruction': strInstruction
       };
 }

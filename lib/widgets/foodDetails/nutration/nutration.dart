@@ -1,41 +1,32 @@
 import 'package:flutter/material.dart';
-
+import '../../../models/recipe_model.dart';
 
 class Nutrition extends StatelessWidget {
-  const Nutrition({
-    super.key,
-  });
+  final Recipe meal;
+  const Nutrition({super.key, required this.meal});
 
   @override
   Widget build(BuildContext context) {
-    return Container(child: ListView.builder(itemBuilder: (context,index){
-     return Column(
-       children: [
-         const ListTile(
-          leading: Text("Protein"),
-          trailing: Text("27g"),
-         ),
-         Container(
-          margin: const EdgeInsets.symmetric(horizontal: 10
-          ),
-          width: double.infinity,
-          height: 1,
-           color: const Color.fromARGB(48, 85, 84, 84),
-         )
-       ],
-     );
-    }
-    
-    ),);
+    return Container(
+      child: ListView.builder(
+          itemCount: meal.nutritions.length,
+          itemBuilder: (context, index) {
+            return Column(
+              children: [
+                ListTile(
+                  leading: Text(meal.nutritions[index].name),
+                  trailing: Text(
+                      "${meal.nutritions[index].value}${meal.nutritions[index].unit}"),
+                ),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  width: double.infinity,
+                  height: 1,
+                  color: const Color.fromARGB(48, 85, 84, 84),
+                )
+              ],
+            );
+          }),
+    );
   }
 }
-
-
-
-
-
-
-
-
-
-
