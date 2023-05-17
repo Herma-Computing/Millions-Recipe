@@ -26,9 +26,6 @@
             "activityBar.foreground": "#f8f6f6",
             "activityBar.inactiveForeground": "#ade8ba",
             "titleBar.activeBackground": "#24365c"
-        },
-        "activityBar.background": "#3C273B",
-        "titleBar.activeBackground": "#543652",
-        "titleBar.activeForeground": "#FCFAFB"
+        }
     }
 }

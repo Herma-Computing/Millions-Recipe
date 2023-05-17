@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -15,22 +17,10 @@ class SearchResult extends StatelessWidget {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(width: 2, color: Colors.grey)),
-            child: const Expanded(
+            child: Expanded(
               child: Padding(
                 padding: EdgeInsets.only(top: 5),
-                child: TextField(
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.search),
-                    hintText: "Search recipes",
-                    border: InputBorder.none,
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                    isDense: true,
-                    suffixIcon: Icon(CupertinoIcons.slider_horizontal_3),
-                    suffixIconColor: Colors.grey,
-                    prefixIconColor: Colors.grey,
-                  ),
-                ),
+                child: topSearchBar(),
               ),
             ),
           ),
@@ -199,3 +189,21 @@ class SearchResult extends StatelessWidget {
     );
   }
 }
+
+Widget topSearchBar() {
+  
+    return TextField(
+      decoration: InputDecoration(
+        prefixIcon: Icon(Icons.search),
+        hintText: "Search recipes",
+        border: InputBorder.none,
+        contentPadding:
+            EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+        isDense: true,
+        suffixIcon: Icon(CupertinoIcons.slider_horizontal_3),
+        suffixIconColor: Colors.grey,
+        prefixIconColor: Colors.grey,
+      ),
+    );
+  }
+
