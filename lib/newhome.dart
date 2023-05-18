@@ -9,6 +9,7 @@ import 'package:millions_recipe/providers/recipe_provider.dart';
 import 'package:millions_recipe/widgets/foodDetails/details.dart';
 import 'package:provider/provider.dart';
 import 'models/recipe_model.dart';
+import 'widgets/search_widget.dart';
 
 class NewHome extends StatefulWidget {
   const NewHome({Key? key}) : super(key: key);
@@ -125,35 +126,8 @@ class _NewHomeState extends State<NewHome> {
       body: ListView(
         physics: const BouncingScrollPhysics(),
         children: [
-          Container(
-            height: 44,
-            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            padding: const EdgeInsets.symmetric(horizontal: 4),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(width: 1, color: const Color(0xffD9D9D9))),
-            child: TextField(
-              cursorColor: kPrimaryColor,
-              decoration: const InputDecoration(
-                prefixIcon: Icon(
-                  Icons.search,
-                  color: Color(0xffD9D9D9),
-                ),
-                hintText: "Search recipes",
-                hintStyle: TextStyle(color: Color(0xffC1C1C1)),
-                border: InputBorder.none,
-                contentPadding: EdgeInsets.symmetric(
-                  vertical: 12,
-                  horizontal: 16,
-                ),
-                isDense: true,
-                suffixIcon: Icon(
-                  CupertinoIcons.slider_horizontal_3,
-                  color: Color(0xffD9D9D9),
-                ),
-              ),
-            ),
-          ),
+        topSearchBar(),
+         
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 19.0, vertical: 16),
             child: const Text(
@@ -565,3 +539,4 @@ class _NewHomeState extends State<NewHome> {
     );
   }
 }
+
