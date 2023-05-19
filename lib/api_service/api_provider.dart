@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 
 import '../api/shared_preference/shared_preference.dart';
 
+import '../models/auth_model.dart';
 import 'constants.dart';
 
 class ApiProvider {
@@ -48,7 +49,7 @@ class ApiProvider {
             image = userInfo['image'];
           }
           UserPreferences.setuser(image!, userInfo['username']!,
-              userInfo['first_name'], userInfo['last_name'], email.toString());
+              userInfo['first_name'], userInfo['last_name'], email.toString(),userInfo['token']);
         }
       } else {
         var temp = response.data;
@@ -80,6 +81,19 @@ class ApiProvider {
 
       if (response.statusCode == 200) {
         res = "success";
+        final responseBody = response.data;
+        final AuthModel authModel = authModelFromJson(responseBody);
+
+        UserPreferences.setuser(
+          authModel.userImage.toString(),
+          authModel.username.toString(),
+          authModel.userFirstName.toString(),
+          authModel.userLastName.toString(),
+          authModel.userEmail.toString(),
+          authModel.token.toString(),
+        );
+
+
       } else {
         String? message = response.statusMessage;
         res = message!;

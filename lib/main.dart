@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import './providers/meal_provider.dart';
 import './providers/recipe_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import './screens/on_boarding_screen.dart';
+import 'landing.dart';
 
-void main() {
-  runApp(MyApp());
+Future main() async{
+
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences sharedPreferennces = await SharedPreferences.getInstance();
+  runApp(MyApp(sharedPreferennces.getString("token")));
+  // runApp(const MyApp("kl"));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+
+  final String? logedin;
+  const MyApp(this.logedin, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +37,7 @@ class MyApp extends StatelessWidget {
             textTheme: GoogleFonts.montserratTextTheme(),
           ),
           debugShowCheckedModeBanner: false,
-          home: const Onbording()),
+          home: logedin != null ? const Landing() : const Onbording()),
     );
   }
 }
