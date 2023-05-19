@@ -41,7 +41,7 @@ class _FoodDetailsState extends State<FoodDetails> {
 
     return Scaffold(
       body: SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           width: double.infinity,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -76,75 +76,69 @@ class _FoodDetailsState extends State<FoodDetails> {
                   ),
                 ),
               ),
-              Container(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                          padding: const EdgeInsets.only(left: 8.0, top: 21),
-                          child: Text(
-                            widget.meal.name,
-                            style: GoogleFonts.poppins(
-                              fontSize: 21,
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                        padding: const EdgeInsets.only(left: 8.0, top: 21),
+                        child: Text(
+                          widget.meal.name,
+                          style: GoogleFonts.poppins(
+                            fontSize: 21,
+                          ),
+                        )),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Column(
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 6.0),
+                              child: methdOfmenu(false, black,
+                                  Icons.group_outlined, () => {}, "2 people"),
                             ),
-                          )),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Column(
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 6.0),
+                              child: methdOfmenu(
+                                  false,
+                                  black,
+                                  Icons.access_time_outlined,
+                                  () => {},
+                                  "10-15 mins"),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 30.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 6.0),
-                                child: methdOfmenu(false, black,
-                                    Icons.group_outlined, () => {}, "2 people"),
-                              ),
                               Padding(
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 6.0),
                                 child: methdOfmenu(
                                     false,
                                     black,
-                                    Icons.access_time_outlined,
+                                    Icons.egg_outlined,
                                     () => {},
-                                    "10-15 mins"),
+                                    '${widget.meal.nutritions[0].value} ${widget.meal.nutritions[0].unit}'),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 6.0),
+                                child: methdOfmenu(true, green, Icons.check_box,
+                                    () => {}, "You have all the ingredients"),
                               ),
                             ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 30.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 6.0),
-                                  child: methdOfmenu(
-                                      false,
-                                      black,
-                                      Icons.egg_outlined,
-                                      () => {},
-                                      '${widget.meal.nutritions[0].value} ${widget.meal.nutritions[0].unit}'),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 6.0),
-                                  child: methdOfmenu(
-                                      true,
-                                      green,
-                                      Icons.check_box,
-                                      () => {},
-                                      "You have all the ingredients"),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
+                        )
+                      ],
+                    ),
+                  ],
                 ),
               ),
               Descriptions(meal: widget.meal),
@@ -185,7 +179,7 @@ class _FoodDetailsState extends State<FoodDetails> {
                   ],
                 ),
               ),
-              Container(
+              SizedBox(
                 height: MediaQuery.of(context).size.height -
                     450, // Adjust the height according to your needs
                 child: Expanded(

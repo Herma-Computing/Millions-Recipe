@@ -7,26 +7,24 @@ class Nutrition extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ListView.builder(
-          itemCount: meal.nutritions.length,
-          itemBuilder: (context, index) {
-            return Column(
-              children: [
-                ListTile(
-                  leading: Text(meal.nutritions[index].name),
-                  trailing: Text(
-                      "${meal.nutritions[index].value}${meal.nutritions[index].unit}"),
-                ),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 10),
-                  width: double.infinity,
-                  height: 1,
-                  color: const Color.fromARGB(48, 85, 84, 84),
-                )
-              ],
-            );
-          }),
-    );
+    return ListView.builder(
+        itemCount: meal.nutritions.length,
+        itemBuilder: (context, index) {
+          return Column(
+            children: [
+              ListTile(
+                leading: Text(meal.nutritions[index].name),
+                trailing: Text(
+                    "${meal.nutritions[index].value}${meal.nutritions[index].unit}"),
+              ),
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 10),
+                width: double.infinity,
+                height: 1,
+                color: const Color.fromARGB(48, 85, 84, 84),
+              )
+            ],
+          );
+        });
   }
 }

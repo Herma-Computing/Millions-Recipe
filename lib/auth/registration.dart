@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:millions_recipe/api_service/api_provider.dart';
+import '../landing.dart';
 import 'login.dart';
 import 'otp_verification.dart';
 
@@ -262,21 +263,29 @@ class _RegisterState extends State<Register> {
             const SizedBox(
               height: 7,
             ),
-            RichText(
-              text: const TextSpan(children: [
-                TextSpan(
-                    text: "Wanna have a look?",
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text("Wanna have a look?",
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 17,
                         fontWeight: FontWeight.w400)),
-                TextSpan(
-                    text: " Skip",
-                    style: TextStyle(
-                        color: Color(0xff53E88B),
-                        fontSize: 17,
-                        fontWeight: FontWeight.w700))
-              ]),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const Landing(),
+                      ),
+                    );
+                  },
+                  child: const Text(" Skip",
+                      style: TextStyle(
+                          color: Color(0xff53E88B),
+                          fontSize: 17,
+                          fontWeight: FontWeight.w700)),
+                )
+              ],
             ),
             const SizedBox(
               height: 37,

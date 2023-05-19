@@ -226,22 +226,46 @@ class _LogInState extends State<LogIn> {
             const SizedBox(
               height: 7,
             ),
-            RichText(
-              text: const TextSpan(children: [
-                TextSpan(
-                    text: "Wanna have a look?",
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text("Wanna have a look?",
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 17,
                         fontWeight: FontWeight.w400)),
-                TextSpan(
-                    text: " Skip",
-                    style: TextStyle(
-                        color: Color(0xff53E88B),
-                        fontSize: 17,
-                        fontWeight: FontWeight.w700))
-              ]),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const Landing(),
+                      ),
+                    );
+                  },
+                  child: const Text(" Skip",
+                      style: TextStyle(
+                          color: Color(0xff53E88B),
+                          fontSize: 17,
+                          fontWeight: FontWeight.w700)),
+                )
+              ],
             ),
+            // RichText(
+            //   text: const TextSpan(children: [
+            //     TextSpan(
+            //         text: "Wanna have a look?",
+            //         style: TextStyle(
+            //             color: Colors.black,
+            //             fontSize: 17,
+            //             fontWeight: FontWeight.w400)),
+            //     TextSpan(
+            //         text: " Skip",
+            //         style: TextStyle(
+            //             color: Color(0xff53E88B),
+            //             fontSize: 17,
+            //             fontWeight: FontWeight.w700))
+            //   ]),
+            // ),
             const SizedBox(
               height: 130,
             )
@@ -342,7 +366,8 @@ class _LogInState extends State<LogIn> {
       );
       // ignore: use_build_context_synchronously
       Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const Landing(), //GenderSelections(), //Landing(),
+        builder: (context) =>
+            const Landing(), //GenderSelections(), //Landing(),
       ));
     } else {
       // ignore: use_build_context_synchronously
