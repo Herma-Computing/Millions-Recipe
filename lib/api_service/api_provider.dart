@@ -1,10 +1,8 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../api/shared_preference/shared_preference.dart';
-import '../models/auth_model.dart';
 import 'constants.dart';
 
 class ApiProvider {

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../common/constants.dart';
-import '../widgets/search_widget.dart';
 
 class Favourites extends StatefulWidget {
   const Favourites({
@@ -18,7 +17,7 @@ class _FavouritesState extends State<Favourites> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-      margin: EdgeInsets.only(left: 20, top: 50, right: 16),
+      margin: const EdgeInsets.only(left: 20, top: 50, right: 16),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,7 +51,7 @@ class _FavouritesState extends State<Favourites> {
               ),
             ),
           ),
-          Text(
+          const Text(
             '12 Recieps found',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
           ),
@@ -73,7 +72,7 @@ Widget recipeCard() {
     children: [
       Card(
         child: Padding(
-          padding: EdgeInsets.only(top: 35, left: 13, bottom: 14, right: 7),
+          padding: const EdgeInsets.only(top: 35, left: 13, bottom: 14, right: 7),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -85,21 +84,21 @@ Widget recipeCard() {
                   Container(
                     height: 130,
                     width: 127,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(5))),
                     child: Image.asset(
                       'assets/Food-1.png',
                       fit: BoxFit.fill,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 5,
                   ),
                   Expanded(
                     child: Column(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 8.0),
+                        const Padding(
+                          padding: EdgeInsets.only(bottom: 8.0),
                           child: Text(
                             'Home made cute pancake',
                             style: TextStyle(
@@ -111,7 +110,7 @@ Widget recipeCard() {
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 8.0, vertical: 4),
-                          child: Row(children: [
+                          child: Row(children: const [
                             Icon(Icons.group),
                             SizedBox(
                               width: 5,
@@ -122,7 +121,7 @@ Widget recipeCard() {
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 8.0, vertical: 4),
-                          child: Row(children: [
+                          child: Row(children: const [
                             Icon(Icons.timer),
                             SizedBox(
                               width: 5,
@@ -133,7 +132,7 @@ Widget recipeCard() {
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 8.0, vertical: 4),
-                          child: Row(children: [
+                          child: Row(children: const [
                             Icon(Icons.rice_bowl),
                             SizedBox(
                               width: 5,
@@ -144,7 +143,7 @@ Widget recipeCard() {
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 8.0, vertical: 4),
-                          child: Row(children: [
+                          child: Row(children: const [
                             Icon(Icons.check_box_outlined,color: Color(0xff53E88B) ,),
                             SizedBox(
                               width: 5,
@@ -201,12 +200,13 @@ Widget recipeCard() {
               padding: const EdgeInsets.all(5.0),
               width: 30,
               height: 30,
-              decoration: BoxDecoration(
-                color: const Color(0xffE23E3E),
+              decoration: const BoxDecoration(
+                color: Color(0xffE23E3E),
                 shape: BoxShape.circle,
               ),
               child: SvgPicture.asset(
                 'assets/allSVG/Favorite-Icon.svg',
+                // ignore: deprecated_member_use
                 color: Colors.white,
               ),
             ),
