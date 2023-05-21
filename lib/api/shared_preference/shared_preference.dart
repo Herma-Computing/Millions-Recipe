@@ -9,6 +9,7 @@ class UserPreferences {
     String firstName,
     String lastName,
     String email,
+      String token,
   ) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString("image", image);
@@ -17,6 +18,8 @@ class UserPreferences {
     prefs.setString("last_name", lastName);
 
     prefs.setString("email", email);
+
+    prefs.setString("token", token);
     return true;
   }
 
