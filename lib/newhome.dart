@@ -125,8 +125,7 @@ class _NewHomeState extends State<NewHome> {
       body: ListView(
         physics: const BouncingScrollPhysics(),
         children: [
-        topSearchBar(),
-         
+          topSearchBar(),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 19.0, vertical: 16),
             child: const Text(
@@ -305,7 +304,7 @@ class _NewHomeState extends State<NewHome> {
                                                                 bottom: 14,
                                                               ),
                                                               child: Text(
-                                                                '${recipeProvider.recipes[index].time} Min',
+                                                                '${recipeProvider.recipes[index].total_time} Min',
                                                                 style:
                                                                     const TextStyle(
                                                                   color: Color(
@@ -538,4 +537,3 @@ class _NewHomeState extends State<NewHome> {
     );
   }
 }
-

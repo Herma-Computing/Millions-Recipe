@@ -35,23 +35,25 @@ class Recipes with ChangeNotifier {
   Future getRecipeApi(String currentPage, String query, String category,
       bool isSearching) async {
     recipeList.clear();
-    String url =  "https://datascienceplc.com/api/ds_her/v1/recipe/search?page=$currentPage&per_page=15&category=$category&query=$query";
-       
+    String url =
+        "https://dashencon.com/recipes/api/ds_her/v1/recipes?page=$currentPage&per_page=15&category=$category&query=$query";
+
+    // The old api endpoint:- https://dashencon.com/recipes/api/ds_her/v1/recipes?page=1&per_page=15&category=$query
+
     Dio dio = Dio();
     final response = await dio.get(url);
     Recipe recipe;
     response.data["recipes"].forEach(
         (el) async => {recipe = Recipe.fromJson(el), recipeList.add(recipe)});
-
   }
-
-
 
   Future fetchRecipesByCategory(String category) async {
     _loading = true;
     recipes.clear();
     String url =
-        "https://datascienceplc.com/api/ds_her/v1/recipe/popular?page=1&per_page=15&category=$category";
+        "https://dashencon.com/recipes/api/ds_her/v1/recipes?page=1&per_page=15&category=$category";
+
+    // The old api endpoint:- https://datascienceplc.com/api/ds_her/v1/recipe/popular?page=1&per_page=15&category=Breakfast
 
     Dio dio = Dio();
     final response = await dio.get(url);
@@ -63,12 +65,12 @@ class Recipes with ChangeNotifier {
           recipe = Recipe.fromJson(el),
           recipes.add(recipe),
         });
-       subCategories.clear();
-      SubCategory subCategory;
-      response.data["sub_categories"].forEach((el) async => {
-            subCategory = SubCategory.fromJson(el),
-            subCategories.add(subCategory)
-          });
+    // subCategories.clear();
+    // SubCategory subCategory;
+    // response.data["sub_categories"].forEach((el) async => {
+    //       subCategory = SubCategory.fromJson(el),
+    //       subCategories.add(subCategory)
+    //     });
 
     _loading = false;
     notifyListeners();
@@ -78,7 +80,9 @@ class Recipes with ChangeNotifier {
     _loading = true;
     recipes.clear();
     String url =
-        "https://datascienceplc.com/api/ds_her/v1/recipe/popular?page=1&per_page=15&category=$query";
+        "https://dashencon.com/recipes/api/ds_her/v1/recipes?page=1&per_page=15&category=$query";
+
+    // The old api endpoint:- https://dashencon.com/recipes/api/ds_her/v1/recipes?page=1&per_page=15&category=$query
 
     Dio dio = Dio();
     final response = await dio.get(url);
@@ -94,5 +98,4 @@ class Recipes with ChangeNotifier {
     _loading = false;
     notifyListeners();
   }
-
 }

@@ -125,7 +125,7 @@ class _FoodDetailsState extends State<FoodDetails> {
                                     black,
                                     Icons.egg_outlined,
                                     () => {},
-                                    '${widget.meal.nutritions[0].value} ${widget.meal.nutritions[0].unit}'),
+                                    "${widget.meal.nutritions[1].value}kcal"),
                               ),
                               Padding(
                                 padding:

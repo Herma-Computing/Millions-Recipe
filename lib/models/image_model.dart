@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 class ImageModel with ChangeNotifier {
   final String url;
 
-
   ImageModel(this.url);
 
   ImageModel.fromJson(Map<String, dynamic> json)

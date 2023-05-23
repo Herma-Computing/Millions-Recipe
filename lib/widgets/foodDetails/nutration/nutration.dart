@@ -14,8 +14,7 @@ class Nutrition extends StatelessWidget {
             children: [
               ListTile(
                 leading: Text(meal.nutritions[index].name),
-                trailing: Text(
-                    "${meal.nutritions[index].value}${meal.nutritions[index].unit}"),
+                trailing: Text(meal.nutritions[index].value),
               ),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 10),

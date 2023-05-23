@@ -70,8 +70,11 @@ class DetailScreen extends StatelessWidget {
                       children: meal.nutritions
                           .map((nutrition) => (Column(
                                 children: [
-                                  buildNutrition(nutrition.value,
-                                      nutrition.name, nutrition.unit),
+                                  buildNutrition(
+                                      nutrition.value,
+                                      //TODO:- check daily_value with unit
+                                      nutrition.name,
+                                      nutrition.daily_value),
                                   const SizedBox(
                                     height: 16,
                                   ),
@@ -114,9 +117,10 @@ class DetailScreen extends StatelessWidget {
                                               child: IconButton(
                                                   onPressed: () => {
                                                         controller.previousPage(
-                                                            duration: const Duration(
-                                                                milliseconds:
-                                                                    300),
+                                                            duration:
+                                                                const Duration(
+                                                                    milliseconds:
+                                                                        300),
                                                             curve: Curves.ease)
                                                       },
                                                   icon: const Icon(
@@ -129,9 +133,10 @@ class DetailScreen extends StatelessWidget {
                                               child: IconButton(
                                                   onPressed: () => {
                                                         controller.nextPage(
-                                                            duration: const Duration(
-                                                                milliseconds:
-                                                                    300),
+                                                            duration:
+                                                                const Duration(
+                                                                    milliseconds:
+                                                                        300),
                                                             curve: Curves.ease)
                                                       },
                                                   icon: const Icon(
@@ -209,7 +214,7 @@ class DetailScreen extends StatelessWidget {
                           .map((ingredient) => Column(
                                 children: [
                                   buildTextSubTitleVariation1(
-                                      ingredient.amount +
+                                      ingredient.quantity +
                                           " " +
                                           ingredient.name),
                                 ],
@@ -336,7 +341,7 @@ class DetailScreen extends StatelessWidget {
                   ),
                 ),
               ),
-            Text(
+              Text(
                 subTitle,
                 style: TextStyle(
                   fontSize: 12,

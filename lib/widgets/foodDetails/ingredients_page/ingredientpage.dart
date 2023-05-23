@@ -33,7 +33,8 @@ class Ingredients extends StatelessWidget {
                     ingredient.ingredients[index].name,
                   ),
                   subtitle: Text(
-                    ingredient.ingredients[index].amount,
+                    "${ingredient.ingredients[index].quantity}"
+                    " ${ingredient.ingredients[index].unit}",
                   ),
                   trailing: Text(
                     ingredientsItems[index].place,

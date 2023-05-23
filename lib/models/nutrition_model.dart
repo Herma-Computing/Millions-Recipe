@@ -3,17 +3,20 @@ import 'package:flutter/cupertino.dart';
 class Nutrition with ChangeNotifier {
   final String name;
   final String value;
-  final String unit;
+  // ignore: non_constant_identifier_names
+  final String daily_value;
 
   // final String strInstruction;
 
-  Nutrition(this.name, this.value, this.unit);
+  Nutrition(this.name, this.value, this.daily_value);
 
   Nutrition.fromJson(Map<String, dynamic> json)
-      : name = json['nutrient_name'] as String,
-        value = json['nutrient_value'] as String,
-        unit = json['amount_unit'] as String;
+      : name = json['name'] as String,
+        value = json['value'] as String,
+        daily_value = json['daily_value'] == null
+            ? "0"
+            : json['daily_value'].replaceAll(RegExp('[^0-9]'), '') as String;
 
   Map<String, dynamic> toJson() =>
-      {'nutrient_name': name, 'nutrient_value': value, 'amount_unit': unit};
+      {'name': name, 'value': value, 'daily_value': daily_value};
 }
