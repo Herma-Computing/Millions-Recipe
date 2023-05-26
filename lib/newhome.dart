@@ -33,7 +33,7 @@ class _NewHomeState extends State<NewHome> {
 
   void fetchPopular() {
     final recipeProvider = Provider.of<Recipes>(context, listen: false);
-    recipeProvider.fetchRecipesByCategory(_categories[_selectedIndex]);
+    recipeProvider.fetchRecipesByCategory(_categoriesRequest[_selectedIndex]);
     setState(() {
       results = Future.value(recipeProvider.recipes);
     });
@@ -44,11 +44,30 @@ class _NewHomeState extends State<NewHome> {
     await recipeProvider.getRecipeApis('1', '', '', false);
   }
 
+  final List<String> _categoriesRequest = [
+    '',
+    'breakfast-and-brunch',
+    'healthy',
+    'appetizers-and-snacks',
+    'salads',
+    'side-dishes',
+    'soups-and-stews',
+    'bread',
+    'drinks',
+    'desserts',
+  ];
+
   final List<String> _categories = [
-    'Breakfast',
-    'Appetizers',
-    'Main Dishes',
-    'Desserts'
+    'Popular',
+    'Breakfast and Brunch',
+    'Healthy',
+    'Appetizers and Snacks',
+    'Salads',
+    'Side Dishes',
+    'Soups and Stews',
+    'Bread',
+    'Drinks',
+    'Desserts',
   ];
   int _selectedIndex = 0;
 
