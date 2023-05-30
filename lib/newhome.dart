@@ -437,7 +437,7 @@ class _NewHomeState extends State<NewHome> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Text(
-                  'Recent Recipes',
+                  'Random Recipes',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w800,
@@ -482,7 +482,7 @@ class _NewHomeState extends State<NewHome> {
                     ? ListView.builder(
                         scrollDirection: Axis.horizontal,
                         physics: const BouncingScrollPhysics(),
-                        itemCount: recipeProvider.recipeList.length,
+                        itemCount: recipeProvider.recipeList.length ~/ 2,
                         itemBuilder: (BuildContext context, int index) {
                           try {
                             return Row(
