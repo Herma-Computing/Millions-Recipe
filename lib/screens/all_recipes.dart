@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -15,6 +16,55 @@ class AllRecipes extends StatefulWidget {
 }
 
 class _AllRecipesState extends State<AllRecipes> {
+  final ScrollController _controller = ScrollController();
+  bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.addListener(_scrollListener);
+
+    fetchRecipesByCategory('');
+  }
+
+  @override
+  void dispose() {
+    _controller.removeListener(_scrollListener);
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _scrollListener() {
+    if (_controller.position.maxScrollExtent == _controller.offset &&
+        !_isLoading) {
+      fetchRecipesByCategory('');
+    }
+  }
+
+  Future<void> fetchRecipesByCategory(String category) async {
+    final recipeProvider = Provider.of<Recipes>(context, listen: false);
+    setState(() {
+      _isLoading = true;
+    });
+
+    String url =
+        "https://dashencon.com/recipes/api/ds_her/v1/recipes?page=1&per_page=15&category=$category";
+
+    Dio dio = Dio();
+    final response = await dio.get(url);
+
+    Recipe recipe;
+    response.data["random"].forEach((el) async => {
+          recipe = Recipe.fromJson(el),
+          recipeProvider.recipes.add(recipe),
+          recipeProvider.recipeList.add(recipe)
+        });
+
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final recipeProvider = Provider.of<Recipes>(context);
@@ -23,36 +73,45 @@ class _AllRecipesState extends State<AllRecipes> {
         elevation: 0,
         backgroundColor: Colors.white,
         title: IconButton(
-            alignment: Alignment.centerLeft,
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(
-              Icons.arrow_back_ios,
-              color: Colors.black87,
-            )),
+          alignment: Alignment.centerLeft,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black87,
+          ),
+        ),
       ),
       body: recipeProvider.recipeList.isNotEmpty
           ? Padding(
               padding: const EdgeInsets.all(18.0),
               child: ListView.builder(
-                itemCount: recipeProvider.recipeList.length,
+                controller: _controller,
+                itemCount: (recipeProvider.recipeList.length ~/ 2) + 1,
                 itemBuilder: (context, index) {
+                  if (index == recipeProvider.recipeList.length ~/ 2) {
+                    return _isLoading
+                        ? const Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : Container();
+                  }
                   return Expanded(
                     child: Column(
                       children: [
                         recipeCard(
-                            recipeProvider.recipes[index].images.isNotEmpty
-                                ? recipeProvider.recipeList[index].images[0].url
-                                : "https://cdn.dribbble.com/users/1013019/screenshots/3281397/media/9de100ad01c34ec34d35e843d33504f9.jpg?compress=1&resize=400x300",
-                            recipeProvider.recipeList[index].name,
-                            recipeProvider.recipeList[index].total_time,
-                            recipeProvider
-                                .recipeList[index].nutritions[1].value,
-                            recipeProvider.recipeList[index]),
+                          recipeProvider.recipes[index].images.isNotEmpty
+                              ? recipeProvider.recipeList[index].images[0].url
+                              : "https://cdn.dribbble.com/users/1013019/screenshots/3281397/media/9de100ad01c34ec34d35e843d33504f9.jpg?compress=1&resize=400x300",
+                          recipeProvider.recipeList[index].name,
+                          recipeProvider.recipeList[index].total_time,
+                          recipeProvider.recipeList[index].nutritions[1].value,
+                          recipeProvider.recipeList[index],
+                        ),
                         const SizedBox(
                           height: 12,
-                        )
+                        ),
                       ],
                     ),
                   );
@@ -72,7 +131,12 @@ class _AllRecipesState extends State<AllRecipes> {
   }
 
   Widget recipeCard(
-      String pic, String mealName, String time, String calories, Recipe meal) {
+    String pic,
+    String mealName,
+    String time,
+    String calories,
+    Recipe meal,
+  ) {
     return Stack(
       children: [
         Card(
@@ -91,7 +155,8 @@ class _AllRecipesState extends State<AllRecipes> {
                       height: 130,
                       width: 127,
                       decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(5))),
+                        borderRadius: BorderRadius.all(Radius.circular(5)),
+                      ),
                       child: Image.network(pic),
                     ),
                     const SizedBox(
@@ -105,75 +170,87 @@ class _AllRecipesState extends State<AllRecipes> {
                             child: Text(
                               mealName,
                               style: const TextStyle(
-                                  overflow: TextOverflow.ellipsis,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600),
+                                overflow: TextOverflow.ellipsis,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 8.0, vertical: 4),
-                            child: Row(children: const [
-                              Icon(Icons.people_alt_outlined),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                '2 people',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500, fontSize: 12),
-                              ),
-                            ]),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8.0, vertical: 4),
-                            child: Row(children: [
-                              const Icon(Icons.timer_outlined),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                '$time min',
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w500, fontSize: 12),
-                              ),
-                            ]),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8.0, vertical: 4),
-                            child: Row(children: [
-                              const Icon(CupertinoIcons.flame),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                '$calories Kcal',
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w500, fontSize: 12),
-                              ),
-                            ]),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8.0, vertical: 4),
-                            child: Row(children: const [
-                              Icon(
-                                Icons.check_box_outlined,
-                                color: Color(0xff53E88B),
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Flexible(
-                                child: Text(
-                                  'You have all the ingedients',
-                                  style: TextStyle(
-                                      color: Color(0xff53E88B), fontSize: 12),
+                            child: Row(
+                              children: const [
+                                Icon(Icons.people_alt_outlined),
+                                SizedBox(
+                                  width: 5,
                                 ),
-                              ),
-                            ]),
+                                Text(
+                                  '2 people',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 12),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0, vertical: 4),
+                            child: Row(
+                              children: [
+                                const Icon(Icons.timer_outlined),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  '$time min',
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 12),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0, vertical: 4),
+                            child: Row(
+                              children: [
+                                const Icon(CupertinoIcons.flame),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  '$calories Kcal',
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 12),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0, vertical: 4),
+                            child: Row(
+                              children: const [
+                                Icon(
+                                  Icons.check_box_outlined,
+                                  color: Color(0xff53E88B),
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Flexible(
+                                  child: Text(
+                                    'You have all the ingredients',
+                                    style: TextStyle(
+                                        color: Color(0xff53E88B), fontSize: 12),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -185,7 +262,8 @@ class _AllRecipesState extends State<AllRecipes> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => FoodDetails(meal: meal)),
+                        builder: (context) => FoodDetails(meal: meal),
+                      ),
                     );
                   },
                   child: Container(
@@ -193,22 +271,24 @@ class _AllRecipesState extends State<AllRecipes> {
                     width: 208.47,
                     height: 44,
                     decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          begin: Alignment.centerRight,
-                          end: Alignment.centerLeft,
-                          colors: [
-                            Color(0xff15BE77),
-                            Color(0xff53E88B),
-                          ],
-                        ),
-                        borderRadius: BorderRadius.circular(10)),
+                      gradient: const LinearGradient(
+                        begin: Alignment.centerRight,
+                        end: Alignment.centerLeft,
+                        colors: [
+                          Color(0xff15BE77),
+                          Color(0xff53E88B),
+                        ],
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                     child: const Center(
                       child: Text(
                         "Show Detail",
                         style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
@@ -235,7 +315,7 @@ class _AllRecipesState extends State<AllRecipes> {
               color: Colors.white,
             ),
           ),
-        )
+        ),
       ],
     );
   }

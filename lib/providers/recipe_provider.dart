@@ -43,13 +43,15 @@ class Recipes with ChangeNotifier {
     Dio dio = Dio();
     final response = await dio.get(url);
     Recipe recipe;
-    response.data["recipes"].forEach(
-        (el) async => {recipe = Recipe.fromJson(el), recipeList.add(recipe)});
+    response.data["recipes"].forEach((el) async => {
+          recipe = Recipe.fromJson(el), /* TODO: recipeList.add(recipe)*/
+        });
   }
 
   Future fetchRecipesByCategory(String category) async {
     _loading = true;
     recipes.clear();
+    recipeList.clear();
     String url =
         "https://dashencon.com/recipes/api/ds_her/v1/recipes?page=1&per_page=15&category=$category";
 
@@ -64,6 +66,14 @@ class Recipes with ChangeNotifier {
     response.data["recipes"].forEach((el) async => {
           recipe = Recipe.fromJson(el),
           recipes.add(recipe),
+          recipeList.add(recipe)
+        });
+
+    Recipe recip;
+    response.data["random"].forEach((el) async => {
+          recip = Recipe.fromJson(el),
+          recipes.add(recip),
+          recipeList.add(recip)
         });
     // subCategories.clear();
     // SubCategory subCategory;
@@ -79,6 +89,7 @@ class Recipes with ChangeNotifier {
   Future fetchRecipesBySearch(String query) async {
     _loading = true;
     recipes.clear();
+    recipeList.clear();
     String url =
         "https://dashencon.com/recipes/api/ds_her/v1/recipes?page=1&per_page=15&category=$query";
 
