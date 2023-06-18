@@ -51,7 +51,7 @@ class Recipes with ChangeNotifier {
   Future fetchRecipesByCategory(String category) async {
     _loading = true;
     recipes.clear();
-    recipeList.clear();
+    // recipeList.clear();
     String url =
         "https://dashencon.com/recipes/api/ds_her/v1/recipes?page=1&per_page=15&category=$category";
 
@@ -59,28 +59,21 @@ class Recipes with ChangeNotifier {
 
     Dio dio = Dio();
     final response = await dio.get(url);
+    String random = '';
+    String urlRandom =
+        "https://dashencon.com/recipes/api/ds_her/v1/recipes?page=1&per_page=15&category=$random";
 
-    // var result = jsonDecode(response.data);
+    final randomResponse = await dio.get(urlRandom);
 
     Recipe recipe;
     response.data["recipes"].forEach((el) async => {
           recipe = Recipe.fromJson(el),
           recipes.add(recipe),
-          recipeList.add(recipe)
         });
 
     Recipe recip;
-    response.data["random"].forEach((el) async => {
-          recip = Recipe.fromJson(el),
-          recipes.add(recip),
-          recipeList.add(recip)
-        });
-    // subCategories.clear();
-    // SubCategory subCategory;
-    // response.data["sub_categories"].forEach((el) async => {
-    //       subCategory = SubCategory.fromJson(el),
-    //       subCategories.add(subCategory)
-    //     });
+    randomResponse.data["random"].forEach(
+        (el) async => {recip = Recipe.fromJson(el), recipeList.add(recip)});
 
     _loading = false;
     notifyListeners();

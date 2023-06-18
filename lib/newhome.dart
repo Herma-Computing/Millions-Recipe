@@ -448,7 +448,9 @@ class _NewHomeState extends State<NewHome> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const AllRecipes()));
+                            builder: (context) => const AllRecipes(
+                                // randomRecipes: recipeProvider.recipeList,
+                                )));
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -510,8 +512,8 @@ class _NewHomeState extends State<NewHome> {
                                           borderRadius:
                                               BorderRadius.circular(10.0),
                                           child: Image.network(
-                                            recipeProvider.recipes[index].images
-                                                    .isNotEmpty
+                                            recipeProvider.recipeList[index]
+                                                    .images.isNotEmpty
                                                 ? recipeProvider
                                                     .recipeList[index]
                                                     .images[0]

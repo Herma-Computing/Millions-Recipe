@@ -2,10 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
 
 import '../models/recipe_model.dart';
-import '../providers/recipe_provider.dart';
 import '../widgets/foodDetails/details.dart';
 
 class AllRecipes extends StatefulWidget {
@@ -27,6 +25,8 @@ class _AllRecipesState extends State<AllRecipes> {
     fetchRecipesByCategory('');
   }
 
+  List recipeList = [];
+
   @override
   void dispose() {
     _controller.removeListener(_scrollListener);
@@ -42,7 +42,6 @@ class _AllRecipesState extends State<AllRecipes> {
   }
 
   Future<void> fetchRecipesByCategory(String category) async {
-    final recipeProvider = Provider.of<Recipes>(context, listen: false);
     setState(() {
       _isLoading = true;
     });
@@ -56,8 +55,8 @@ class _AllRecipesState extends State<AllRecipes> {
     Recipe recipe;
     response.data["random"].forEach((el) async => {
           recipe = Recipe.fromJson(el),
-          recipeProvider.recipes.add(recipe),
-          recipeProvider.recipeList.add(recipe)
+          // recipeProvider.recipes.add(recipe),
+          recipeList.add(recipe)
         });
 
     setState(() {
@@ -67,7 +66,6 @@ class _AllRecipesState extends State<AllRecipes> {
 
   @override
   Widget build(BuildContext context) {
-    final recipeProvider = Provider.of<Recipes>(context);
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -83,14 +81,14 @@ class _AllRecipesState extends State<AllRecipes> {
           ),
         ),
       ),
-      body: recipeProvider.recipeList.isNotEmpty
+      body: recipeList.isNotEmpty
           ? Padding(
               padding: const EdgeInsets.all(18.0),
               child: ListView.builder(
                 controller: _controller,
-                itemCount: (recipeProvider.recipeList.length ~/ 2) + 1,
+                itemCount: (recipeList.length ~/ 2) + 1,
                 itemBuilder: (context, index) {
-                  if (index == recipeProvider.recipeList.length ~/ 2) {
+                  if (index == recipeList.length ~/ 2) {
                     return _isLoading
                         ? const Center(
                             child: CircularProgressIndicator(),
@@ -101,13 +99,13 @@ class _AllRecipesState extends State<AllRecipes> {
                     child: Column(
                       children: [
                         recipeCard(
-                          recipeProvider.recipes[index].images.isNotEmpty
-                              ? recipeProvider.recipeList[index].images[0].url
+                          recipeList[index].images.isNotEmpty
+                              ? recipeList[index].images[0].url
                               : "https://cdn.dribbble.com/users/1013019/screenshots/3281397/media/9de100ad01c34ec34d35e843d33504f9.jpg?compress=1&resize=400x300",
-                          recipeProvider.recipeList[index].name,
-                          recipeProvider.recipeList[index].total_time,
-                          recipeProvider.recipeList[index].nutritions[1].value,
-                          recipeProvider.recipeList[index],
+                          recipeList[index].name,
+                          recipeList[index].total_time,
+                          recipeList[index].nutritions[1].value,
+                          recipeList[index],
                         ),
                         const SizedBox(
                           height: 12,
