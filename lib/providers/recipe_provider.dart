@@ -59,11 +59,6 @@ class Recipes with ChangeNotifier {
 
     Dio dio = Dio();
     final response = await dio.get(url);
-    String random = '';
-    String urlRandom =
-        "https://dashencon.com/recipes/api/ds_her/v1/recipes?page=1&per_page=15&category=$random";
-
-    final randomResponse = await dio.get(urlRandom);
 
     Recipe recipe;
     response.data["recipes"].forEach((el) async => {
@@ -71,9 +66,11 @@ class Recipes with ChangeNotifier {
           recipes.add(recipe),
         });
 
-    Recipe recip;
-    randomResponse.data["random"].forEach(
-        (el) async => {recip = Recipe.fromJson(el), recipeList.add(recip)});
+    if (recipeList.isEmpty) {
+      Recipe recip;
+      response.data["random"].forEach(
+          (el) async => {recip = Recipe.fromJson(el), recipeList.add(recip)});
+    }
 
     _loading = false;
     notifyListeners();

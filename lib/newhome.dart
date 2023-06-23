@@ -29,10 +29,12 @@ class _NewHomeState extends State<NewHome> {
     super.initState();
     fetchPopular();
     fetchRecent();
+    // fetchRandom();
   }
 
   void fetchPopular() {
     final recipeProvider = Provider.of<Recipes>(context, listen: false);
+
     recipeProvider.fetchRecipesByCategory(_categoriesRequest[_selectedIndex]);
     setState(() {
       results = Future.value(recipeProvider.recipes);
@@ -448,9 +450,7 @@ class _NewHomeState extends State<NewHome> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const AllRecipes(
-                                // randomRecipes: recipeProvider.recipeList,
-                                )));
+                            builder: (context) => const AllRecipes()));
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
