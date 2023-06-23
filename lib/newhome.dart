@@ -23,6 +23,7 @@ class _NewHomeState extends State<NewHome> {
   bool loading = true;
   int offset = 0;
   int currentPage = 1;
+  bool fetchedRecipes = false;
 
   @override
   void initState() {
@@ -34,6 +35,12 @@ class _NewHomeState extends State<NewHome> {
 
   void fetchPopular() {
     final recipeProvider = Provider.of<Recipes>(context, listen: false);
+    if (!fetchedRecipes) {
+      recipeProvider.fetchRecipesByCategory("");
+    }
+    setState(() {
+      fetchedRecipes = true;
+    });
 
     recipeProvider.fetchRecipesByCategory(_categoriesRequest[_selectedIndex]);
     setState(() {
@@ -87,9 +94,9 @@ class _NewHomeState extends State<NewHome> {
           automaticallyImplyLeading: false,
           title: Container(
             margin: const EdgeInsets.symmetric(vertical: 16),
-            child: Column(
+            child: const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 SizedBox(
                   height: 20,
                 ),
