@@ -94,9 +94,9 @@ class _NewHomeState extends State<NewHome> {
           automaticallyImplyLeading: false,
           title: Container(
             margin: const EdgeInsets.symmetric(vertical: 16),
-            child: const Column(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: const [
                 SizedBox(
                   height: 20,
                 ),
