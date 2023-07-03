@@ -5,11 +5,13 @@ import './providers/recipe_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import './screens/on_boarding_screen.dart';
+import 'api/shared_preference/shared_preference.dart';
 import 'landing.dart';
 
 Future main() async{
 
   WidgetsFlutterBinding.ensureInitialized();
+  await UserPreferences.init();
   SharedPreferences sharedPreferennces = await SharedPreferences.getInstance();
   runApp(MyApp(sharedPreferennces.getString("token")));
   // runApp(const MyApp("kl"));

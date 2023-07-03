@@ -7,6 +7,7 @@ import 'package:millions_recipe/common/constants.dart';
 import 'package:millions_recipe/providers/recipe_provider.dart';
 import 'package:millions_recipe/widgets/foodDetails/details.dart';
 import 'package:provider/provider.dart';
+import 'api/shared_preference/shared_preference.dart';
 import 'models/recipe_model.dart';
 import 'widgets/search_widget.dart';
 
@@ -30,8 +31,10 @@ class _NewHomeState extends State<NewHome> {
     super.initState();
     fetchPopular();
     fetchRecent();
-    // fetchRandom();
+    userName = UserPreferences.getName() ?? "Guest";
   }
+
+  late String userName;
 
   void fetchPopular() {
     final recipeProvider = Provider.of<Recipes>(context, listen: false);
@@ -96,29 +99,29 @@ class _NewHomeState extends State<NewHome> {
             margin: const EdgeInsets.symmetric(vertical: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                SizedBox(
+              children: [
+                const SizedBox(
                   height: 20,
                 ),
                 Text(
-                  'Hi, Mohammed',
-                  style: TextStyle(
+                  'Hi, $userName',
+                  style: const TextStyle(
                     color: Color(0xff303030),
                     fontSize: 20,
                     fontWeight: FontWeight.w800,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
-                Text(
+                const Text(
                   'Let\'s make a masterpiece',
                   style: TextStyle(
                     fontSize: 14,
                     color: Color(0x80303030),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 )
               ],
