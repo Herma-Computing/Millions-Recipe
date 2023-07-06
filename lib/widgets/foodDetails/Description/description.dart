@@ -42,71 +42,83 @@ class _DescriptionsState extends State<Descriptions> {
             const SizedBox(
               height: 13,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  "Preparation Time:",
-                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 12),
-                ),
-                Text(
-                  "${widget.meal.prep_time}min",
-                  style: const TextStyle(
-                      fontWeight: FontWeight.w700, fontSize: 12),
-                )
-              ],
-            ),
+            widget.meal.prep_time == ""
+                ? const SizedBox()
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "Preparation Time:",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w700, fontSize: 12),
+                      ),
+                      Text(
+                        "${widget.meal.prep_time}min",
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w700, fontSize: 12),
+                      )
+                    ],
+                  ),
             const SizedBox(
               height: 13,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  "Cooking Time:",
-                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 12),
-                ),
-                Text(
-                  "${widget.meal.cook_time}min",
-                  style: const TextStyle(
-                      fontWeight: FontWeight.w700, fontSize: 12),
-                )
-              ],
-            ),
+            widget.meal.cook_time == ""
+                ? const SizedBox()
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "Cooking Time:",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w700, fontSize: 12),
+                      ),
+                      Text(
+                        "${widget.meal.cook_time}min",
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w700, fontSize: 12),
+                      )
+                    ],
+                  ),
             const SizedBox(
               height: 13,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  "Additional Time:",
-                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 12),
-                ),
-                Text(
-                  "${widget.meal.additional_time}min",
-                  style: const TextStyle(
-                      fontWeight: FontWeight.w700, fontSize: 12),
-                )
-              ],
-            ),
+            widget.meal.additional_time == ""
+                ? const SizedBox()
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "Additional Time:",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w700, fontSize: 12),
+                      ),
+                      Text(
+                        "${widget.meal.additional_time}min",
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w700, fontSize: 12),
+                      ),
+                    ],
+                  ),
             const SizedBox(
               height: 13,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  "Refrigeration Time:",
-                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 12),
-                ),
-                Text(
-                  "${widget.meal.refrigerate_time}min",
-                  style: const TextStyle(
-                      fontWeight: FontWeight.w700, fontSize: 12),
-                )
-              ],
-            ),
+            widget.meal.refrigerate_time == ""
+                ? const SizedBox()
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "Refrigeration Time:",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w700, fontSize: 12),
+                      ),
+                      Text(
+                        "${widget.meal.refrigerate_time}min",
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w700, fontSize: 12),
+                      )
+                    ],
+                  ),
           ],
         ),
       ),

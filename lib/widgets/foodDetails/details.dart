@@ -33,7 +33,7 @@ class _FoodDetailsState extends State<FoodDetails> {
     pages = [
       Ingredients(ingredient: widget.meal),
       Nutrition(meal: widget.meal),
-      const Diet(),
+      Diet(meal: widget.meal),
     ];
     Color black = const Color.fromARGB(115, 46, 46, 46);
     Color green = Colors.green;
@@ -64,7 +64,7 @@ class _FoodDetailsState extends State<FoodDetails> {
                         white,
                         black,
                         Icons.arrow_back,
-                        () => {Navigator.pop(context)},
+                        () => Navigator.pop(context),
                       ),
                       iconButton(
                         white,
@@ -168,7 +168,8 @@ class _FoodDetailsState extends State<FoodDetails> {
                       }),
                     ),
                     Expanded(
-                      child: pageViewTextButton(2, "Diet", false, green, () {
+                      child:
+                          pageViewTextButton(2, "Categories", false, green, () {
                         _pageController.animateToPage(2,
                             duration: const Duration(milliseconds: 500),
                             curve: Curves.easeInOut);

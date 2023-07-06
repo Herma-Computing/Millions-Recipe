@@ -38,6 +38,7 @@ class _NewHomeState extends State<NewHome> {
 
   void fetchPopular() {
     final recipeProvider = Provider.of<Recipes>(context, listen: false);
+
     if (!fetchedRecipes) {
       recipeProvider.fetchRecipesByCategory("");
     }

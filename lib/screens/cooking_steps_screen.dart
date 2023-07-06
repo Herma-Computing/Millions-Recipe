@@ -70,19 +70,22 @@ class CookingSteps extends StatelessWidget {
                   const SizedBox(
                     height: 24,
                   ),
-                  Row(
-                    children: [
-                      Container(
-                        color: kPrimaryColor,
-                        width: (cWidth / 0.8) - 48,
-                        height: 180,
-                        child: Image.network(
-                          "https://cdn.dribbble.com/users/1013019/screenshots/3281397/media/9de100ad01c34ec34d35e843d33504f9.jpg?compress=1&resize=400x300",
-                          fit: BoxFit.fitWidth,
+                  meal.steps[index].img_url == "NO PIC"
+                      ? const SizedBox()
+                      : Row(
+                          children: [
+                            Container(
+                              color: kPrimaryColor,
+                              width: (cWidth / 0.8) - 48,
+                              height: 180,
+                              child: Image.network(
+                                // "https://cdn.dribbble.com/users/1013019/screenshots/3281397/media/9de100ad01c34ec34d35e843d33504f9.jpg?compress=1&resize=400x300",
+                                meal.steps[index].img_url,
+                                fit: BoxFit.fitWidth,
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
-                  ),
                   const SizedBox(
                     height: 24,
                   ),
