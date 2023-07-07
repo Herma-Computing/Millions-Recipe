@@ -7,7 +7,6 @@ class CookingSteps extends StatelessWidget {
   const CookingSteps({super.key, required this.meal});
   @override
   Widget build(BuildContext context) {
-    List steps = meal.steps[0].step.split(".");
     double cWidth = MediaQuery.of(context).size.width * 0.8;
     return Scaffold(
       backgroundColor: Colors.grey[50],
@@ -45,7 +44,7 @@ class CookingSteps extends StatelessWidget {
         child: Container(
           margin: const EdgeInsets.all(24),
           child: ListView.builder(
-            itemCount: steps.length - 1,
+            itemCount: meal.steps.length,
             itemBuilder: (context, index) {
               return Column(
                 children: [
@@ -55,14 +54,16 @@ class CookingSteps extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           ((index + 1) % 2 == 0)
-                              ? toogleStep(cWidth, steps, index)
+                              ? toogleStep(
+                                  cWidth, meal.steps[index].step, index)
                               : toogleIndex(index),
                           const SizedBox(
                             width: 18,
                           ),
                           ((index + 1) % 2 == 0)
                               ? toogleIndex(index)
-                              : toogleStep(cWidth, steps, index),
+                              : toogleStep(
+                                  cWidth, meal.steps[index].step, index),
                         ],
                       ),
                     ],
@@ -70,22 +71,24 @@ class CookingSteps extends StatelessWidget {
                   const SizedBox(
                     height: 24,
                   ),
-                  meal.steps[index].img_url == "NO PIC"
+                  index > meal.steps[index].img_url.length
                       ? const SizedBox()
-                      : Row(
-                          children: [
-                            Container(
-                              color: kPrimaryColor,
-                              width: (cWidth / 0.8) - 48,
-                              height: 180,
-                              child: Image.network(
-                                // "https://cdn.dribbble.com/users/1013019/screenshots/3281397/media/9de100ad01c34ec34d35e843d33504f9.jpg?compress=1&resize=400x300",
-                                meal.steps[index].img_url,
-                                fit: BoxFit.fitWidth,
-                              ),
+                      : meal.steps[index].img_url == "NO PIC"
+                          ? const SizedBox()
+                          : Row(
+                              children: [
+                                Container(
+                                  color: kPrimaryColor,
+                                  width: (cWidth / 0.8) - 48,
+                                  height: 180,
+                                  child: Image.network(
+                                    // "https://cdn.dribbble.com/users/1013019/screenshots/3281397/media/9de100ad01c34ec34d35e843d33504f9.jpg?compress=1&resize=400x300",
+                                    meal.steps[index].img_url,
+                                    fit: BoxFit.fitWidth,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
                   const SizedBox(
                     height: 24,
                   ),
@@ -98,13 +101,13 @@ class CookingSteps extends StatelessWidget {
     );
   }
 
-  SizedBox toogleStep(double cWidth, List<dynamic> steps, int index) {
+  SizedBox toogleStep(double cWidth, String steps, int index) {
     return SizedBox(
       width: cWidth - 16,
       child: Column(
         children: <Widget>[
           Text(
-            "${steps[index]}",
+            steps,
             style: const TextStyle(
               fontSize: 16,
               height: 1.5,
