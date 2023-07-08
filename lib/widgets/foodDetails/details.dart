@@ -10,9 +10,9 @@ import 'ingredients_page/ingredientpage.dart';
 
 class FoodDetails extends StatefulWidget {
   final Recipe meal;
-  const FoodDetails({super.key, required this.meal});
+  const FoodDetails({Key? key, required this.meal}) : super(key: key);
+
   @override
-  // ignore: library_private_types_in_public_api
   _FoodDetailsState createState() => _FoodDetailsState();
 }
 
@@ -47,34 +47,45 @@ class _FoodDetailsState extends State<FoodDetails> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                width: double.infinity,
-                height: 250,
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: NetworkImage(widget.meal.images[0].url))),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15, top: 40),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      iconButton(
-                        white,
-                        black,
-                        Icons.arrow_back,
-                        () => Navigator.pop(context),
-                      ),
-                      iconButton(
-                        white,
-                        black,
-                        Icons.favorite_border_outlined,
-                        () => {},
-                      ),
-                    ],
+              Stack(
+                children: [
+                  SizedBox(
+                    width: double.infinity,
+                    height: 250,
+                    child: PageView.builder(
+                      itemCount: widget.meal.images.length,
+                      itemBuilder: (context, index) {
+                        return Image.network(
+                          widget.meal.images[index].url,
+                          fit: BoxFit.cover,
+                        );
+                      },
+                    ),
                   ),
-                ),
+                  Positioned(
+                    top: 40,
+                    left: 15,
+                    right: 15,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        iconButton(
+                          white,
+                          black,
+                          Icons.arrow_back,
+                          () => Navigator.pop(context),
+                        ),
+                        iconButton(
+                          white,
+                          black,
+                          Icons.favorite_border_outlined,
+                          () => {},
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 16.0),
@@ -82,13 +93,14 @@ class _FoodDetailsState extends State<FoodDetails> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                        padding: const EdgeInsets.only(left: 8.0, top: 21),
-                        child: Text(
-                          widget.meal.name,
-                          style: GoogleFonts.poppins(
-                            fontSize: 21,
-                          ),
-                        )),
+                      padding: const EdgeInsets.only(left: 8.0, top: 21),
+                      child: Text(
+                        widget.meal.name,
+                        style: GoogleFonts.poppins(
+                          fontSize: 21,
+                        ),
+                      ),
+                    ),
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -135,7 +147,7 @@ class _FoodDetailsState extends State<FoodDetails> {
                               ),
                             ],
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ],
@@ -152,29 +164,31 @@ class _FoodDetailsState extends State<FoodDetails> {
                     Expanded(
                       child:
                           pageViewTextButton(0, "Ingredients", true, green, () {
-                        _pageController.animateToPage(0,
-                            duration: const Duration(milliseconds: 500),
-                            curve: Curves.easeInOut);
+                        _pageController.animateToPage(
+                          0,
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.easeInOut,
+                        );
                       }),
                     ),
                     Expanded(
                       child:
                           pageViewTextButton(1, "Nutrition", false, green, () {
-                        _pageController.animateToPage(1,
-                            duration: const Duration(milliseconds: 500),
-                            curve: Curves.easeInOut);
-
-                        //navigateToPage(1);
+                        _pageController.animateToPage(
+                          1,
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.easeInOut,
+                        );
                       }),
                     ),
                     Expanded(
                       child:
                           pageViewTextButton(2, "Categories", false, green, () {
-                        _pageController.animateToPage(2,
-                            duration: const Duration(milliseconds: 500),
-                            curve: Curves.easeInOut);
-
-                        //navigateToPage(2);
+                        _pageController.animateToPage(
+                          2,
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.easeInOut,
+                        );
                       }),
                     ),
                   ],
@@ -199,11 +213,13 @@ class _FoodDetailsState extends State<FoodDetails> {
                 child: GestureDetector(
                   onTap: () {
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) => CookingSteps(
-                                  meal: widget.meal,
-                                )));
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => CookingSteps(
+                          meal: widget.meal,
+                        ),
+                      ),
+                    );
                   },
                   child: Container(
                     width: 250,
@@ -242,12 +258,16 @@ class _FoodDetailsState extends State<FoodDetails> {
   Container iconButton(
       Color white, Color black, IconData icon, GestureTapCallback x) {
     return Container(
-        width: 40,
-        height: 40,
-        decoration: BoxDecoration(shape: BoxShape.circle, color: white),
-        child: Center(
-            child: IconButton(
-                onPressed: x, icon: Icon(icon, color: Colors.black))));
+      width: 40,
+      height: 40,
+      decoration: BoxDecoration(shape: BoxShape.circle, color: white),
+      child: Center(
+        child: IconButton(
+          onPressed: x,
+          icon: Icon(icon, color: Colors.black),
+        ),
+      ),
+    );
   }
 
   Row methdOfmenu(bool isSelected, Color color, IconData icon,
@@ -261,7 +281,7 @@ class _FoodDetailsState extends State<FoodDetails> {
         Text(
           title,
           style: TextStyle(color: color),
-        )
+        ),
       ],
     );
   }
@@ -269,26 +289,28 @@ class _FoodDetailsState extends State<FoodDetails> {
   GestureDetector pageViewTextButton(int index, String title, bool isSelected,
       Color green, GestureTapCallback function) {
     return GestureDetector(
-        onTap: function,
-        child: Column(
-          children: [
-            Text(
-              title,
-              style: GoogleFonts.poppins(
-                  color: pageviewSelected == index ? green : Colors.black,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold),
+      onTap: function,
+      child: Column(
+        children: [
+          Text(
+            title,
+            style: GoogleFonts.poppins(
+              color: pageviewSelected == index ? green : Colors.black,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
             ),
-            Container(
-              margin: const EdgeInsets.only(top: 5),
-              width: 100,
-              height: 3,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50),
-                  color:
-                      pageviewSelected == index ? green : Colors.transparent),
-            )
-          ],
-        ));
+          ),
+          Container(
+            margin: const EdgeInsets.only(top: 5),
+            width: 100,
+            height: 3,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(50),
+              color: pageviewSelected == index ? green : Colors.transparent,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
