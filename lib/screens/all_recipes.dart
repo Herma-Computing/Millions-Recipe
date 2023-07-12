@@ -174,11 +174,11 @@ class _AllRecipesState extends State<AllRecipes> {
                               ),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
+                          const Padding(
+                            padding: EdgeInsets.symmetric(
                                 horizontal: 8.0, vertical: 4),
                             child: Row(
-                              children: const [
+                              children: [
                                 Icon(Icons.people_alt_outlined),
                                 SizedBox(
                                   width: 5,
@@ -228,11 +228,11 @@ class _AllRecipesState extends State<AllRecipes> {
                               ],
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
+                          const Padding(
+                            padding: EdgeInsets.symmetric(
                                 horizontal: 8.0, vertical: 4),
                             child: Row(
-                              children: const [
+                              children: [
                                 Icon(
                                   Icons.check_box_outlined,
                                   color: Color(0xff53E88B),

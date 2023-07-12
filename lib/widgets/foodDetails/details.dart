@@ -19,6 +19,7 @@ class FoodDetails extends StatefulWidget {
 class _FoodDetailsState extends State<FoodDetails> {
   final PageController _pageController = PageController(initialPage: 0);
   int pageviewSelected = 0;
+  int currentImageIndex = 0;
 
   List<Widget> pages = [];
 
@@ -54,6 +55,11 @@ class _FoodDetailsState extends State<FoodDetails> {
                     height: 250,
                     child: PageView.builder(
                       itemCount: widget.meal.images.length,
+                      onPageChanged: (int index) {
+                        setState(() {
+                          currentImageIndex = index;
+                        });
+                      },
                       itemBuilder: (context, index) {
                         return Image.network(
                           widget.meal.images[index].url,
@@ -83,6 +89,18 @@ class _FoodDetailsState extends State<FoodDetails> {
                           () => {},
                         ),
                       ],
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 10,
+                    left: 10,
+                    child: Text(
+                      '${currentImageIndex + 1}/${widget.meal.images.length}',
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],
@@ -195,8 +213,7 @@ class _FoodDetailsState extends State<FoodDetails> {
                 ),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height -
-                    450, // Adjust the height according to your needs
+                height: MediaQuery.of(context).size.height - 450,
                 child: Expanded(
                   child: PageView(
                     onPageChanged: (int index) {
