@@ -381,8 +381,8 @@ class _AddRecipeState extends State<AddRecipe> {
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.black),
                         ),
-                        child: const Row(
-                          children: [
+                        child: Row(
+                          children: const [
                             Icon(Icons.add),
                             Text(
                               "ADD STEP",
@@ -528,8 +528,8 @@ class _AddRecipeState extends State<AddRecipe> {
                       ingredients.add(Ingredient(item: '', quantity: ''));
                     });
                   },
-                  child: const Row(
-                    children: [
+                  child:  Row(
+                    children: const [
                       Icon(Icons.add),
                       Text(
                         "Add new ingredient",
