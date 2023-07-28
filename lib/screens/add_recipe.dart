@@ -4,6 +4,9 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 
+import '../database/database_helper.dart';
+import '../newhome.dart';
+
 class AddRecipe extends StatefulWidget {
   const AddRecipe({Key? key}) : super(key: key);
 
@@ -12,12 +15,24 @@ class AddRecipe extends StatefulWidget {
 }
 
 class _AddRecipeState extends State<AddRecipe> {
+  bool showCookingTime = false;
+  bool showServing = false;
   bool showHidden = false;
   List<Ingredient> ingredients = [];
   List selectedImages = [];
   File? selectedImage;
   List<String> cookingSteps = [];
   List<File?> stepImages = [];
+
+  TextEditingController nameController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+
+  TextEditingController prepTime = TextEditingController();
+  TextEditingController cookTime = TextEditingController();
+  TextEditingController additionalTime = TextEditingController();
+  TextEditingController refrigTime = TextEditingController();
+  TextEditingController totalTime = TextEditingController();
+  TextEditingController servingController = TextEditingController();
 
   void selectFile({required ImageSource source}) async {
     final file = await ImagePicker().pickImage(source: source);
@@ -28,6 +43,12 @@ class _AddRecipeState extends State<AddRecipe> {
         selectedImages.add(selectedImage);
       });
     }
+  }
+
+  void showToast(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
   }
 
   void addCookingStep() {
@@ -138,6 +159,7 @@ class _AddRecipeState extends State<AddRecipe> {
               Padding(
                 padding: const EdgeInsets.only(bottom: 16, top: 30),
                 child: TextFormField(
+                  controller: nameController,
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -161,6 +183,7 @@ class _AddRecipeState extends State<AddRecipe> {
                 padding: const EdgeInsets.only(bottom: 27),
                 child: SizedBox(
                   child: TextFormField(
+                    controller: descriptionController,
                     maxLines: 15,
                     minLines: 5,
                     autocorrect: true,
@@ -213,14 +236,61 @@ class _AddRecipeState extends State<AddRecipe> {
                           TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                     ),
                     const Spacer(),
-                    const Text(
-                      "01",
-                      style: TextStyle(fontSize: 14),
+                    Text(
+                      servingController.text,
+                      style: const TextStyle(fontSize: 14),
                     ),
                     IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.arrow_forward_ios),
+                      onPressed: () {
+                        setState(() {
+                          showServing = !showServing;
+                        });
+                      },
+                      icon: Icon(showServing
+                          ? Icons.arrow_downward
+                          : Icons.arrow_forward_ios),
                     ),
+                  ],
+                ),
+              ),
+              Visibility(
+                visible: showServing,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Serving",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: servingController,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              hintText: "0",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        const Expanded(
+                            child: Text(
+                          "Servings",
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w600),
+                        )),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    )
                   ],
                 ),
               ),
@@ -256,17 +326,27 @@ class _AddRecipeState extends State<AddRecipe> {
                           TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                     ),
                     const Spacer(),
-                    const Text(
-                      "20 mins",
-                      style: TextStyle(fontSize: 14),
-                    ),
                     IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.arrow_forward_ios),
+                      onPressed: () {
+                        setState(() {
+                          showCookingTime = !showCookingTime;
+                        });
+                      },
+                      icon: Icon(showCookingTime
+                          ? Icons.arrow_downward
+                          : Icons.arrow_forward_ios),
                     ),
                   ],
                 ),
               ),
+              const SizedBox(
+                height: 5,
+              ),
+              cookingTime("Prep Time", prepTime),
+              cookingTime("Cooking Time", cookTime),
+              cookingTime("Refrigerate Time (optional) ", refrigTime),
+              cookingTime("Additional Time (optional) ", additionalTime),
+              cookingTime("Total Time", totalTime),
               const SizedBox(height: 10),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 9),
@@ -429,10 +509,10 @@ class _AddRecipeState extends State<AddRecipe> {
                                   ),
                                 ),
                                 onChanged: (value) {
-                                  ingredients.add(Ingredient(
-                                    item: value,
-                                    quantity: '',
-                                  ));
+                                  setState(() {
+                                    ingredients.add(
+                                        Ingredient(item: value, quantity: ''));
+                                  });
                                 },
                               ),
                             ),
@@ -450,7 +530,9 @@ class _AddRecipeState extends State<AddRecipe> {
                                   ),
                                 ),
                                 onChanged: (value) {
-                                  ingredients[0].quantity = value;
+                                  setState(() {
+                                    ingredients[0].quantity = value;
+                                  });
                                 },
                               ),
                             ),
@@ -480,7 +562,9 @@ class _AddRecipeState extends State<AddRecipe> {
                                   ),
                                 ),
                                 onChanged: (value) {
-                                  ingredients[index].item = value;
+                                  setState(() {
+                                    ingredients[index].item = value;
+                                  });
                                 },
                               ),
                             ),
@@ -498,7 +582,9 @@ class _AddRecipeState extends State<AddRecipe> {
                                   ),
                                 ),
                                 onChanged: (value) {
-                                  ingredients[index].quantity = value;
+                                  setState(() {
+                                    ingredients[index].quantity = value;
+                                  });
                                 },
                               ),
                             ),
@@ -541,7 +627,81 @@ class _AddRecipeState extends State<AddRecipe> {
                 ),
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () async {
+                  if (nameController.text.isEmpty ||
+                      descriptionController.text.isEmpty ||
+                      (prepTime.text.isEmpty ||
+                          totalTime.text.isEmpty ||
+                          cookTime.text.isEmpty)) {
+                    showToast("Please fill in all the required fields.");
+                    return;
+                  } else if (nameController.text.isNotEmpty &&
+                      descriptionController.text.isNotEmpty &&
+                      (prepTime.text.isNotEmpty ||
+                          totalTime.text.isNotEmpty ||
+                          cookTime.text.isNotEmpty)) {
+                    int recipeId = await SqlHelper.createRecipes(
+                        nameController.text,
+                        descriptionController.text,
+                        prepTime.text,
+                        cookTime.text,
+                        refrigTime.text,
+                        additionalTime.text,
+                        totalTime.text,
+                        servingController.text,
+                        "${servingController.text} Servings");
+
+                    List<Map<String, String>> ingredientData = [];
+
+                    for (Ingredient ingredient in ingredients) {
+                      ingredientData.add({
+                        'name': ingredient.item,
+                        'quantity': ingredient.quantity,
+                        'unit': "ml"
+                      });
+                    }
+
+                    await SqlHelper.insertIngredient(recipeId, ingredientData);
+
+                    final List imageUrls =
+                        selectedImages.map((image) => image.path).toList();
+                    await SqlHelper.insertRecipeImage(recipeId, imageUrls);
+
+                    for (int i = 0; i < cookingSteps.length; i++) {
+                      String step = cookingSteps[i];
+                      String? imageUrl;
+                      if (stepImages[i] != null) {
+                        imageUrl = stepImages[i]!.path;
+                      }
+                      await SqlHelper.insertStep(
+                          recipeId, step, imageUrl ?? '');
+                    }
+
+                    setState(() {
+                      nameController.clear();
+                      descriptionController.clear();
+                      prepTime.clear();
+                      cookTime.clear();
+                      refrigTime.clear();
+                      additionalTime.clear();
+                      totalTime.clear();
+                      servingController.clear();
+                      ingredients.clear();
+
+                      for (int i = 0; i < ingredients.length; i++) {
+                        ingredients[i].nameController.clear();
+                        ingredients[i].quantityController.clear();
+                      }
+                    });
+
+                    showToast("Recipe saved successfully!");
+
+                    // ignore: use_build_context_synchronously
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const NewHome(),
+                    ));
+                  }
+                },
                 child: Container(
                   margin: const EdgeInsets.only(top: 16),
                   width: 206,
@@ -575,11 +735,58 @@ class _AddRecipeState extends State<AddRecipe> {
       ),
     );
   }
+
+  Visibility cookingTime(String time, TextEditingController controller) {
+    return Visibility(
+      visible: showCookingTime,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            time,
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: controller,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    hintText: "0",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              const Expanded(
+                  child: Text(
+                "mins",
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+              )),
+            ],
+          ),
+          const SizedBox(
+            height: 12,
+          )
+        ],
+      ),
+    );
+  }
 }
 
 class Ingredient {
   String item;
   String quantity;
+  TextEditingController nameController;
+  TextEditingController quantityController;
 
-  Ingredient({required this.item, required this.quantity});
+  Ingredient({required this.item, required this.quantity})
+      : nameController = TextEditingController(text: item),
+        quantityController = TextEditingController(text: quantity);
 }

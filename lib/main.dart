@@ -6,19 +6,20 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import './screens/on_boarding_screen.dart';
 import 'api/shared_preference/shared_preference.dart';
+import 'database/database_helper.dart';
 import 'landing.dart';
 
-Future main() async{
-
+Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await UserPreferences.init();
   SharedPreferences sharedPreferennces = await SharedPreferences.getInstance();
   runApp(MyApp(sharedPreferennces.getString("token")));
+  final db = await SqlHelper.db();
+  await SqlHelper.createTables(db);
   // runApp(const MyApp("kl"));
 }
 
 class MyApp extends StatelessWidget {
-
   final String? logedin;
   const MyApp(this.logedin, {Key? key}) : super(key: key);
 
