@@ -5,7 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 
 import '../database/database_helper.dart';
-import '../newhome.dart';
+import 'recipes_page.dart';
 
 class AddRecipe extends StatefulWidget {
   const AddRecipe({Key? key}) : super(key: key);
@@ -23,6 +23,7 @@ class _AddRecipeState extends State<AddRecipe> {
   File? selectedImage;
   List<String> cookingSteps = [];
   List<File?> stepImages = [];
+  List<File?> stepImagesPreview = [];
 
   TextEditingController nameController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
@@ -33,6 +34,68 @@ class _AddRecipeState extends State<AddRecipe> {
   TextEditingController refrigTime = TextEditingController();
   TextEditingController totalTime = TextEditingController();
   TextEditingController servingController = TextEditingController();
+
+  String prepTimeUnit = 'min';
+  String cookTimeUnit = 'min';
+  String refrigTimeUnit = 'min';
+  String additionalTimeUnit = 'min';
+
+  final List<String> timeUnits = ['min', 'hour', 'day'];
+
+  int convertToMinutes(String value, String unit) {
+    int time = int.tryParse(value) ?? 0;
+
+    switch (unit) {
+      case 'hour':
+        return time * 60;
+      case 'day':
+        return time * 60 * 24;
+      default:
+        return time;
+    }
+  }
+
+  String calculateTotalTime() {
+    int prepTimeInMinutes = convertToMinutes(prepTime.text, prepTimeUnit);
+    int cookTimeInMinutes = convertToMinutes(cookTime.text, cookTimeUnit);
+    int refrigTimeInMinutes = convertToMinutes(refrigTime.text, refrigTimeUnit);
+    int additionalTimeInMinutes =
+        convertToMinutes(additionalTime.text, additionalTimeUnit);
+
+    int totalTimeInMinutes = prepTimeInMinutes +
+        cookTimeInMinutes +
+        refrigTimeInMinutes +
+        additionalTimeInMinutes;
+
+    int hours = totalTimeInMinutes ~/ 60;
+    int minutes = totalTimeInMinutes % 60;
+
+    return '$hours hours, $minutes minutes';
+  }
+
+  List<Widget> buildStepImages() {
+    List<Widget> stepImageWidgets = [];
+    for (int i = 0; i < cookingSteps.length; i++) {
+      if (stepImagesPreview.length > i && stepImagesPreview[i] != null) {
+        stepImageWidgets.add(
+          Container(
+            width: 336,
+            height: 203,
+            child: Stack(
+              children: [
+                Image.file(stepImagesPreview[i]!),
+                Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Text("Step ${i + 1}"),
+                ),
+              ],
+            ),
+          ),
+        );
+      }
+    }
+    return stepImageWidgets;
+  }
 
   void selectFile({required ImageSource source}) async {
     final file = await ImagePicker().pickImage(source: source);
@@ -73,6 +136,7 @@ class _AddRecipeState extends State<AddRecipe> {
     if (file?.path != null) {
       setState(() {
         stepImages[index] = File(file!.path);
+        stepImagesPreview = stepImages.where((image) => image != null).toList();
       });
     }
   }
@@ -342,11 +406,20 @@ class _AddRecipeState extends State<AddRecipe> {
               const SizedBox(
                 height: 5,
               ),
-              cookingTime("Prep Time", prepTime),
-              cookingTime("Cooking Time", cookTime),
-              cookingTime("Refrigerate Time (optional) ", refrigTime),
-              cookingTime("Additional Time (optional) ", additionalTime),
-              cookingTime("Total Time", totalTime),
+              cookingTime("Prep Time", prepTime, prepTimeUnit),
+              cookingTime("Cooking Time", cookTime, cookTimeUnit),
+              cookingTime(
+                  "Refrigerate Time (optional) ", refrigTime, refrigTimeUnit),
+              cookingTime("Additional Time (optional) ", additionalTime,
+                  additionalTimeUnit),
+              Visibility(
+                visible: showCookingTime,
+                child: Text(
+                  'Total Time: ${calculateTotalTime()}',
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
               const SizedBox(height: 10),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 9),
@@ -454,6 +527,13 @@ class _AddRecipeState extends State<AddRecipe> {
                           ],
                         ),
                       ),
+                    SizedBox(
+                      height: 203,
+                      child: PageView(
+                        children: buildStepImages(),
+                        onPageChanged: (int index) {},
+                      ),
+                    ),
                     GestureDetector(
                       onTap: addCookingStep,
                       child: Container(
@@ -461,8 +541,8 @@ class _AddRecipeState extends State<AddRecipe> {
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.black),
                         ),
-                        child: Row(
-                          children: const [
+                        child: const Row(
+                          children: [
                             Icon(Icons.add),
                             Text(
                               "ADD STEP",
@@ -614,8 +694,8 @@ class _AddRecipeState extends State<AddRecipe> {
                       ingredients.add(Ingredient(item: '', quantity: ''));
                     });
                   },
-                  child:  Row(
-                    children: const [
+                  child: const Row(
+                    children: [
                       Icon(Icons.add),
                       Text(
                         "Add new ingredient",
@@ -630,24 +710,39 @@ class _AddRecipeState extends State<AddRecipe> {
                 onTap: () async {
                   if (nameController.text.isEmpty ||
                       descriptionController.text.isEmpty ||
-                      (prepTime.text.isEmpty ||
-                          totalTime.text.isEmpty ||
-                          cookTime.text.isEmpty)) {
+                      (prepTime.text.isEmpty && cookTime.text.isEmpty) ||
+                      servingController.text.isEmpty ||
+                      selectedImages.isEmpty) {
                     showToast("Please fill in all the required fields.");
                     return;
-                  } else if (nameController.text.isNotEmpty &&
+                  }
+                  if (nameController.text.isNotEmpty &&
                       descriptionController.text.isNotEmpty &&
+                      selectedImages.isNotEmpty &&
                       (prepTime.text.isNotEmpty ||
                           totalTime.text.isNotEmpty ||
                           cookTime.text.isNotEmpty)) {
+                    int prepTimeInMinutes =
+                        convertToMinutes(prepTime.text, 'min');
+                    int cookTimeInMinutes =
+                        convertToMinutes(cookTime.text, 'min');
+                    int refrigTimeInMinutes =
+                        convertToMinutes(refrigTime.text, 'min');
+                    int additionalTimeInMinutes =
+                        convertToMinutes(additionalTime.text, 'min');
+                    int totalTimeInMinutes = prepTimeInMinutes +
+                        cookTimeInMinutes +
+                        refrigTimeInMinutes +
+                        additionalTimeInMinutes;
+
                     int recipeId = await SqlHelper.createRecipes(
                         nameController.text,
                         descriptionController.text,
-                        prepTime.text,
-                        cookTime.text,
-                        refrigTime.text,
-                        additionalTime.text,
-                        totalTime.text,
+                        "$prepTimeInMinutes min",
+                        "$cookTimeInMinutes min",
+                        "$refrigTimeInMinutes min",
+                        "$additionalTimeInMinutes min",
+                        "$totalTimeInMinutes min",
                         servingController.text,
                         "${servingController.text} Servings");
 
@@ -698,7 +793,7 @@ class _AddRecipeState extends State<AddRecipe> {
 
                     // ignore: use_build_context_synchronously
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const NewHome(),
+                      builder: (context) => const RecipesPage(),
                     ));
                   }
                 },
@@ -736,7 +831,8 @@ class _AddRecipeState extends State<AddRecipe> {
     );
   }
 
-  Visibility cookingTime(String time, TextEditingController controller) {
+  Visibility cookingTime(
+      String time, TextEditingController controller, String unit) {
     return Visibility(
       visible: showCookingTime,
       child: Column(
@@ -761,19 +857,55 @@ class _AddRecipeState extends State<AddRecipe> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
+                  onChanged: (value) {
+                    setState(() {
+                      String filteredValue =
+                          value.replaceAll(RegExp(r'[^0-9]'), '');
+
+                      // Update the controller's text value
+                      controller.value = controller.value.copyWith(
+                        text: filteredValue,
+                        // Keep the cursor at the end of the input value
+                        selection: TextSelection.collapsed(
+                            offset: filteredValue.length),
+                      );
+                    });
+                  },
                 ),
               ),
               const SizedBox(width: 12),
-              const Expanded(
-                  child: Text(
-                "mins",
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-              )),
+              DropdownButton<String>(
+                value: unit,
+                onChanged: (String? newValue) {
+                  setState(() {
+                    switch (time) {
+                      case 'Prep Time':
+                        prepTimeUnit = newValue!;
+                        break;
+                      case 'Cooking Time':
+                        cookTimeUnit = newValue!;
+                        break;
+                      case 'Refrigerate Time (optional) ':
+                        refrigTimeUnit = newValue!;
+                        break;
+                      case 'Additional Time (optional) ':
+                        additionalTimeUnit = newValue!;
+                        break;
+                    }
+                  });
+                },
+                items: timeUnits.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
             ],
           ),
           const SizedBox(
             height: 12,
-          )
+          ),
         ],
       ),
     );

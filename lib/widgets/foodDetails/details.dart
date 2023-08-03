@@ -13,6 +13,7 @@ class FoodDetails extends StatefulWidget {
   const FoodDetails({Key? key, required this.meal}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _FoodDetailsState createState() => _FoodDetailsState();
 }
 
