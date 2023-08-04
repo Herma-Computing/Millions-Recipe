@@ -4,10 +4,9 @@ import './providers/meal_provider.dart';
 import './providers/recipe_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import './screens/on_boarding_screen.dart';
 import 'api/shared_preference/shared_preference.dart';
 import 'database/database_helper.dart';
-import 'landing.dart';
+import 'splash_screen.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,7 +39,8 @@ class MyApp extends StatelessWidget {
             textTheme: GoogleFonts.montserratTextTheme(),
           ),
           debugShowCheckedModeBanner: false,
-          home: logedin != null ? const Landing() : const Onbording()),
+          // home: logedin != null ? const Landing() : const Onbording()),
+          home: SplashScreen(logedin: logedin,)),
     );
   }
 }
