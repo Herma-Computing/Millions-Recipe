@@ -1,5 +1,6 @@
-// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers
+// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, sized_box_for_whitespace, unnecessary_null_comparison
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -7,10 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../database/database_helper.dart';
+import 'my_recipes_detail/detail_page.dart';
 
 class RecipesPage extends StatefulWidget {
-  const RecipesPage({super.key});
-
+  const RecipesPage({Key? key}) : super(key: key);
   @override
   State<RecipesPage> createState() => _RecipesPageState();
 }
@@ -18,7 +19,9 @@ class RecipesPage extends StatefulWidget {
 class _RecipesPageState extends State<RecipesPage> {
   int _numberOfSavedRecipes = 0;
   final List<Map<String, dynamic>> _recipesData = [];
-  final List<String> _imageUrls = [];
+  final List<List<String>> _imageUrls = [];
+  final List<Map<String, dynamic>> _ingredients = [];
+  final List<Map<String, dynamic>> _cookSteps = [];
 
   void _fetchData() async {
     try {
@@ -31,15 +34,38 @@ class _RecipesPageState extends State<RecipesPage> {
 
       final recipeData = await db.rawQuery('SELECT * FROM recipes');
       final imageData = await db.rawQuery('SELECT * FROM recipe_images');
+      final ingredients = await db.rawQuery('SELECT * FROM ingredients');
+      final cookingSteps = await db.rawQuery('SELECT * FROM steps');
 
       setState(() {
         _recipesData.clear();
         _recipesData.addAll(recipeData);
 
         _imageUrls.clear();
-        _imageUrls.addAll(imageData.map((data) => data['img_url'] as String));
+        for (final data in imageData) {
+          final imageUrlJson = data['img_url'] as String?;
+          if (imageUrlJson != null) {
+            final List<dynamic> imageUrlList = jsonDecode(imageUrlJson);
+            final List<String> imageUrls =
+                imageUrlList.map((imageUrl) => imageUrl as String).toList();
+            _imageUrls.add(imageUrls);
+          }
+        }
+
+        _ingredients.clear();
+
+        for (final data in ingredients) {
+          _ingredients.add(data);
+        }
+
+        _cookSteps.clear();
+
+        for (final data in cookingSteps) {
+          _cookSteps.add(data);
+        }
       });
     } catch (e) {
+      // ignore: avoid_print
       print('Error fetching data: $e');
     }
   }
@@ -53,73 +79,75 @@ class _RecipesPageState extends State<RecipesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(elevation: 0, backgroundColor: Colors.white),
-        body: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 26),
-            child: Expanded(
-              child: Padding(
-                padding: EdgeInsets.only(top: 5),
-                child: topSearchBar(),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(elevation: 0, backgroundColor: Colors.white),
+      body: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 26),
+          child: Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(top: 5),
+              child: topSearchBar(),
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(left: 30),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              "$_numberOfSavedRecipes Recipes found",
+              textAlign: TextAlign.start,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
               ),
             ),
           ),
-          Padding(
-            padding: EdgeInsets.only(left: 30),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "$_numberOfSavedRecipes Recipes found",
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 14,
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: _recipesData.length,
-              itemBuilder: (context, index) {
-                final recipeData = _recipesData[index];
-                final recipeName = recipeData['name'] as String;
-                final recipeImage = _imageUrls[index];
+        ),
+        const SizedBox(
+          height: 14,
+        ),
+        Expanded(
+          child: ListView.builder(
+            itemCount: _recipesData.length,
+            itemBuilder: (context, index) {
+              final recipeData = _recipesData[index];
+              final recipeName = recipeData['name'] as String;
+              final recipeImage = _imageUrls[index];
+              final recipeIngredient = _ingredients[index];
 
-                return Padding(
-                  padding: const EdgeInsets.only(top: 10, bottom: 10),
-                  child: recipeName != null && recipeImage != null
-                      ? resuableCard(
-                          recipeName,
-                          recipeImage,
-                          "${recipeData['serving']}",
-                          "${recipeData['total_time']}")
-                      : Container(
-                          child: Text(
-                              "No Data!!")), // Return an empty container if the data is not available yet
-                );
-              },
-            ),
-          )
-        ]),
-      ),
+              final recipeSteps = _cookSteps[index];
+
+              return Padding(
+                padding: const EdgeInsets.only(top: 10, bottom: 10),
+                child: recipeName != null && recipeImage != null
+                    ? resuableCard(
+                        recipeName,
+                        recipeImage,
+                        "${recipeData['serving']}",
+                        "${recipeData['total_time']}",
+                        recipeData,
+                        recipeIngredient,
+                        recipeSteps)
+                    : Text("No Data!!"),
+              );
+            },
+          ),
+        )
+      ]),
     );
   }
 
-  Expanded resuableCard(
-      String recipeName, String imageUrl, String serving, String totalTime) {
+  Expanded resuableCard(String recipeName, List imageUrl, String serving,
+      String totalTime, var recipesData, var ingredient, var cookSteps) {
     Widget imageWidget;
 
-    if (imageUrl.isNotEmpty && imageUrl.startsWith('http')) {
-      imageWidget = Image.network(imageUrl);
+    if (imageUrl.isNotEmpty && imageUrl[0].startsWith('http')) {
+      imageWidget = Image.network(imageUrl[0]);
     } else if (imageUrl.isNotEmpty) {
-      imageWidget = Image.file(File(imageUrl));
+      imageWidget = Image.file(File(imageUrl[0]));
     } else {
       imageWidget = Image.asset('assets/pancake.png');
     }
@@ -168,7 +196,7 @@ class _RecipesPageState extends State<RecipesPage> {
                           height: 12,
                         ),
                         reusableRow("$serving people", Icons.people_outline),
-                        reusableRow("$totalTime", Icons.access_time),
+                        reusableRow(totalTime, Icons.access_time),
                         reusableRow("350kcal", CupertinoIcons.flame),
                         Row(
                           children: const [
@@ -204,8 +232,16 @@ class _RecipesPageState extends State<RecipesPage> {
               ),
               GestureDetector(
                 onTap: () {
-                  // todo:
-                  //
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => RecipeDetail(
+                              recipesData: recipesData,
+                              recipesImage: imageUrl,
+                              recipeIngrident: ingredient,
+                              recipeStep: cookSteps,
+                            )),
+                  );
                 },
                 child: Container(
                   margin: const EdgeInsets.only(top: 16),

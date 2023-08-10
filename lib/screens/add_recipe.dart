@@ -22,6 +22,7 @@ class _AddRecipeState extends State<AddRecipe> {
   List selectedImages = [];
   File? selectedImage;
   List<String> cookingSteps = [];
+  List<String> steps = [];
   List<File?> stepImages = [];
   List<File?> stepImagesPreview = [];
 
@@ -513,6 +514,7 @@ class _AddRecipeState extends State<AddRecipe> {
                                 ),
                                 onChanged: (value) {
                                   cookingSteps[i] = value;
+                                  steps.add(value);
                                 },
                               ),
                             ),
@@ -541,7 +543,7 @@ class _AddRecipeState extends State<AddRecipe> {
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.black),
                         ),
-                        child: Row(
+                        child: const Row(
                           children: [
                             Icon(Icons.add),
                             Text(
@@ -694,7 +696,7 @@ class _AddRecipeState extends State<AddRecipe> {
                       ingredients.add(Ingredient(item: '', quantity: ''));
                     });
                   },
-                  child: Row(
+                  child: const Row(
                     children: [
                       Icon(Icons.add),
                       Text(
@@ -708,11 +710,13 @@ class _AddRecipeState extends State<AddRecipe> {
               ),
               GestureDetector(
                 onTap: () async {
+                  // print(steps);
                   if (nameController.text.isEmpty ||
                       descriptionController.text.isEmpty ||
                       (prepTime.text.isEmpty && cookTime.text.isEmpty) ||
                       servingController.text.isEmpty ||
-                      selectedImages.isEmpty) {
+                      selectedImages.isEmpty ||
+                      cookingSteps.isEmpty) {
                     showToast("Please fill in all the required fields.");
                     return;
                   }
@@ -760,7 +764,10 @@ class _AddRecipeState extends State<AddRecipe> {
 
                     final List imageUrls =
                         selectedImages.map((image) => image.path).toList();
+
                     await SqlHelper.insertRecipeImage(recipeId, imageUrls);
+
+                    List<Map<String, String>> stepData = [];
 
                     for (int i = 0; i < cookingSteps.length; i++) {
                       String step = cookingSteps[i];
@@ -768,9 +775,13 @@ class _AddRecipeState extends State<AddRecipe> {
                       if (stepImages[i] != null) {
                         imageUrl = stepImages[i]!.path;
                       }
-                      await SqlHelper.insertStep(
-                          recipeId, step, imageUrl ?? '');
+                      stepData.add({
+                        'step': step,
+                        'image_url': imageUrl ?? '',
+                      });
                     }
+
+                    await SqlHelper.insertStep(recipeId, stepData);
 
                     setState(() {
                       nameController.clear();
@@ -862,10 +873,8 @@ class _AddRecipeState extends State<AddRecipe> {
                       String filteredValue =
                           value.replaceAll(RegExp(r'[^0-9]'), '');
 
-                      // Update the controller's text value
                       controller.value = controller.value.copyWith(
                         text: filteredValue,
-                        // Keep the cursor at the end of the input value
                         selection: TextSelection.collapsed(
                             offset: filteredValue.length),
                       );

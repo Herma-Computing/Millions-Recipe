@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:sqflite/sqflite.dart' as sql;
 
 class SqlHelper {
@@ -29,16 +31,13 @@ class SqlHelper {
                     CREATE TABLE IF NOT EXISTS steps(
                       recipe_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
                       step TEXT,
-                      image_url TEXT,
                       FOREIGN KEY (recipe_id) REFERENCES recipes(recipe_id)
                     )
 """);
     await database.execute("""
                     CREATE TABLE IF NOT EXISTS ingredients(
                       recipe_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-                      name TEXT,
-                      quantity TEXT,
-                      unit TEXT,
+                      ingredient TEXT,
                       FOREIGN KEY (recipe_id) REFERENCES recipes(recipe_id)
                     )
 """);
@@ -119,15 +118,15 @@ class SqlHelper {
 
   static Future<int> insertStep(
     int recipeId,
-    String step,
-    String imageUrl,
+    List<Map<String, String>> steps,
   ) async {
     final db = await SqlHelper.db();
 
+    final stepsJson = jsonEncode(steps);
+
     final data = {
       'recipe_id': recipeId,
-      'step': step,
-      'image_url': imageUrl,
+      'step': stepsJson,
     };
 
     final insertedId = await db.insert(
@@ -135,6 +134,7 @@ class SqlHelper {
       data,
       conflictAlgorithm: sql.ConflictAlgorithm.replace,
     );
+
     return insertedId;
   }
 
@@ -144,22 +144,18 @@ class SqlHelper {
   ) async {
     final db = await SqlHelper.db();
 
-    int insertedId = 0;
+    final ingredientsJson = jsonEncode(ingredients);
 
-    for (var ingredient in ingredients) {
-      final data = {
-        // 'recipe_id': recipeId,
-        'name': ingredient['name'],
-        'quantity': ingredient['quantity'],
-        'unit': ingredient['unit'],
-      };
+    final data = {
+      'recipe_id': recipeId,
+      'ingredient': ingredientsJson,
+    };
 
-      insertedId = await db.insert(
-        'ingredients',
-        data,
-        conflictAlgorithm: sql.ConflictAlgorithm.replace,
-      );
-    }
+    final insertedId = await db.insert(
+      'ingredients',
+      data,
+      conflictAlgorithm: sql.ConflictAlgorithm.replace,
+    );
 
     return insertedId;
   }
@@ -167,18 +163,18 @@ class SqlHelper {
   static Future<void> insertRecipeImage(int recipeId, List imageUrls) async {
     final db = await SqlHelper.db();
 
-    for (String imageUrl in imageUrls) {
-      final data = {
-        'recipe_id': recipeId,
-        'img_url': imageUrl,
-      };
+    final imageUrlJson = jsonEncode(imageUrls);
 
-      await db.insert(
-        'recipe_images',
-        data,
-        conflictAlgorithm: sql.ConflictAlgorithm.replace,
-      );
-    }
+    final data = {
+      'recipe_id': recipeId,
+      'img_url': imageUrlJson,
+    };
+
+    await db.insert(
+      'recipe_images',
+      data,
+      conflictAlgorithm: sql.ConflictAlgorithm.replace,
+    );
   }
 
   static Future<int> insertCategory(
