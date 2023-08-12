@@ -336,7 +336,10 @@ class _NewHomeState extends State<NewHome> {
                                                                 bottom: 14,
                                                               ),
                                                               child: Text(
-                                                                '${recipeProvider.recipes[index].total_time} Min',
+                                                                recipeProvider
+                                                                    .recipes[
+                                                                        index]
+                                                                    .total_time,
                                                                 style:
                                                                     const TextStyle(
                                                                   color: Color(

@@ -128,19 +128,22 @@ class _FoodDetailsState extends State<FoodDetails> {
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(vertical: 6.0),
-                              child: methdOfmenu(false, black,
-                                  Icons.group_outlined, () => {}, "2 people"),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 6.0),
                               child: methdOfmenu(
                                   false,
                                   black,
-                                  Icons.access_time_outlined,
+                                  Icons.group_outlined,
                                   () => {},
-                                  "10-15 mins"),
+                                  "${widget.meal.serving} people"),
                             ),
+                            Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 6.0),
+                                child: methdOfmenu(
+                                    false,
+                                    black,
+                                    Icons.access_time_outlined,
+                                    () => {},
+                                    widget.meal.total_time)),
                           ],
                         ),
                         Padding(

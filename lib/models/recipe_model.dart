@@ -11,6 +11,7 @@ class Recipe with ChangeNotifier {
   //final String id;
   final String name;
   final String description;
+  final String serving;
   final String? rating;
   final String numOfRatings;
   final String total_time;
@@ -28,6 +29,7 @@ class Recipe with ChangeNotifier {
       //this.id,
       this.name,
       this.description,
+      this.serving,
       this.rating,
       this.numOfRatings,
       this.total_time,
@@ -44,29 +46,29 @@ class Recipe with ChangeNotifier {
   Recipe.fromJson(Map<String, dynamic> json)
       : //id = json['id'] as String,
         name = json['name'] as String,
+        serving = json['servings'] as String,
         description = json['description'] as String,
         rating = json['rating_points'] == null
             ? "0"
             : json['rating_points'] as String,
         numOfRatings =
             json['rating_count'] == null ? "0" : json['rating_count'] as String,
-        total_time = json['total_time'] == null
-            ? "0"
-            : json['total_time'].replaceAll(RegExp('[^0-9]'), '') as String,
-        prep_time = json['prep_time'] == null
-            ? "0"
-            : json['prep_time'].replaceAll(RegExp('[^0-9]'), '') as String,
-        cook_time = json['cook_time'] == null
-            ? "0"
-            : json['cook_time'].replaceAll(RegExp('[^0-9]'), '') as String,
+        // total_time = json['total_time'] == null
+        //     ? "0"
+        //     : json['total_time'].replaceAll(RegExp('[^0-9]'), '') as String,
+
+        total_time =
+            json['total_time'] == null ? "0" : json['total_time'] as String,
+        prep_time =
+            json['prep_time'] == null ? "0" : json['prep_time'] as String,
+        cook_time =
+            json['cook_time'] == null ? "0" : json['cook_time'] as String,
         additional_time = json['additional_time'] == null
             ? "0"
-            : json['additional_time'].replaceAll(RegExp('[^0-9]'), '')
-                as String,
+            : json['additional_time'] as String,
         refrigerate_time = json['refrigerate_time'] == null
             ? "0"
-            : json['refrigerate_time'].replaceAll(RegExp('[^0-9]'), '')
-                as String,
+            : json['refrigerate_time'] as String,
         category = (json['categories'] as List<dynamic>)
             .map((categories) =>
                 CategoriesModel.fromJson(categories as Map<String, dynamic>))
@@ -90,6 +92,7 @@ class Recipe with ChangeNotifier {
         // 'id': id,
         'name': name,
         'description': description,
+        'servings': serving,
         'rating_points': rating,
         'rating_count': numOfRatings,
         'totlatime': total_time,

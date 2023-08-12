@@ -53,7 +53,7 @@ class _DescriptionsState extends State<Descriptions> {
                             fontWeight: FontWeight.w700, fontSize: 12),
                       ),
                       Text(
-                        "${widget.meal.prep_time}min",
+                        widget.meal.prep_time,
                         style: const TextStyle(
                             fontWeight: FontWeight.w700, fontSize: 12),
                       )
@@ -73,7 +73,7 @@ class _DescriptionsState extends State<Descriptions> {
                             fontWeight: FontWeight.w700, fontSize: 12),
                       ),
                       Text(
-                        "${widget.meal.cook_time}min",
+                        widget.meal.cook_time,
                         style: const TextStyle(
                             fontWeight: FontWeight.w700, fontSize: 12),
                       )
@@ -93,7 +93,7 @@ class _DescriptionsState extends State<Descriptions> {
                             fontWeight: FontWeight.w700, fontSize: 12),
                       ),
                       Text(
-                        "${widget.meal.additional_time}min",
+                        widget.meal.additional_time,
                         style: const TextStyle(
                             fontWeight: FontWeight.w700, fontSize: 12),
                       ),
@@ -113,7 +113,7 @@ class _DescriptionsState extends State<Descriptions> {
                             fontWeight: FontWeight.w700, fontSize: 12),
                       ),
                       Text(
-                        "${widget.meal.refrigerate_time}min",
+                        widget.meal.refrigerate_time,
                         style: const TextStyle(
                             fontWeight: FontWeight.w700, fontSize: 12),
                       )
