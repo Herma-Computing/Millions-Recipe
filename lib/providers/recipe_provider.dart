@@ -1,11 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:millions_recipe/models/sub_category.dart';
+import '../database/database_helper.dart';
 import '../models/recipe_model.dart';
 import 'package:dio/dio.dart';
 
 class Recipes with ChangeNotifier {
   bool _loading = false;
+
   List<Recipe> recipes = [];
+  List<Recipe> favoriteRecipes = [];
+  List favList = [];
+
+  bool _favLoading = false;
+
+  bool get favLoading => _favLoading;
 
   bool get loading => _loading;
 
@@ -97,6 +105,54 @@ class Recipes with ChangeNotifier {
         });
 
     _loading = false;
+    notifyListeners();
+  }
+
+  Future fetchRecipe() async {
+    favoriteRecipes.clear();
+    Dio dio = Dio();
+    _favLoading = true;
+
+    try {
+      final db = await SqlHelper.db();
+
+      final recipeSlugs = await db.rawQuery('SELECT * FROM favorite');
+
+      for (final slugMap in recipeSlugs) {
+        final slug = slugMap['recipe_slug'] as String;
+        favList.add(slug);
+        String url = "https://dashencon.com/recipes/api/ds_her/v1/recipe/$slug";
+        final response = await dio.get(url);
+
+        Recipe recipe = Recipe.fromJson(response.data["recipe"]);
+        favoriteRecipes.add(recipe);
+      }
+    } catch (e) {
+      // ignore: avoid_print
+      print('Error fetching data: $e');
+    }
+    _favLoading = false;
+    notifyListeners();
+  }
+
+  Future<void> refreshFavoriteRecipes() async {
+    _favLoading = true;
+    favList.clear();
+
+    try {
+      final db = await SqlHelper.db();
+
+      final recipeSlugs = await db.rawQuery('SELECT * FROM favorite');
+
+      for (final slugMap in recipeSlugs) {
+        final slug = slugMap['recipe_slug'] as String;
+        favList.add(slug);
+      }
+    } catch (e) {
+      // ignore: avoid_print
+      print('Error fetching data: $e');
+    }
+    _favLoading = false;
     notifyListeners();
   }
 }

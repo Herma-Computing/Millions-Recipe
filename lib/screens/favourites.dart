@@ -1,8 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:millions_recipe/widgets/foodDetails/details.dart';
+import 'package:provider/provider.dart';
 
 import '../common/constants.dart';
+
+import '../models/recipe_model.dart';
+import '../providers/recipe_provider.dart';
 
 class Favourites extends StatefulWidget {
   const Favourites({
@@ -13,8 +18,24 @@ class Favourites extends StatefulWidget {
 }
 
 class _FavouritesState extends State<Favourites> {
+  Future<void> fetchRecipes() async {
+    final recipeProvider = Provider.of<Recipes>(context, listen: false);
+    await recipeProvider.fetchRecipe();
+    // await recipeProvider.refreshFavoriteRecipes();
+  }
+
+  @override
+  void initState() {
+    // _fetchData();
+    fetchRecipes();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final recipeProvider = Provider.of<Recipes>(context);
+
+    bool loading = recipeProvider.favLoading;
     return Scaffold(
         body: Container(
       margin: const EdgeInsets.only(left: 20, top: 50, right: 16),
@@ -51,15 +72,24 @@ class _FavouritesState extends State<Favourites> {
               ),
             ),
           ),
-          const Text(
-            '12 Recieps found',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+          Text(
+            '${recipeProvider.favoriteRecipes.length} Recieps found',
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
           ),
           Expanded(
               child: ListView.builder(
-                  itemCount: 5,
+                  itemCount: recipeProvider.favoriteRecipes.length,
                   itemBuilder: (context, index) {
-                    return recipeCard();
+                    Recipe recipe = recipeProvider.favoriteRecipes[index];
+
+                    return loading
+                        ? Center(
+                            child: CircularProgressIndicator(
+                              strokeWidth: 4,
+                              color: kPrimaryColor,
+                            ),
+                          )
+                        : recipeCard(context, recipe, fetchRecipes);
                   }))
         ],
       ),
@@ -67,12 +97,13 @@ class _FavouritesState extends State<Favourites> {
   }
 }
 
-Widget recipeCard() {
+Widget recipeCard(BuildContext context, Recipe recipe, Function fetchRecipe) {
   return Stack(
     children: [
       Card(
         child: Padding(
-          padding: const EdgeInsets.only(top: 35, left: 13, bottom: 14, right: 7),
+          padding:
+              const EdgeInsets.only(top: 35, left: 13, bottom: 14, right: 7),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -86,8 +117,8 @@ Widget recipeCard() {
                     width: 127,
                     decoration: const BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(5))),
-                    child: Image.asset(
-                      'assets/Food-1.png',
+                    child: Image.network(
+                      recipe.images[0].url,
                       fit: BoxFit.fill,
                     ),
                   ),
@@ -97,11 +128,11 @@ Widget recipeCard() {
                   Expanded(
                     child: Column(
                       children: [
-                        const Padding(
-                          padding: EdgeInsets.only(bottom: 8.0),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
                           child: Text(
-                            'Home made cute pancake',
-                            style: TextStyle(
+                            recipe.name,
+                            style: const TextStyle(
                                 overflow: TextOverflow.ellipsis,
                                 fontSize: 13,
                                 fontWeight: FontWeight.w600),
@@ -110,45 +141,64 @@ Widget recipeCard() {
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 8.0, vertical: 4),
-                          child: Row(children: const [
-                            Icon(Icons.group),
-                            SizedBox(
+                          child: Row(children: [
+                            const Icon(Icons.group),
+                            const SizedBox(
                               width: 5,
                             ),
-                            Text('2 people',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 10),),
+                            Text(
+                              '${recipe.serving} people',
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.w500, fontSize: 10),
+                            ),
                           ]),
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 8.0, vertical: 4),
-                          child: Row(children: const [
-                            Icon(Icons.timer),
-                            SizedBox(
+                          child: Row(children: [
+                            const Icon(Icons.timer),
+                            const SizedBox(
                               width: 5,
                             ),
-                            Text('10-15 min',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 10),),
+                            Text(
+                              recipe.total_time,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.w500, fontSize: 10),
+                            ),
                           ]),
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 8.0, vertical: 4),
-                          child: Row(children: const [
-                            Icon(Icons.rice_bowl),
-                            SizedBox(
+                          child: Row(children: [
+                            const Icon(Icons.rice_bowl),
+                            const SizedBox(
                               width: 5,
                             ),
-                            Text('350Kcal',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 10),),
+                            Text(
+                              "${recipe.nutritions[1].value} kcl",
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.w500, fontSize: 10),
+                            ),
                           ]),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
+                        const Padding(
+                          padding: EdgeInsets.symmetric(
                               horizontal: 8.0, vertical: 4),
-                          child: Row(children: const [
-                            Icon(Icons.check_box_outlined,color: Color(0xff53E88B) ,),
+                          child: Row(children: [
+                            Icon(
+                              Icons.check_box_outlined,
+                              color: Color(0xff53E88B),
+                            ),
                             SizedBox(
                               width: 5,
                             ),
-                            Text('You have all the ingedients', style: TextStyle(color: Color(0xff53E88B),fontSize: 10),),
+                            Text(
+                              'You have all the ingedients',
+                              style: TextStyle(
+                                  color: Color(0xff53E88B), fontSize: 10),
+                            ),
                           ]),
                         ),
                       ],
@@ -158,8 +208,15 @@ Widget recipeCard() {
               ),
               GestureDetector(
                 onTap: () {
-                  // todo:
-                  //
+                  fetchRecipe();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => FoodDetails(
+                        meal: recipe,
+                      ),
+                    ),
+                  );
                 },
                 child: Container(
                   margin: const EdgeInsets.only(top: 16),
@@ -186,31 +243,29 @@ Widget recipeCard() {
                   ),
                 ),
               ),
-             
             ],
           ),
-          
         ),
       ),
-    Positioned(
-            top: 10,
-            right: 3,
-            child: Container(
-              margin: const EdgeInsets.only(right: 10.0, bottom: 10.0),
-              padding: const EdgeInsets.all(5.0),
-              width: 30,
-              height: 30,
-              decoration: const BoxDecoration(
-                color: Color(0xffE23E3E),
-                shape: BoxShape.circle,
-              ),
-              child: SvgPicture.asset(
-                'assets/allSVG/Favorite-Icon.svg',
-                // ignore: deprecated_member_use
-                color: Colors.white,
-              ),
-            ),
-          )
+      Positioned(
+        top: 10,
+        right: 3,
+        child: Container(
+          margin: const EdgeInsets.only(right: 10.0, bottom: 10.0),
+          padding: const EdgeInsets.all(5.0),
+          width: 30,
+          height: 30,
+          decoration: const BoxDecoration(
+            color: Color(0xffE23E3E),
+            shape: BoxShape.circle,
+          ),
+          child: SvgPicture.asset(
+            'assets/allSVG/Favorite-Icon.svg',
+            // ignore: deprecated_member_use
+            color: Colors.white,
+          ),
+        ),
+      )
     ],
   );
 }

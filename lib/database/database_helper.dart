@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:sqflite/sqflite.dart' as sql;
+import 'package:sqflite/sqflite.dart';
 
 class SqlHelper {
   static Future<void> createTables(sql.Database database) async {
@@ -41,6 +42,7 @@ class SqlHelper {
                       FOREIGN KEY (recipe_id) REFERENCES recipes(recipe_id)
                     )
 """);
+
     await database.execute("""
                     CREATE TABLE IF NOT EXISTS recipe_images(
                       recipe_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
@@ -53,6 +55,12 @@ class SqlHelper {
                       recipe_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
                       name TEXT,
                       FOREIGN KEY (recipe_id) REFERENCES recipes(recipe_id)
+                    )
+""");
+
+    await database.execute("""
+                    CREATE TABLE IF NOT EXISTS favorite(
+                      recipe_slug TEXT
                     )
 """);
   }
@@ -93,6 +101,31 @@ class SqlHelper {
     final id = await db.insert('recipes', data,
         conflictAlgorithm: sql.ConflictAlgorithm.replace);
     return id;
+  }
+
+  static Future<int> insertFavorite(String slug) async {
+    final db = await SqlHelper.db();
+    final data = {'recipe_slug': slug};
+    final id = await db.insert('favorite', data,
+        conflictAlgorithm: sql.ConflictAlgorithm.replace);
+
+    return id;
+  }
+
+  static Future<int> deleteFavorite(String slug) async {
+    final db = await SqlHelper.db();
+    final deletedRows = await db
+        .delete('favorite', where: 'recipe_slug = ?', whereArgs: [slug]);
+    return deletedRows;
+  }
+
+  static Future<bool> isRecipeFavorite(String slug) async {
+    final db = await SqlHelper.db();
+    final count = Sqflite.firstIntValue(await db.rawQuery(
+      'SELECT COUNT(*) FROM favorite WHERE recipe_slug = ?',
+      [slug],
+    ));
+    return count! > 0;
   }
 
   static Future<int> insertNutrition(

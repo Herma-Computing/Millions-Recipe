@@ -8,6 +8,7 @@ import 'package:millions_recipe/providers/recipe_provider.dart';
 import 'package:millions_recipe/widgets/foodDetails/details.dart';
 import 'package:provider/provider.dart';
 import 'api/shared_preference/shared_preference.dart';
+import 'database/database_helper.dart';
 import 'models/recipe_model.dart';
 import 'widgets/search_widget.dart';
 
@@ -31,10 +32,29 @@ class _NewHomeState extends State<NewHome> {
     super.initState();
     fetchPopular();
     fetchRecent();
+    fetchSlug();
+    update();
     userName = UserPreferences.getName() ?? "Guest";
   }
 
+  Future<void> update() async {
+    final recipeProvider = Provider.of<Recipes>(context, listen: false);
+    recipeProvider.refreshFavoriteRecipes();
+  }
+
   late String userName;
+
+  List favList = [];
+
+  Future<void> fetchSlug() async {
+    final db = await SqlHelper.db();
+    final recipeSlugs = await db.rawQuery('SELECT * FROM favorite');
+
+    for (final slugMap in recipeSlugs) {
+      final slug = slugMap['recipe_slug'] as String;
+      favList.add(slug);
+    }
+  }
 
   void fetchPopular() {
     final recipeProvider = Provider.of<Recipes>(context, listen: false);
@@ -243,13 +263,18 @@ class _NewHomeState extends State<NewHome> {
                                 physics: const BouncingScrollPhysics(),
                                 itemCount: recipeProvider.recipes.length,
                                 itemBuilder: (BuildContext context, int index) {
-                                  bool isEven = index % 2 == 0;
+                                  // fetchSlug();
+                                  bool isFavorited = recipeProvider.favList
+                                      .contains(
+                                          recipeProvider.recipes[index].slug);
+
                                   try {
                                     return Container(
                                       margin: const EdgeInsets.symmetric(
                                           horizontal: 19.0),
                                       child: GestureDetector(
                                         onTap: () {
+                                          update();
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
@@ -374,7 +399,7 @@ class _NewHomeState extends State<NewHome> {
                                                               height: 30,
                                                               decoration:
                                                                   BoxDecoration(
-                                                                color: !isEven
+                                                                color: isFavorited
                                                                     ? const Color(
                                                                         0xffE23E3E)
                                                                     : Colors
@@ -388,7 +413,7 @@ class _NewHomeState extends State<NewHome> {
                                                                 colorFilter:
                                                                     ColorFilter
                                                                         .mode(
-                                                                  isEven
+                                                                  !isFavorited
                                                                       ? const Color(
                                                                           0xff2E2E2E)
                                                                       : const Color(

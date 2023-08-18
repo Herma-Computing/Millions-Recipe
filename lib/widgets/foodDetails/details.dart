@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
+import '../../database/database_helper.dart';
+import '../../providers/recipe_provider.dart';
 import '../../screens/cooking_steps_screen.dart';
 import 'Description/description.dart';
 import 'nutration/nutration.dart';
@@ -21,6 +24,40 @@ class _FoodDetailsState extends State<FoodDetails> {
   final PageController _pageController = PageController(initialPage: 0);
   int pageviewSelected = 0;
   int currentImageIndex = 0;
+
+  bool isFavorited = false;
+
+  @override
+  void initState() {
+    checkFavoriteStatus();
+    fetchRecipes();
+    super.initState();
+  }
+
+  Future<void> fetchRecipes() async {
+    final recipeProvider = Provider.of<Recipes>(context, listen: false);
+    await recipeProvider.refreshFavoriteRecipes();
+    // await recipeProvider.refreshFavoriteRecipes();
+  }
+
+  Future<void> checkFavoriteStatus() async {
+    final isFavorite = await SqlHelper.isRecipeFavorite(widget.meal.slug);
+    setState(() {
+      isFavorited = isFavorite;
+    });
+  }
+
+  Future<void> toggleFavoriteStatus() async {
+    if (isFavorited) {
+      await SqlHelper.deleteFavorite(widget.meal.slug);
+    } else {
+      await SqlHelper.insertFavorite(widget.meal.slug);
+    }
+    setState(() {
+      isFavorited = !isFavorited;
+    });
+    fetchRecipes();
+  }
 
   List<Widget> pages = [];
 
@@ -85,9 +122,11 @@ class _FoodDetailsState extends State<FoodDetails> {
                         ),
                         iconButton(
                           white,
-                          black,
-                          Icons.favorite_border_outlined,
-                          () => {},
+                          isFavorited ? Colors.red : Colors.black,
+                          isFavorited
+                              ? Icons.favorite
+                              : Icons.favorite_border_outlined,
+                          toggleFavoriteStatus,
                         ),
                       ],
                     ),
@@ -285,7 +324,7 @@ class _FoodDetailsState extends State<FoodDetails> {
       child: Center(
         child: IconButton(
           onPressed: x,
-          icon: Icon(icon, color: Colors.black),
+          icon: Icon(icon, color: black),
         ),
       ),
     );

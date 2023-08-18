@@ -2,8 +2,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
 import '../models/recipe_model.dart';
+import '../providers/recipe_provider.dart';
 import '../widgets/foodDetails/details.dart';
 
 class AllRecipes extends StatefulWidget {
@@ -19,10 +21,16 @@ class _AllRecipesState extends State<AllRecipes> {
 
   @override
   void initState() {
+    update();
     super.initState();
     _controller.addListener(_scrollListener);
 
     fetchRecipesByCategory('');
+  }
+
+  Future<void> update() async {
+    final recipeProvider = Provider.of<Recipes>(context, listen: false);
+    recipeProvider.refreshFavoriteRecipes();
   }
 
   List recipeList = [];
@@ -66,6 +74,7 @@ class _AllRecipesState extends State<AllRecipes> {
 
   @override
   Widget build(BuildContext context) {
+    final recipeProvider = Provider.of<Recipes>(context);
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -88,6 +97,10 @@ class _AllRecipesState extends State<AllRecipes> {
                 controller: _controller,
                 itemCount: (recipeList.length ~/ 2) + 1,
                 itemBuilder: (context, index) {
+                  // update();
+                  bool isFavorited =
+                      recipeProvider.favList.contains(recipeList[index].slug);
+
                   if (index == recipeList.length ~/ 2) {
                     return _isLoading
                         ? const Center(
@@ -99,14 +112,14 @@ class _AllRecipesState extends State<AllRecipes> {
                     child: Column(
                       children: [
                         recipeCard(
-                          recipeList[index].images.isNotEmpty
-                              ? recipeList[index].images[0].url
-                              : "https://cdn.dribbble.com/users/1013019/screenshots/3281397/media/9de100ad01c34ec34d35e843d33504f9.jpg?compress=1&resize=400x300",
-                          recipeList[index].name,
-                          recipeList[index].total_time,
-                          recipeList[index].nutritions[1].value,
-                          recipeList[index],
-                        ),
+                            recipeList[index].images.isNotEmpty
+                                ? recipeList[index].images[0].url
+                                : "https://cdn.dribbble.com/users/1013019/screenshots/3281397/media/9de100ad01c34ec34d35e843d33504f9.jpg?compress=1&resize=400x300",
+                            recipeList[index].name,
+                            recipeList[index].total_time,
+                            recipeList[index].nutritions[1].value,
+                            recipeList[index],
+                            isFavorited),
                         const SizedBox(
                           height: 12,
                         ),
@@ -128,13 +141,8 @@ class _AllRecipesState extends State<AllRecipes> {
     );
   }
 
-  Widget recipeCard(
-    String pic,
-    String mealName,
-    String time,
-    String calories,
-    Recipe meal,
-  ) {
+  Widget recipeCard(String pic, String mealName, String time, String calories,
+      Recipe meal, bool isFavorited) {
     return Stack(
       children: [
         Card(
@@ -174,18 +182,18 @@ class _AllRecipesState extends State<AllRecipes> {
                               ),
                             ),
                           ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
                                 horizontal: 8.0, vertical: 4),
                             child: Row(
                               children: [
-                                Icon(Icons.people_alt_outlined),
-                                SizedBox(
+                                const Icon(Icons.people_alt_outlined),
+                                const SizedBox(
                                   width: 5,
                                 ),
                                 Text(
-                                  '2 people',
-                                  style: TextStyle(
+                                  '${meal.serving} people',
+                                  style: const TextStyle(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 12),
                                 ),
@@ -257,6 +265,7 @@ class _AllRecipesState extends State<AllRecipes> {
                 ),
                 GestureDetector(
                   onTap: () {
+                    update();
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -303,14 +312,14 @@ class _AllRecipesState extends State<AllRecipes> {
             padding: const EdgeInsets.all(5.0),
             width: 30,
             height: 30,
-            decoration: const BoxDecoration(
-              color: Color(0xffE23E3E),
+            decoration: BoxDecoration(
+              color: isFavorited ? const Color(0xffE23E3E) : Colors.white,
               shape: BoxShape.circle,
             ),
             child: SvgPicture.asset(
               'assets/allSVG/Favorite-Icon.svg',
               // ignore: deprecated_member_use
-              color: Colors.white,
+              color: isFavorited ? Colors.white : Colors.black,
             ),
           ),
         ),

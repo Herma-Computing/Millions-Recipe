@@ -8,7 +8,8 @@ import '../models/steps_model.dart';
 import 'categories_model.dart';
 
 class Recipe with ChangeNotifier {
-  //final String id;
+  // final String id;
+  final String slug;
   final String name;
   final String description;
   final String serving;
@@ -26,7 +27,8 @@ class Recipe with ChangeNotifier {
   final List<Step> steps;
 
   Recipe(
-      //this.id,
+      // this.id,
+      this.slug,
       this.name,
       this.description,
       this.serving,
@@ -44,7 +46,9 @@ class Recipe with ChangeNotifier {
       this.steps);
 
   Recipe.fromJson(Map<String, dynamic> json)
-      : //id = json['id'] as String,
+      :
+        // id = json['id'] as String,
+        slug = json['slug'] as String,
         name = json['name'] as String,
         serving = json['servings'] as String,
         description = json['description'] as String,
@@ -90,6 +94,7 @@ class Recipe with ChangeNotifier {
 
   Map<String, dynamic> toJson() => {
         // 'id': id,
+        'slug': slug,
         'name': name,
         'description': description,
         'servings': serving,
