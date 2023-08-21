@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:millions_recipe/models/sub_category.dart';
+import 'package:provider/provider.dart';
 import '../database/database_helper.dart';
 import '../models/recipe_model.dart';
 import 'package:dio/dio.dart';
@@ -8,8 +9,10 @@ class Recipes with ChangeNotifier {
   bool _loading = false;
 
   List<Recipe> recipes = [];
+  List<Recipe> searchedRecipes = [];
   List<Recipe> favoriteRecipes = [];
   List favList = [];
+  int totalQuery = 0;
 
   bool _favLoading = false;
 
@@ -86,23 +89,22 @@ class Recipes with ChangeNotifier {
 
   Future fetchRecipesBySearch(String query) async {
     _loading = true;
-    recipes.clear();
-    recipeList.clear();
-    String url =
-        "https://dashencon.com/recipes/api/ds_her/v1/recipes?page=1&per_page=15&category=$query";
+    searchedRecipes.clear();
+    UpdateShouldNotify;
 
-    // The old api endpoint:- https://dashencon.com/recipes/api/ds_her/v1/recipes?page=1&per_page=15&category=$query
+    String url =
+        "https://dashencon.com/recipes/api/ds_her/v1/recipes/search?page=1&per_page=15&query=$query";
 
     Dio dio = Dio();
     final response = await dio.get(url);
 
-    // var result = jsonDecode(response.data);
-
     Recipe recipe;
-    response.data["recipes"].forEach((el) async => {
+    response.data["recipe"].forEach((el) async => {
           recipe = Recipe.fromJson(el),
-          recipes.add(recipe),
+          searchedRecipes.add(recipe),
         });
+
+    totalQuery = response.data["total"];
 
     _loading = false;
     notifyListeners();

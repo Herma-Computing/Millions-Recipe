@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
+import '../common/constants.dart';
 import '../models/recipe_model.dart';
 import '../providers/recipe_provider.dart';
 import '../widgets/foodDetails/details.dart';
@@ -61,11 +62,8 @@ class _AllRecipesState extends State<AllRecipes> {
     final response = await dio.get(url);
 
     Recipe recipe;
-    response.data["random"].forEach((el) async => {
-          recipe = Recipe.fromJson(el),
-          // recipeProvider.recipes.add(recipe),
-          recipeList.add(recipe)
-        });
+    response.data["random"].forEach(
+        (el) async => {recipe = Recipe.fromJson(el), recipeList.add(recipe)});
 
     setState(() {
       _isLoading = false;
@@ -76,19 +74,11 @@ class _AllRecipesState extends State<AllRecipes> {
   Widget build(BuildContext context) {
     final recipeProvider = Provider.of<Recipes>(context);
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.black),
         elevation: 0,
         backgroundColor: Colors.white,
-        title: IconButton(
-          alignment: Alignment.centerLeft,
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.arrow_back_ios,
-            color: Colors.black87,
-          ),
-        ),
       ),
       body: recipeList.isNotEmpty
           ? Padding(
@@ -129,15 +119,22 @@ class _AllRecipesState extends State<AllRecipes> {
                 },
               ),
             )
-          : const Center(
-              child: Text(
-                'No Recipes Found',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w800,
+          : _isLoading
+              ? Center(
+                  child: CircularProgressIndicator(
+                    strokeWidth: 4,
+                    color: kPrimaryColor,
+                  ),
+                )
+              : const Center(
+                  child: Text(
+                    'No Recipes Found',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
                 ),
-              ),
-            ),
     );
   }
 

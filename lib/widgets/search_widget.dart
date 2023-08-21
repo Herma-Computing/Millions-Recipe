@@ -3,62 +3,168 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:millions_recipe/common/constants.dart';
+import 'package:provider/provider.dart';
 
-class SearchResult extends StatelessWidget {
-  const SearchResult({super.key});
+import '../models/recipe_model.dart';
+import '../providers/recipe_provider.dart';
+import 'foodDetails/details.dart';
+
+class SearchResult extends StatefulWidget {
+  String query;
+  SearchResult({super.key, required this.query});
+
+  @override
+  State<SearchResult> createState() => _SearchResultState();
+}
+
+class _SearchResultState extends State<SearchResult> {
+  bool loading = false;
+  void fetchSearch() {
+    final recipeProvider = Provider.of<Recipes>(context, listen: false);
+    recipeProvider.fetchRecipesBySearch(widget.query);
+  }
+
+  Future<void> searchAgain(String query) async {
+    final recipeProvider = Provider.of<Recipes>(context, listen: false);
+    setState(() {
+      loading = true;
+    });
+
+    recipeProvider.fetchRecipesBySearch(query);
+
+    setState(() {
+      loading = false;
+    });
+  }
+
+  Future<void> update() async {
+    final recipeProvider = Provider.of<Recipes>(context, listen: false);
+    recipeProvider.refreshFavoriteRecipes();
+  }
+
+  final TextEditingController _searchController = TextEditingController();
+  @override
+  void initState() {
+    fetchSearch();
+    update();
+    _searchController.text = widget.query;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    final recipeProvider = Provider.of<Recipes>(context);
+    final searchResults = recipeProvider.searchedRecipes;
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.black),
+        elevation: 0,
         backgroundColor: Colors.white,
-        appBar: AppBar(elevation: 0, backgroundColor: Colors.white),
-        body: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 26, vertical: 10),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(width: 2, color: Colors.grey)),
-            child: Expanded(
-              child: Padding(
-                padding: EdgeInsets.only(top: 5),
-                child: topSearchBar(),
-              ),
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.only(left: 30),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "12 Recipes found",
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
+        // title: IconButton(
+        //     color: Colors.black,
+        //     onPressed: () {
+        //       Navigator.pop(context);
+        //     },
+        //     icon: Icon(Icons.keyboard_arrow_left)),
+      ),
+      body: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 26, vertical: 10),
+          child: Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(top: 5),
+              child: Container(
+                height: 44,
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    border:
+                        Border.all(width: 1, color: const Color(0xffD9D9D9))),
+                child: TextField(
+                  controller: _searchController,
+                  onSubmitted: (value) {
+                    setState(() {
+                      loading = true;
+                    });
+                    searchAgain(value);
+                    setState(() {
+                      loading = false;
+                    });
+                  },
+                  cursorColor: kPrimaryColor,
+                  decoration: const InputDecoration(
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: Color(0xffD9D9D9),
+                    ),
+                    hintText: "Search recipes",
+                    hintStyle: TextStyle(color: Color(0xffC1C1C1)),
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(
+                      vertical: 12,
+                      horizontal: 16,
+                    ),
+                    isDense: true,
+                    suffixIcon: Icon(
+                      CupertinoIcons.slider_horizontal_3,
+                      color: Color(0xffD9D9D9),
+                    ),
+                  ),
                 ),
               ),
+              // topSearchBar(_searchController),
             ),
           ),
-          const SizedBox(
-            height: 14,
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: 6,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(top: 10, bottom: 10),
-                  child: resuableCard(),
-                );
-              },
+        ),
+        Padding(
+          padding: EdgeInsets.only(left: 30),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              "${recipeProvider.totalQuery} Recipes found",
+              textAlign: TextAlign.start,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+              ),
             ),
-          )
-        ]),
-      ),
+          ),
+        ),
+        const SizedBox(
+          height: 14,
+        ),
+        Consumer<Recipes>(
+          builder: (context, value, child) {
+            return Expanded(
+              child: recipeProvider.loading
+                  ? Center(
+                      child: CircularProgressIndicator(
+                      strokeWidth: 4,
+                      color: kPrimaryColor,
+                    ))
+                  : ListView.builder(
+                      itemCount: searchResults.length,
+                      itemBuilder: (context, index) {
+                        bool isFavorited = recipeProvider.favList
+                            .contains(searchResults[index].slug);
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 10, bottom: 10),
+                          child:
+                              resuableCard(searchResults[index], isFavorited),
+                        );
+                      },
+                    ),
+            );
+          },
+        ),
+      ]),
     );
   }
 
-  Expanded resuableCard() {
+  Expanded resuableCard(Recipe recipe, bool isFavorited) {
     return Expanded(
       child: Card(
         shape: RoundedRectangleBorder(
@@ -72,11 +178,11 @@ class SearchResult extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Align(
+              Align(
                 alignment: Alignment(1, -1),
                 child: Icon(
-                  Icons.favorite_border_rounded,
-                  color: Colors.red,
+                  isFavorited ? Icons.favorite : Icons.favorite_border_rounded,
+                  color: isFavorited ? Colors.red : Colors.black,
                 ),
               ),
               Row(
@@ -86,8 +192,7 @@ class SearchResult extends StatelessWidget {
                   Container(
                       width: 128,
                       height: 155,
-                      child:
-                          const Image(image: AssetImage("assets/pancake.png"))),
+                      child: Image.network(recipe.images[0].url)),
                   const SizedBox(
                     width: 10,
                   ),
@@ -96,17 +201,19 @@ class SearchResult extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          "Home made cute pancake",
+                        Text(
+                          recipe.name,
                           style: TextStyle(
                               fontSize: 14, fontWeight: FontWeight.w600),
                         ),
                         const SizedBox(
                           height: 12,
                         ),
-                        reusableRow("2 people", Icons.people_outline),
-                        reusableRow("10 - 15 mins", Icons.access_time),
-                        reusableRow("350kcal", CupertinoIcons.flame),
+                        reusableRow(
+                            "${recipe.serving} people", Icons.people_outline),
+                        reusableRow(recipe.total_time, Icons.access_time),
+                        reusableRow("${recipe.nutritions[1].value}kcal",
+                            CupertinoIcons.flame),
                         Row(
                           children: const [
                             // Checkbox(
@@ -141,8 +248,11 @@ class SearchResult extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  // todo:
-                  //
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => FoodDetails(meal: recipe),
+                    ),
+                  );
                 },
                 child: Container(
                   margin: const EdgeInsets.only(top: 16),
@@ -193,7 +303,7 @@ class SearchResult extends StatelessWidget {
   }
 }
 
-Widget topSearchBar() {
+Widget topSearchBar(TextEditingController controller, Function searchAgain) {
   return Container(
     height: 44,
     margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
@@ -202,6 +312,10 @@ Widget topSearchBar() {
         borderRadius: BorderRadius.circular(8),
         border: Border.all(width: 1, color: const Color(0xffD9D9D9))),
     child: TextField(
+      controller: controller,
+      onSubmitted: (value) {
+        // searchAgain(value);
+      },
       cursorColor: kPrimaryColor,
       decoration: const InputDecoration(
         prefixIcon: Icon(

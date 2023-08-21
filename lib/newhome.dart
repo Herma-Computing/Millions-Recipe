@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -45,6 +46,16 @@ class _NewHomeState extends State<NewHome> {
   late String userName;
 
   List favList = [];
+
+  void _handleSearch(String query) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => SearchResult(query: query),
+      ),
+    );
+  }
+
+  final TextEditingController _searchController = TextEditingController();
 
   Future<void> fetchSlug() async {
     final db = await SqlHelper.db();
@@ -177,7 +188,41 @@ class _NewHomeState extends State<NewHome> {
       body: ListView(
         physics: const BouncingScrollPhysics(),
         children: [
-          topSearchBar(),
+          // topSearchBar(),
+
+          Container(
+            height: 44,
+            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(width: 1, color: const Color(0xffD9D9D9))),
+            child: TextField(
+              controller: _searchController,
+              onSubmitted: (value) {
+                _handleSearch(value);
+              },
+              cursorColor: kPrimaryColor,
+              decoration: const InputDecoration(
+                prefixIcon: Icon(
+                  Icons.search,
+                  color: Color(0xffD9D9D9),
+                ),
+                hintText: "Search recipes",
+                hintStyle: TextStyle(color: Color(0xffC1C1C1)),
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.symmetric(
+                  vertical: 12,
+                  horizontal: 16,
+                ),
+                isDense: true,
+                suffixIcon: Icon(
+                  CupertinoIcons.slider_horizontal_3,
+                  color: Color(0xffD9D9D9),
+                ),
+              ),
+            ),
+          ),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 19.0, vertical: 16),
             child: const Text(

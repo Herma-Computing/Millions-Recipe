@@ -76,21 +76,33 @@ class _FavouritesState extends State<Favourites> {
             '${recipeProvider.favoriteRecipes.length} Recieps found',
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
           ),
-          Expanded(
-              child: ListView.builder(
-                  itemCount: recipeProvider.favoriteRecipes.length,
-                  itemBuilder: (context, index) {
-                    Recipe recipe = recipeProvider.favoriteRecipes[index];
+          Consumer<Recipes>(
+            builder: (context, value, child) {
+              return Expanded(
+                  child: recipeProvider.favLoading
+                      ? Center(
+                          child: CircularProgressIndicator(
+                            strokeWidth: 4,
+                            color: kPrimaryColor,
+                          ),
+                        )
+                      : ListView.builder(
+                          itemCount: recipeProvider.favoriteRecipes.length,
+                          itemBuilder: (context, index) {
+                            Recipe recipe =
+                                recipeProvider.favoriteRecipes[index];
 
-                    return loading
-                        ? Center(
-                            child: CircularProgressIndicator(
-                              strokeWidth: 4,
-                              color: kPrimaryColor,
-                            ),
-                          )
-                        : recipeCard(context, recipe, fetchRecipes);
-                  }))
+                            return loading
+                                ? Center(
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 4,
+                                      color: kPrimaryColor,
+                                    ),
+                                  )
+                                : recipeCard(context, recipe, fetchRecipes);
+                          }));
+            },
+          )
         ],
       ),
     ));
