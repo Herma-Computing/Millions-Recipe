@@ -15,6 +15,7 @@ class Recipes with ChangeNotifier {
   int totalQuery = 0;
 
   bool _favLoading = false;
+  int _currentPage = 1;
 
   bool get favLoading => _favLoading;
 
@@ -87,24 +88,35 @@ class Recipes with ChangeNotifier {
     notifyListeners();
   }
 
-  Future fetchRecipesBySearch(String query) async {
+  Future fetchRecipesBySearch(String query, bool isSearchAgain) async {
     _loading = true;
-    searchedRecipes.clear();
+    List slugList = [];
+    // int searchAgain = 1;
+    if (isSearchAgain) {
+      searchedRecipes.clear();
+      _currentPage = 1;
+      slugList.clear();
+    }
+
     UpdateShouldNotify;
 
     String url =
-        "https://dashencon.com/recipes/api/ds_her/v1/recipes/search?page=1&per_page=15&query=$query";
+        "https://dashencon.com/recipes/api/ds_her/v1/recipes/search?page=$_currentPage&per_page=15&query=$query";
 
     Dio dio = Dio();
     final response = await dio.get(url);
 
     Recipe recipe;
+
     response.data["recipe"].forEach((el) async => {
           recipe = Recipe.fromJson(el),
-          searchedRecipes.add(recipe),
+          if (!slugList.contains(recipe.slug))
+            {searchedRecipes.add(recipe), slugList.add(recipe.slug)}
         });
 
     totalQuery = response.data["total"];
+
+    _currentPage++;
 
     _loading = false;
     notifyListeners();

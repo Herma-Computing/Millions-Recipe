@@ -19,18 +19,18 @@ class SearchResult extends StatefulWidget {
 
 class _SearchResultState extends State<SearchResult> {
   bool loading = false;
-  void fetchSearch() {
-    final recipeProvider = Provider.of<Recipes>(context, listen: false);
-    recipeProvider.fetchRecipesBySearch(widget.query);
-  }
+  bool isAgain = false;
 
-  Future<void> searchAgain(String query) async {
+  Future<void> performSearch(String query, {bool isRefresh = false}) async {
     final recipeProvider = Provider.of<Recipes>(context, listen: false);
+
     setState(() {
       loading = true;
+      widget.query = query;
+      isAgain = true;
     });
 
-    recipeProvider.fetchRecipesBySearch(query);
+    await recipeProvider.fetchRecipesBySearch(query, isAgain);
 
     setState(() {
       loading = false;
@@ -42,12 +42,36 @@ class _SearchResultState extends State<SearchResult> {
     recipeProvider.refreshFavoriteRecipes();
   }
 
+  final ScrollController _controller = ScrollController();
+  bool _isLoading = false;
+
+  void loadMore() {
+    final recipeProvider = Provider.of<Recipes>(context, listen: false);
+    setState(() {
+      _isLoading = true;
+      isAgain = false;
+    });
+    recipeProvider.fetchRecipesBySearch(widget.query, isAgain).then((value) {
+      setState(() {
+        _isLoading = false;
+        isAgain = false;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   final TextEditingController _searchController = TextEditingController();
   @override
   void initState() {
-    fetchSearch();
+    performSearch(widget.query);
     update();
     _searchController.text = widget.query;
+
     super.initState();
   }
 
@@ -61,12 +85,6 @@ class _SearchResultState extends State<SearchResult> {
         iconTheme: const IconThemeData(color: Colors.black),
         elevation: 0,
         backgroundColor: Colors.white,
-        // title: IconButton(
-        //     color: Colors.black,
-        //     onPressed: () {
-        //       Navigator.pop(context);
-        //     },
-        //     icon: Icon(Icons.keyboard_arrow_left)),
       ),
       body: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
         Container(
@@ -85,11 +103,15 @@ class _SearchResultState extends State<SearchResult> {
                         Border.all(width: 1, color: const Color(0xffD9D9D9))),
                 child: TextField(
                   controller: _searchController,
-                  onSubmitted: (value) {
+                  onSubmitted: (value) async {
                     setState(() {
                       loading = true;
+                      widget.query = value;
+                      isAgain = true;
                     });
-                    searchAgain(value);
+
+                    await performSearch(value, isRefresh: true);
+
                     setState(() {
                       loading = false;
                     });
@@ -115,7 +137,6 @@ class _SearchResultState extends State<SearchResult> {
                   ),
                 ),
               ),
-              // topSearchBar(_searchController),
             ),
           ),
         ),
@@ -139,23 +160,52 @@ class _SearchResultState extends State<SearchResult> {
         Consumer<Recipes>(
           builder: (context, value, child) {
             return Expanded(
-              child: recipeProvider.loading
-                  ? Center(
-                      child: CircularProgressIndicator(
-                      strokeWidth: 4,
-                      color: kPrimaryColor,
-                    ))
-                  : ListView.builder(
-                      itemCount: searchResults.length,
-                      itemBuilder: (context, index) {
-                        bool isFavorited = recipeProvider.favList
-                            .contains(searchResults[index].slug);
-                        return Padding(
-                          padding: const EdgeInsets.only(top: 10, bottom: 10),
-                          child:
-                              resuableCard(searchResults[index], isFavorited),
-                        );
+              child: recipeProvider.searchedRecipes.isEmpty
+                  ? recipeProvider.loading
+                      ? Center(
+                          child: CircularProgressIndicator(
+                            strokeWidth: 4,
+                            color: kPrimaryColor,
+                          ),
+                        )
+                      : const Center(
+                          child: Text(
+                            'No Recipes Found',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                        )
+                  : NotificationListener<ScrollNotification>(
+                      onNotification: (scrollNotification) {
+                        if (scrollNotification is ScrollEndNotification &&
+                            _controller.position.extentAfter == 0) {
+                          loadMore();
+                        }
+                        return false;
                       },
+                      child: ListView.builder(
+                        controller: _controller,
+                        itemCount: recipeProvider.searchedRecipes.length,
+                        itemBuilder: (context, index) {
+                          bool isFavorited = recipeProvider.favList
+                              .contains(searchResults[index].slug);
+
+                          if (index == searchResults.length - 1) {
+                            return _isLoading
+                                ? const Center(
+                                    child: CircularProgressIndicator(),
+                                  )
+                                : Container();
+                          }
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 10, bottom: 10),
+                            child:
+                                resuableCard(searchResults[index], isFavorited),
+                          );
+                        },
+                      ),
                     ),
             );
           },
