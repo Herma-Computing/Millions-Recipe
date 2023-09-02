@@ -37,75 +37,83 @@ class _FavouritesState extends State<Favourites> {
 
     bool loading = recipeProvider.favLoading;
     return Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.background,
         body: Container(
-      margin: const EdgeInsets.only(left: 20, top: 50, right: 16),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 44,
-            margin: const EdgeInsets.symmetric(vertical: 10),
-            padding: const EdgeInsets.symmetric(horizontal: 4),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(width: 1, color: const Color(0xffD9D9D9))),
-            child: TextField(
-              cursorColor: kPrimaryColor,
-              decoration: const InputDecoration(
-                prefixIcon: Icon(
-                  Icons.search,
-                  color: Color(0xffD9D9D9),
-                ),
-                hintText: "Search recipes",
-                hintStyle: TextStyle(color: Color(0xffC1C1C1)),
-                border: InputBorder.none,
-                contentPadding: EdgeInsets.symmetric(
-                  vertical: 12,
-                  horizontal: 16,
-                ),
-                isDense: true,
-                suffixIcon: Icon(
-                  CupertinoIcons.slider_horizontal_3,
-                  color: Color(0xffD9D9D9),
+          margin: const EdgeInsets.only(left: 20, top: 50, right: 16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: 44,
+                margin: const EdgeInsets.symmetric(vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    border:
+                        Border.all(width: 1, color: const Color(0xffD9D9D9))),
+                child: TextField(
+                  cursorColor: kPrimaryColor,
+                  decoration: const InputDecoration(
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: Color(0xffD9D9D9),
+                    ),
+                    hintText: "Search recipes",
+                    hintStyle: TextStyle(color: Color(0xffC1C1C1)),
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(
+                      vertical: 12,
+                      horizontal: 16,
+                    ),
+                    isDense: true,
+                    suffixIcon: Icon(
+                      CupertinoIcons.slider_horizontal_3,
+                      color: Color(0xffD9D9D9),
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-          Text(
-            '${recipeProvider.favoriteRecipes.length} Recieps found',
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-          ),
-          Consumer<Recipes>(
-            builder: (context, value, child) {
-              return Expanded(
-                  child: recipeProvider.favLoading
-                      ? Center(
-                          child: CircularProgressIndicator(
-                            strokeWidth: 4,
-                            color: kPrimaryColor,
-                          ),
-                        )
-                      : ListView.builder(
-                          itemCount: recipeProvider.favoriteRecipes.length,
-                          itemBuilder: (context, index) {
-                            Recipe recipe =
-                                recipeProvider.favoriteRecipes[index];
+              Text(
+                '${recipeProvider.favoriteRecipes.length} Recieps found',
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+              ),
+              Consumer<Recipes>(
+                builder: (context, value, child) {
+                  return Expanded(
+                      child: recipeProvider.favLoading
+                          ? Center(
+                              child: CircularProgressIndicator(
+                                strokeWidth: 4,
+                                color: kPrimaryColor,
+                              ),
+                            )
+                          : ListView.builder(
+                              itemCount: recipeProvider.favoriteRecipes.length,
+                              itemBuilder: (context, index) {
+                                Recipe recipe =
+                                    recipeProvider.favoriteRecipes[index];
 
-                            return loading
-                                ? Center(
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 4,
-                                      color: kPrimaryColor,
-                                    ),
-                                  )
-                                : recipeCard(context, recipe, fetchRecipes);
-                          }));
-            },
-          )
-        ],
-      ),
-    ));
+                                return loading
+                                    ? Center(
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 4,
+                                          color: kPrimaryColor,
+                                        ),
+                                      )
+                                    : Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 8),
+                                        child: recipeCard(
+                                            context, recipe, fetchRecipes),
+                                      );
+                              }));
+                },
+              )
+            ],
+          ),
+        ));
   }
 }
 
@@ -113,149 +121,162 @@ Widget recipeCard(BuildContext context, Recipe recipe, Function fetchRecipe) {
   return Stack(
     children: [
       Card(
-        child: Padding(
-          padding:
-              const EdgeInsets.only(top: 35, left: 13, bottom: 14, right: 7),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    height: 130,
-                    width: 127,
-                    decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(5))),
-                    child: Image.network(
-                      recipe.images[0].url,
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Expanded(
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 8.0),
-                          child: Text(
-                            recipe.name,
-                            style: const TextStyle(
-                                overflow: TextOverflow.ellipsis,
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8.0, vertical: 4),
-                          child: Row(children: [
-                            const Icon(Icons.group),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              '${recipe.serving} people',
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w500, fontSize: 10),
-                            ),
-                          ]),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8.0, vertical: 4),
-                          child: Row(children: [
-                            const Icon(Icons.timer),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              recipe.total_time,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w500, fontSize: 10),
-                            ),
-                          ]),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8.0, vertical: 4),
-                          child: Row(children: [
-                            const Icon(Icons.rice_bowl),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              "${recipe.nutritions[1].value} kcl",
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w500, fontSize: 10),
-                            ),
-                          ]),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 8.0, vertical: 4),
-                          child: Row(children: [
-                            Icon(
-                              Icons.check_box_outlined,
-                              color: Color(0xff53E88B),
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              'You have all the ingedients',
-                              style: TextStyle(
-                                  color: Color(0xff53E88B), fontSize: 10),
-                            ),
-                          ]),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-              GestureDetector(
-                onTap: () {
-                  fetchRecipe();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => FoodDetails(
-                        meal: recipe,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Theme.of(context).colorScheme.secondaryContainer,
+          ),
+          child: Padding(
+            padding:
+                const EdgeInsets.only(top: 35, left: 13, bottom: 14, right: 7),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 130,
+                      width: 127,
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(5))),
+                      child: Image.network(
+                        recipe.images[0].url,
+                        fit: BoxFit.fill,
                       ),
                     ),
-                  );
-                },
-                child: Container(
-                  margin: const EdgeInsets.only(top: 16),
-                  width: 208.47,
-                  height: 44,
-                  decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        begin: Alignment.centerRight,
-                        end: Alignment.centerLeft,
-                        colors: [
-                          Color(0xff15BE77),
-                          Color(0xff53E88B),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(bottom: 8.0, left: 8),
+                            child: Text(
+                              recipe.name,
+                              style: const TextStyle(
+                                  overflow: TextOverflow.ellipsis,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0, vertical: 4),
+                            child: Row(children: [
+                              const Icon(Icons.group),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                '${recipe.serving} people',
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w500, fontSize: 10),
+                              ),
+                            ]),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0, vertical: 4),
+                            child: Row(children: [
+                              const Icon(Icons.timer),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                recipe.total_time,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w500, fontSize: 10),
+                              ),
+                            ]),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0, vertical: 4),
+                            child: Row(children: [
+                              const Icon(Icons.rice_bowl),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                "${recipe.nutritions[1].value} kcl",
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w500, fontSize: 10),
+                              ),
+                            ]),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 8.0, vertical: 4),
+                            child: Row(children: [
+                              Icon(
+                                Icons.check_box_outlined,
+                                color: Color(0xff53E88B),
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Flexible(
+                                child: Text(
+                                  'You have all the ingedients',
+                                  style: TextStyle(
+                                      color: Color(0xff53E88B), fontSize: 10),
+                                ),
+                              ),
+                            ]),
+                          ),
                         ],
                       ),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: const Center(
-                    child: Text(
-                      "Show Recipe",
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white),
+                    )
+                  ],
+                ),
+                GestureDetector(
+                  onTap: () {
+                    fetchRecipe();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => FoodDetails(
+                          meal: recipe,
+                        ),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 16),
+                    width: 208.47,
+                    height: 44,
+                    decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          begin: Alignment.centerRight,
+                          end: Alignment.centerLeft,
+                          colors: [
+                            Color(0xff15BE77),
+                            Color(0xff53E88B),
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: const Center(
+                      child: Text(
+                        "Show Recipe",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

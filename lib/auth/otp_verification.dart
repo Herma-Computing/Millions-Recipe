@@ -20,7 +20,8 @@ class _OtpState extends State<Otp> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: const Color(0xfff7f6fb),
+      // backgroundColor: const Color(0xfff7f6fb),
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 32),
@@ -60,7 +61,7 @@ class _OtpState extends State<Otp> {
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black,
+                  // color: Colors.black,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -70,7 +71,7 @@ class _OtpState extends State<Otp> {
               Container(
                 padding: const EdgeInsets.all(28),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.secondaryContainer,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Column(
@@ -129,7 +130,7 @@ class _OtpState extends State<Otp> {
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black38,
+                  // color: Colors.black38,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -256,7 +257,9 @@ class _OtpState extends State<Otp> {
             decoration: InputDecoration(
               counter: const Offstage(),
               enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(width: 2, color: Colors.black12),
+                  borderSide: BorderSide(
+                      width: 2,
+                      color: Theme.of(context).colorScheme.onSecondary),
                   borderRadius: BorderRadius.circular(12)),
               focusedBorder: OutlineInputBorder(
                   borderSide:

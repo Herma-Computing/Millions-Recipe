@@ -145,16 +145,17 @@ class _AddRecipeState extends State<AddRecipe> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).colorScheme.background,
         elevation: 0,
-        title: const Text(
+        title: Text(
           'Create a masterpiece',
           style: TextStyle(
-            fontWeight: FontWeight.w800,
-            fontSize: 24,
-            color: Colors.black,
-          ),
+              fontWeight: FontWeight.w800,
+              fontSize: 24,
+              // color: Colors.black,
+              color: Theme.of(context).colorScheme.secondary),
         ),
       ),
       body: SingleChildScrollView(
@@ -224,6 +225,7 @@ class _AddRecipeState extends State<AddRecipe> {
               Padding(
                 padding: const EdgeInsets.only(bottom: 16, top: 30),
                 child: TextFormField(
+                  cursorColor: Theme.of(context).colorScheme.secondary,
                   controller: nameController,
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
@@ -248,6 +250,7 @@ class _AddRecipeState extends State<AddRecipe> {
                 padding: const EdgeInsets.only(bottom: 27),
                 child: SizedBox(
                   child: TextFormField(
+                    cursorColor: Theme.of(context).colorScheme.secondary,
                     controller: descriptionController,
                     maxLines: 15,
                     minLines: 5,
@@ -334,10 +337,19 @@ class _AddRecipeState extends State<AddRecipe> {
                       children: [
                         Expanded(
                           child: TextField(
+                            cursorColor:
+                                Theme.of(context).colorScheme.secondary,
                             controller: servingController,
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
                               hintText: "0",
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: const BorderSide(
+                                  color: Colors.green,
+                                  width: 2.0,
+                                ),
+                              ),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
@@ -495,6 +507,8 @@ class _AddRecipeState extends State<AddRecipe> {
                             ),
                             SizedBox(
                               child: TextFormField(
+                                cursorColor:
+                                    Theme.of(context).colorScheme.secondary,
                                 maxLines: 15,
                                 minLines: 3,
                                 autocorrect: true,
@@ -584,8 +598,17 @@ class _AddRecipeState extends State<AddRecipe> {
                               width: 142,
                               height: 44,
                               child: TextFormField(
+                                cursorColor:
+                                    Theme.of(context).colorScheme.secondary,
                                 decoration: InputDecoration(
                                   hintText: "Item",
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: const BorderSide(
+                                      color: Colors.green,
+                                      width: 2.0,
+                                    ),
+                                  ),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
@@ -605,8 +628,17 @@ class _AddRecipeState extends State<AddRecipe> {
                               width: 142,
                               height: 44,
                               child: TextFormField(
+                                cursorColor:
+                                    Theme.of(context).colorScheme.secondary,
                                 decoration: InputDecoration(
                                   hintText: "Quantity",
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: const BorderSide(
+                                      color: Colors.green,
+                                      width: 2.0,
+                                    ),
+                                  ),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
@@ -637,8 +669,17 @@ class _AddRecipeState extends State<AddRecipe> {
                               width: 142,
                               height: 44,
                               child: TextFormField(
+                                cursorColor:
+                                    Theme.of(context).colorScheme.secondary,
                                 decoration: InputDecoration(
                                   hintText: "Item",
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: const BorderSide(
+                                      color: Colors.green,
+                                      width: 2.0,
+                                    ),
+                                  ),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
@@ -657,7 +698,16 @@ class _AddRecipeState extends State<AddRecipe> {
                               width: 142,
                               height: 44,
                               child: TextFormField(
+                                cursorColor:
+                                    Theme.of(context).colorScheme.secondary,
                                 decoration: InputDecoration(
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: const BorderSide(
+                                      color: Colors.green,
+                                      width: 2.0,
+                                    ),
+                                  ),
                                   hintText: "Quantity",
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
@@ -860,9 +910,17 @@ class _AddRecipeState extends State<AddRecipe> {
             children: [
               Expanded(
                 child: TextField(
+                  cursorColor: Theme.of(context).colorScheme.secondary,
                   controller: controller,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(
+                        color: Colors.green,
+                        width: 2.0,
+                      ),
+                    ),
                     hintText: "0",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),

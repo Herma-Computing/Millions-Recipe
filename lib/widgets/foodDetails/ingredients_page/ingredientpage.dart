@@ -5,8 +5,8 @@ import '../../../models/ingredition.dart';
 import '../../../models/recipe_model.dart';
 
 class Ingredients extends StatelessWidget {
-  final Recipe ingredient;
-  const Ingredients({super.key, required this.ingredient});
+  var ingredient;
+  Ingredients({super.key, required this.ingredient});
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +15,7 @@ class Ingredients extends StatelessWidget {
         Expanded(
           child: ListView.builder(
               itemCount: ingredientsItems.length,
+              // ingredientsItems.length,
               // Todo: ingredient.ingredients.length,
               itemBuilder: (context, index) {
                 return ListTile(

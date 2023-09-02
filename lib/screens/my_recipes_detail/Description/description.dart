@@ -21,22 +21,26 @@ class _DescriptionsState extends State<Descriptions> {
             const SizedBox(
               height: 22,
             ),
-            const Text(
+            Text(
               "Description",
               style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
-                  color: Colors.black),
+                  color: Theme.of(context).colorScheme.secondary
+                  // color: Colors.black
+                  ),
             ),
             const SizedBox(
               height: 8,
             ),
             Text(
               widget.recipesData["description"],
-              style: const TextStyle(
+              style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w400,
-                  color: Colors.black54),
+                  color: Theme.of(context).colorScheme.onSecondary
+                  // color: Colors.black54
+                  ),
             ),
             const SizedBox(
               height: 13,

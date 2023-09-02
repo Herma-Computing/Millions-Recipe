@@ -11,6 +11,7 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.onBackground,
       body: AnimatedSplashScreen(
         splash: Image.asset('assets/logo.png'),
         duration: 3000,
@@ -18,7 +19,8 @@ class SplashScreen extends StatelessWidget {
         splashIconSize: 350,
         splashTransition: SplashTransition.slideTransition,
         animationDuration: const Duration(milliseconds: 1500),
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).colorScheme.background,
+        // Colors.white,
         pageTransitionType: PageTransitionType.fade,
         nextScreen: logedin != null ? const Landing() : const Onbording(),
       ),

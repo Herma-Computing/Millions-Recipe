@@ -37,7 +37,9 @@ class _LandingState extends State<Landing> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.grey[50],
+      backgroundColor: Theme.of(context).colorScheme.background,
+      // backgroundColor: Colors.white,
+      // Colors.grey[50],
       body: PageStorage(
         bucket: bucket,
         child: screens[currentTab],
@@ -69,20 +71,21 @@ class _LandingState extends State<Landing> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: Container(
-        decoration: const BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Color(0x262E2E2E),
-              spreadRadius: 1,
-              blurRadius: 10,
-              offset: Offset(0, 3), // changes position of shadow
-            ),
-          ],
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.background,
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: Theme.of(context).colorScheme.onSecondaryContainer,
+          //     spreadRadius: 1,
+          //     blurRadius: 10,
+          //     offset: Offset(0, 3),
+          //   ),
+          // ],
         ),
         child: BottomNavigationBar(
           elevation: 8.0,
           selectedItemColor: kActiveColor,
-          unselectedItemColor: Colors.grey,
+          unselectedItemColor: Theme.of(context).colorScheme.onPrimary,
           type: BottomNavigationBarType.fixed,
           currentIndex: currentTab,
           onTap: (int index) {

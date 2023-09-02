@@ -17,11 +17,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.black45),
         elevation: 0,
-        backgroundColor: Colors.white,
+        // backgroundColor: Colors.white,
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -109,7 +110,11 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   Container reusableTextField() {
     Color secondbackgroundColor = Theme.of(context).cardColor;
     final inputBorder = OutlineInputBorder(
-        borderSide: Divider.createBorderSide(context),
+        // borderSide: Divider.createBorderSide(context),
+        borderSide: BorderSide(
+        color: Theme.of(context).colorScheme.secondary,
+        width: 0.7,
+      ),
         borderRadius: BorderRadius.circular(10));
     TextTheme textTheme = Theme.of(context).textTheme;
     return Container(

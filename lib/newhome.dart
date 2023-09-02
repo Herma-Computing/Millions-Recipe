@@ -119,7 +119,8 @@ class _NewHomeState extends State<NewHome> {
   Widget build(BuildContext context) {
     final recipeProvider = Provider.of<Recipes>(context);
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: Theme.of(context).colorScheme.background,
+      // Colors.grey[50],
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(70),
         child: AppBar(
@@ -137,8 +138,9 @@ class _NewHomeState extends State<NewHome> {
                 ),
                 Text(
                   'Hi, $userName',
-                  style: const TextStyle(
-                    color: Color(0xff303030),
+                  style: TextStyle(
+                    // color: Color(0xff303030),
+                    color: Theme.of(context).colorScheme.tertiary,
                     fontSize: 20,
                     fontWeight: FontWeight.w800,
                   ),
@@ -146,12 +148,12 @@ class _NewHomeState extends State<NewHome> {
                 const SizedBox(
                   height: 8,
                 ),
-                const Text(
+                Text(
                   'Let\'s make a masterpiece',
                   style: TextStyle(
-                    fontSize: 14,
-                    color: Color(0x80303030),
-                  ),
+                      fontSize: 14,
+                      // color: Color(0x80303030),
+                      color: Theme.of(context).colorScheme.onTertiary),
                 ),
                 const SizedBox(
                   height: 8,
@@ -195,6 +197,7 @@ class _NewHomeState extends State<NewHome> {
             margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             padding: const EdgeInsets.symmetric(horizontal: 4),
             decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primaryContainer,
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(width: 1, color: const Color(0xffD9D9D9))),
             child: TextField(
@@ -275,8 +278,9 @@ class _NewHomeState extends State<NewHome> {
                       child: Text(
                         _categories[index],
                         style: TextStyle(
+                          //TODO
                           color: _selectedIndex == index
-                              ? Colors.white
+                              ? Theme.of(context).colorScheme.background
                               : const Color(0xff53E88B),
                           fontWeight: FontWeight.bold,
                         ),
@@ -338,11 +342,14 @@ class _NewHomeState extends State<NewHome> {
                                                   top: 100.0 / 2.0),
                                               child: Container(
                                                 decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(12),
-                                                  color:
-                                                      const Color(0xffF1F1F1),
-                                                ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            12),
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .onPrimaryContainer
+                                                    // const Color(0xffF1F1F1),
+                                                    ),
                                                 padding: const EdgeInsets.only(
                                                     top: 100.0 / 2.0),
                                                 width: 150,
@@ -391,8 +398,7 @@ class _NewHomeState extends State<NewHome> {
                                                                 'Time',
                                                                 style:
                                                                     TextStyle(
-                                                                  color: Color(
-                                                                      0x402E2E2E),
+                                                                  // color: Color(0x402E2E2E),
                                                                   fontSize:
                                                                       12.0,
                                                                 ),
@@ -412,8 +418,7 @@ class _NewHomeState extends State<NewHome> {
                                                                     .total_time,
                                                                 style:
                                                                     const TextStyle(
-                                                                  color: Color(
-                                                                      0xff2E2E2E),
+                                                                  // color: Color(0xff2E2E2E), TODO
                                                                   fontSize:
                                                                       12.0,
                                                                   fontWeight:

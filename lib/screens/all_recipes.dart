@@ -74,11 +74,12 @@ class _AllRecipesState extends State<AllRecipes> {
   Widget build(BuildContext context) {
     final recipeProvider = Provider.of<Recipes>(context);
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         iconTheme: const IconThemeData(color: Colors.black),
         elevation: 0,
-        backgroundColor: Colors.white,
+        // backgroundColor: Colors.white,
       ),
       body: recipeList.isNotEmpty
           ? Padding(
@@ -143,161 +144,172 @@ class _AllRecipesState extends State<AllRecipes> {
     return Stack(
       children: [
         Card(
-          child: Padding(
-            padding:
-                const EdgeInsets.only(top: 35, left: 13, bottom: 14, right: 7),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      height: 130,
-                      width: 127,
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          child: Container(
+            decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.secondaryContainer,
+                borderRadius: BorderRadius.circular(10)),
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  top: 35, left: 13, bottom: 14, right: 7),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: 130,
+                        width: 127,
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                        ),
+                        child: Image.network(pic),
                       ),
-                      child: Image.network(pic),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 8.0),
-                            child: Text(
-                              mealName,
-                              style: const TextStyle(
-                                overflow: TextOverflow.ellipsis,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(bottom: 8.0, left: 8),
+                              child: Text(
+                                mealName,
+                                style: const TextStyle(
+                                  overflow: TextOverflow.ellipsis,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8.0, vertical: 4),
-                            child: Row(
-                              children: [
-                                const Icon(Icons.people_alt_outlined),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  '${meal.serving} people',
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 12),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8.0, vertical: 4),
-                            child: Row(
-                              children: [
-                                const Icon(Icons.timer_outlined),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  '$time min',
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 12),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8.0, vertical: 4),
-                            child: Row(
-                              children: [
-                                const Icon(CupertinoIcons.flame),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  '$calories Kcal',
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 12),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 8.0, vertical: 4),
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.check_box_outlined,
-                                  color: Color(0xff53E88B),
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Flexible(
-                                  child: Text(
-                                    'You have all the ingredients',
-                                    style: TextStyle(
-                                        color: Color(0xff53E88B), fontSize: 12),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0, vertical: 4),
+                              child: Row(
+                                children: [
+                                  const Icon(Icons.people_alt_outlined),
+                                  const SizedBox(
+                                    width: 5,
                                   ),
-                                ),
-                              ],
+                                  Text(
+                                    '${meal.serving} people',
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 12),
+                                  ),
+                                ],
+                              ),
                             ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0, vertical: 4),
+                              child: Row(
+                                children: [
+                                  const Icon(Icons.timer_outlined),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    '$time min',
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 12),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0, vertical: 4),
+                              child: Row(
+                                children: [
+                                  const Icon(CupertinoIcons.flame),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    '$calories Kcal',
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 12),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 8.0, vertical: 4),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.check_box_outlined,
+                                    color: Color(0xff53E88B),
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Flexible(
+                                    child: Text(
+                                      'You have all the ingredients',
+                                      style: TextStyle(
+                                          color: Color(0xff53E88B),
+                                          fontSize: 12),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      update();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => FoodDetails(meal: meal),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(top: 16),
+                      width: 208.47,
+                      height: 44,
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          begin: Alignment.centerRight,
+                          end: Alignment.centerLeft,
+                          colors: [
+                            Color(0xff15BE77),
+                            Color(0xff53E88B),
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: const Center(
+                        child: Text(
+                          "Show Detail",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
                           ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-                GestureDetector(
-                  onTap: () {
-                    update();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => FoodDetails(meal: meal),
-                      ),
-                    );
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.only(top: 16),
-                    width: 208.47,
-                    height: 44,
-                    decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        begin: Alignment.centerRight,
-                        end: Alignment.centerLeft,
-                        colors: [
-                          Color(0xff15BE77),
-                          Color(0xff53E88B),
-                        ],
-                      ),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: const Center(
-                      child: Text(
-                        "Show Detail",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

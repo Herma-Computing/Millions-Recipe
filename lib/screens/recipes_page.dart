@@ -80,8 +80,13 @@ class _RecipesPageState extends State<RecipesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(elevation: 0, backgroundColor: Colors.white),
+      // backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).colorScheme.background,
+      appBar: AppBar(
+        elevation: 0,
+        // backgroundColor: Colors.white
+        backgroundColor: Theme.of(context).colorScheme.background,
+      ),
       body: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 26),
@@ -159,7 +164,9 @@ class _RecipesPageState extends State<RecipesPage> {
         margin: const EdgeInsets.only(left: 22, right: 30),
         elevation: 10,
         child: Container(
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(60)),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Theme.of(context).colorScheme.secondaryContainer),
           padding: const EdgeInsets.all(11),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,

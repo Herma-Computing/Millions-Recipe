@@ -32,7 +32,8 @@ class _LogInState extends State<LogIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
@@ -45,11 +46,12 @@ class _LogInState extends State<LogIn> {
             const SizedBox(
               height: 36,
             ),
-            const Text(
+            Text(
               "Hey there,",
               style: TextStyle(
                   fontSize: 20,
-                  color: Color(0xff2E2E2E),
+                  // color: Color(0xff2E2E2E),
+                  color: Theme.of(context).colorScheme.onPrimary,
                   fontWeight: FontWeight.w500),
             ),
             const Text(
@@ -88,17 +90,19 @@ class _LogInState extends State<LogIn> {
                 ));
               },
               child: RichText(
-                text: const TextSpan(children: [
+                text: TextSpan(children: [
                   TextSpan(
                       text: "Forgot",
                       style: TextStyle(
-                          color: Colors.black,
+                          color: Theme.of(context).colorScheme.secondary,
                           fontSize: 14,
                           fontWeight: FontWeight.w500)),
                   TextSpan(
                       text: " Password?",
                       style: TextStyle(
-                          color: Colors.black,
+                          color: Theme.of(context).colorScheme.secondary,
+
+                          // color: Colors.black,
                           fontSize: 14,
                           fontWeight: FontWeight.w500))
                 ]),
@@ -204,7 +208,7 @@ class _LogInState extends State<LogIn> {
               children: [
                 const Text("Don't have an account?",
                     style: TextStyle(
-                        color: Colors.black,
+                        // color: Colors.black,
                         fontSize: 17,
                         fontWeight: FontWeight.w400)),
                 GestureDetector(
@@ -231,7 +235,7 @@ class _LogInState extends State<LogIn> {
               children: [
                 const Text("Wanna have a look?",
                     style: TextStyle(
-                        color: Colors.black,
+                        // color: Colors.black,
                         fontSize: 17,
                         fontWeight: FontWeight.w400)),
                 GestureDetector(
@@ -417,10 +421,16 @@ class _LogInState extends State<LogIn> {
       String? errorMessage) {
     Color secondbackgroundColor = Theme.of(context).cardColor;
     final inputBorder = OutlineInputBorder(
-        borderSide: Divider.createBorderSide(
-          context,
-        ),
-        borderRadius: BorderRadius.circular(10));
+      // borderSide: Divider.createBorderSide(
+      //   context,
+      // ),
+      borderRadius: BorderRadius.circular(10),
+
+      borderSide: BorderSide(
+        color: Theme.of(context).colorScheme.secondary,
+        width: 0.7,
+      ),
+    );
     TextTheme textTheme = Theme.of(context).textTheme;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 50),
@@ -476,7 +486,8 @@ class _LogInState extends State<LogIn> {
                                     )
                               : const Icon(null)),
                       // ignore: use_full_hex_values_for_flutter_colors
-                      prefixIconColor: const Color(0xff2E2E2E40),
+                      // prefixIconColor: const Color(0xff2E2E2E40),
+                      prefixIconColor: Theme.of(context).colorScheme.onPrimary,
                       // ignore: use_full_hex_values_for_flutter_colors
                       iconColor: const Color(0xff2E2E2E40),
                       hintText: hintText,
@@ -490,6 +501,7 @@ class _LogInState extends State<LogIn> {
                         borderSide: const BorderSide(color: Colors.red),
                         borderRadius: BorderRadius.circular(15.0),
                       ),
+
                       focusedBorder: OutlineInputBorder(
                         borderSide: const BorderSide(color: Colors.blue),
                         borderRadius: BorderRadius.circular(10.0),

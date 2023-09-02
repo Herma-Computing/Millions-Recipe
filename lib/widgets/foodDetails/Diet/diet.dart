@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../models/recipe_model.dart';
 
 class Diet extends StatelessWidget {
-  final Recipe meal;
-  const Diet({super.key, required this.meal});
+  var meal;
+  Diet({super.key, required this.meal});
 
   @override
   Widget build(BuildContext context) {

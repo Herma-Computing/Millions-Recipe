@@ -41,7 +41,8 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
@@ -55,7 +56,7 @@ class _RegisterState extends State<Register> {
               "Let's get you set up",
               style: TextStyle(
                   fontSize: 20,
-                  color: Color(0xff2E2E2E),
+                  // color: Color(0xff2E2E2E),
                   fontWeight: FontWeight.w500),
             ),
             const Text(
@@ -119,11 +120,12 @@ class _RegisterState extends State<Register> {
                     });
                   },
                 ),
-                const Text(
+                Text(
                   maxLines: 3,
                   "By continuing you accept our Privacy\n Policy and Term of Use",
                   style: TextStyle(
-                      color: Colors.grey,
+                      // color: Colors.grey,
+                      color: Theme.of(context).colorScheme.onPrimary,
                       fontSize: 16,
                       fontWeight: FontWeight.normal),
                 ),
@@ -241,7 +243,7 @@ class _RegisterState extends State<Register> {
               children: [
                 const Text("Already have an account?",
                     style: TextStyle(
-                        color: Colors.black,
+                        // color: Colors.black,
                         fontSize: 17,
                         fontWeight: FontWeight.w400)),
                 GestureDetector(
@@ -268,7 +270,7 @@ class _RegisterState extends State<Register> {
               children: [
                 const Text("Wanna have a look?",
                     style: TextStyle(
-                        color: Colors.black,
+                        // color: Colors.black,
                         fontSize: 17,
                         fontWeight: FontWeight.w400)),
                 GestureDetector(
@@ -452,7 +454,11 @@ class _RegisterState extends State<Register> {
       String? errorMessage) {
     Color secondbackgroundColor = Theme.of(context).cardColor;
     final inputBorder = OutlineInputBorder(
-        borderSide: Divider.createBorderSide(context),
+        // borderSide: Divider.createBorderSide(context),
+        borderSide: BorderSide(
+          color: Theme.of(context).colorScheme.secondary,
+          width: 0.7,
+        ),
         borderRadius: BorderRadius.circular(10));
     TextTheme textTheme = Theme.of(context).textTheme;
     return Container(
@@ -508,7 +514,8 @@ class _RegisterState extends State<Register> {
                                   )
                             : const Icon(null)),
                     // ignore: use_full_hex_values_for_flutter_colors
-                    prefixIconColor: const Color(0xff2E2E2E40),
+                    prefixIconColor: Theme.of(context).colorScheme.onPrimary,
+
                     // ignore: use_full_hex_values_for_flutter_colors
                     iconColor: const Color(0xff2E2E2E40),
                     hintText: hintText,

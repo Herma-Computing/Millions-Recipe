@@ -43,6 +43,7 @@ class _OnbordingState extends State<Onbording> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: Column(
         children: [
           Expanded(

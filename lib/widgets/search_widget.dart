@@ -27,7 +27,7 @@ class _SearchResultState extends State<SearchResult> {
     setState(() {
       loading = true;
       widget.query = query;
-      isAgain = true;
+      isAgain = true; // Set isAgain to true here
     });
 
     await recipeProvider.fetchRecipesBySearch(query, isAgain);
@@ -68,6 +68,7 @@ class _SearchResultState extends State<SearchResult> {
   final TextEditingController _searchController = TextEditingController();
   @override
   void initState() {
+    // fetchSearch();
     performSearch(widget.query);
     update();
     _searchController.text = widget.query;
@@ -80,11 +81,12 @@ class _SearchResultState extends State<SearchResult> {
     final recipeProvider = Provider.of<Recipes>(context);
     final searchResults = recipeProvider.searchedRecipes;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.black),
+        iconTheme:
+            IconThemeData(color: Theme.of(context).colorScheme.secondary),
         elevation: 0,
-        backgroundColor: Colors.white,
+        // backgroundColor: Colors.white,
       ),
       body: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
         Container(
@@ -223,7 +225,10 @@ class _SearchResultState extends State<SearchResult> {
         margin: const EdgeInsets.only(left: 22, right: 30),
         elevation: 10,
         child: Container(
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(60)),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Theme.of(context).colorScheme.secondaryContainer),
+          // decoration: BoxDecoration(borderRadius: BorderRadius.circular(60)),
           padding: const EdgeInsets.all(11),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,

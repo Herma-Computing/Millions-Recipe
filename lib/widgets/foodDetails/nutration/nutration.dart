@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../models/recipe_model.dart';
+import 'package:millions_recipe/models/recipe_model.dart';
 
 class Nutrition extends StatelessWidget {
   final Recipe meal;
@@ -20,7 +20,7 @@ class Nutrition extends StatelessWidget {
                 margin: const EdgeInsets.symmetric(horizontal: 10),
                 width: double.infinity,
                 height: 1,
-                color: const Color.fromARGB(48, 85, 84, 84),
+                color: Theme.of(context).colorScheme.tertiaryContainer,
               )
             ],
           );

@@ -9,7 +9,7 @@ class CookingSteps extends StatelessWidget {
   Widget build(BuildContext context) {
     double cWidth = MediaQuery.of(context).size.width * 0.8;
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -34,7 +34,7 @@ class CookingSteps extends StatelessWidget {
         title: const Text(
           'Cooking Steps',
           style: TextStyle(
-            color: Colors.black,
+            // color: Colors.black,
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),

@@ -79,6 +79,7 @@ class _FoodDetailsState extends State<FoodDetails> {
     Color white = const Color(0xFFFFFFFF);
 
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: SingleChildScrollView(
         child: SizedBox(
           width: double.infinity,
@@ -336,11 +337,14 @@ class _FoodDetailsState extends State<FoodDetails> {
       children: [
         GestureDetector(
           onTap: x,
-          child: Icon(icon, color: isSelected == true ? color : Colors.black),
+          child: Icon(icon,
+              color: isSelected == true
+                  ? color
+                  : Theme.of(context).colorScheme.secondary),
         ),
         Text(
           title,
-          style: TextStyle(color: color),
+          style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
         ),
       ],
     );
@@ -355,7 +359,9 @@ class _FoodDetailsState extends State<FoodDetails> {
           Text(
             title,
             style: GoogleFonts.poppins(
-              color: pageviewSelected == index ? green : Colors.black,
+              color: pageviewSelected == index
+                  ? green
+                  : Theme.of(context).colorScheme.secondary,
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),

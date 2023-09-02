@@ -21,6 +21,7 @@ class _ChangePasswordState extends State<ChangePassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(
@@ -147,7 +148,11 @@ class _ChangePasswordState extends State<ChangePassword> {
   ) {
     Color secondbackgroundColor = Theme.of(context).cardColor;
     final inputBorder = OutlineInputBorder(
-        borderSide: Divider.createBorderSide(context),
+        // borderSide: Divider.createBorderSide(context),
+        borderSide: BorderSide(
+        color: Theme.of(context).colorScheme.secondary,
+        width: 0.7,
+      ),
         borderRadius: BorderRadius.circular(10));
     TextTheme textTheme = Theme.of(context).textTheme;
     return Container(
