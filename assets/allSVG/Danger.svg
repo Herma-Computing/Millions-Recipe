@@ -1,0 +1,14 @@
+<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="solar:danger-circle-linear" clip-path="url(#clip0_506_3897)">
+<g id="Group">
+<path id="Vector" d="M10.0003 18.3333C14.6027 18.3333 18.3337 14.6023 18.3337 9.99996C18.3337 5.39759 14.6027 1.66663 10.0003 1.66663C5.39795 1.66663 1.66699 5.39759 1.66699 9.99996C1.66699 14.6023 5.39795 18.3333 10.0003 18.3333Z" stroke="white" stroke-width="1.5"/>
+<path id="Vector_2" d="M10 5.83325V10.8333" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_3" d="M10.0003 14.1667C10.4606 14.1667 10.8337 13.7936 10.8337 13.3333C10.8337 12.8731 10.4606 12.5 10.0003 12.5C9.54009 12.5 9.16699 12.8731 9.16699 13.3333C9.16699 13.7936 9.54009 14.1667 10.0003 14.1667Z" fill="white"/>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_506_3897">
+<rect width="20" height="20" fill="white"/>
+</clipPath>
+</defs>
+</svg>

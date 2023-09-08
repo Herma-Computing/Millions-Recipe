@@ -1,36 +1,53 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:millions_recipe/reciep_icons.dart';
-import 'package:millions_recipe/screens/setting.dart';
 import 'package:provider/provider.dart';
 
-import '../api/shared_preference/shared_preference.dart';
+import '../common/constants.dart';
+import '../my_flutter_app_icons.dart';
 import '../providers/theme_provider.dart';
-import 'edit_profile.dart';
 
-class Profile extends StatefulWidget {
-  const Profile({
-    super.key,
-  });
+class SettingPage extends StatefulWidget {
+  const SettingPage({super.key});
+
   @override
-  State<Profile> createState() => _ProfileState();
+  State<SettingPage> createState() => _SettingPageState();
 }
 
-class _ProfileState extends State<Profile> {
-  late String userName;
-  late bool darkMode;
-
-  @override
-  void initState() {
-    userName = UserPreferences.getName() ?? "Guest";
-
-    super.initState();
-  }
-
+class _SettingPageState extends State<SettingPage> {
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
     return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(32),
+                  color: kPrimaryColor.withOpacity(0.25),
+                ),
+                child: Icon(
+                  Icons.arrow_back,
+                  color: kPrimaryColor,
+                ),
+              ),
+            ),
+          ),
+          title: const Text(
+            'Settings',
+            style: TextStyle(
+              // color: Colors.black,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
         backgroundColor: Theme.of(context).colorScheme.background,
         body: SingleChildScrollView(
           physics: const NeverScrollableScrollPhysics(),
@@ -40,7 +57,6 @@ class _ProfileState extends State<Profile> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                profileHeader(),
                 accountCard(),
                 Card(
                   shape: RoundedRectangleBorder(
@@ -59,7 +75,7 @@ class _ProfileState extends State<Profile> {
                           child: Padding(
                             padding: EdgeInsets.only(left: 20.0),
                             child: Text(
-                              'Theam',
+                              'Notification',
                               style: TextStyle(
                                   fontSize: 16,
                                   fontFamily: 'Manrope',
@@ -69,20 +85,14 @@ class _ProfileState extends State<Profile> {
                         ),
                         ListTile(
                           dense: true,
-                          leading: themeChange.isDarkMode
-                              ? const Icon(Icons.dark_mode_outlined)
-                              : const Icon(ReciepIcons.ph_sun_dim),
-                          title: themeChange.isDarkMode
-                              ? const Text('Dark Mode')
-                              : const Text('Light Mode'),
+                          leading: const Icon(MyFlutterApp.notification_icon),
+                          title: const Text("Pop-up Notification"),
                           trailing: CupertinoSwitch(
                             activeColor: Colors.white38,
                             thumbColor: Colors.green.shade900,
                             trackColor: Colors.black12,
                             value: themeChange.isDarkMode,
-                            onChanged: (value) {
-                              themeChange.toggleTheme();
-                            },
+                            onChanged: (value) {},
                           ),
                         ),
                       ],
@@ -122,26 +132,14 @@ class _ProfileState extends State<Profile> {
               ),
               ListTile(
                 dense: true,
-                leading: Icon(ReciepIcons.cil_fridge),
-                title: Text('My Fridge'),
+                leading: Icon(MyFlutterApp.password),
+                title: Text('Change Password'),
                 trailing: Icon(Icons.arrow_forward_ios),
               ),
               ListTile(
                 dense: true,
-                leading: Icon(ReciepIcons.health),
-                title: Text('My Health'),
-                trailing: Icon(Icons.arrow_forward_ios),
-              ),
-              ListTile(
-                dense: true,
-                leading: Icon(ReciepIcons.list),
-                title: Text('My Meal Planner'),
-                trailing: Icon(Icons.arrow_forward_ios),
-              ),
-              ListTile(
-                dense: true,
-                leading: Icon(ReciepIcons.goal),
-                title: Text('My Goals'),
+                leading: Icon(MyFlutterApp.subway_world),
+                title: Text('Language'),
                 trailing: Icon(Icons.arrow_forward_ios),
               ),
             ],
@@ -166,7 +164,7 @@ class _ProfileState extends State<Profile> {
                 child: Padding(
                   padding: EdgeInsets.only(left: 20.0),
                   child: Text(
-                    'Other',
+                    'Help',
                     style: TextStyle(
                         fontSize: 16,
                         fontFamily: 'Manrope',
@@ -176,8 +174,8 @@ class _ProfileState extends State<Profile> {
               ),
               const ListTile(
                 dense: true,
-                leading: Icon(ReciepIcons.chat),
-                title: Text('Forum'),
+                leading: Icon(Icons.contact_phone_outlined),
+                title: Text('Contact Us'),
                 trailing: Icon(Icons.arrow_forward_ios),
               ),
               ListTile(
@@ -187,74 +185,23 @@ class _ProfileState extends State<Profile> {
                   ));
                 },
                 dense: true,
-                leading: const Icon(ReciepIcons.setting),
-                title: const Text('Setting'),
+                leading: const Icon(Icons.wallet_travel_outlined),
+                title: const Text('Privacy Policy'),
                 trailing: const Icon(Icons.arrow_forward_ios),
               ),
               const ListTile(
                 dense: true,
-                leading: Icon(ReciepIcons.ph_code),
-                title: Text('Meet the Developer'),
+                leading: Icon(Icons.content_paste_outlined),
+                title: Text('Terms and Services'),
                 trailing: Icon(Icons.arrow_forward_ios),
               ),
               const ListTile(
                 dense: true,
-                leading: Icon(ReciepIcons.share),
-                title: Text('Invite Friends'),
+                leading: Icon(MyFlutterApp.question_mark),
+                title: Text("Million Recipe's FAQ"),
                 trailing: Icon(Icons.arrow_forward_ios),
               ),
             ],
-          ),
-        ),
-      );
-
-  Widget profileHeader() => ListTile(
-        leading: Container(
-          width: 55,
-          height: 55,
-          decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-          ),
-          child: Image.asset('assets/Ellipse 7.png'),
-        ),
-        title: Text(
-          userName,
-          style: const TextStyle(
-              fontWeight: FontWeight.w500, fontSize: 14, fontFamily: 'Manrope'),
-        ),
-        subtitle: const Text(
-          'Junior Chef',
-          style: TextStyle(
-              fontWeight: FontWeight.w400, fontSize: 12, fontFamily: 'Manrope'),
-        ),
-        trailing: GestureDetector(
-          onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => const EditProfile(),
-            ));
-          },
-          child: Container(
-            width: 87.5,
-            height: 30.7,
-            decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  begin: Alignment.centerRight,
-                  end: Alignment.centerLeft,
-                  colors: [
-                    Color(0xff15BE77),
-                    Color(0xff53E88B),
-                  ],
-                ),
-                borderRadius: BorderRadius.circular(10)),
-            child: const Center(
-              child: Text(
-                "Edit",
-                style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white),
-              ),
-            ),
           ),
         ),
       );

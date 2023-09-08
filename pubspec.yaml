@@ -99,6 +99,9 @@ flutter:
     - family:  ReciepIcons
       fonts:
         - asset: assets/assets/fonts/ReciepIcons.ttf
+    - family: MyFlutterApp
+      fonts: 
+        - asset: assets/assets/flutter-icons-cfc89b7a/fonts/MyFlutterApp.ttf
 
   # To add assets to your application, add an assets section, like this:
   assets:

@@ -8,7 +8,7 @@ class DarkThemeProvider with ChangeNotifier {
 
   static late final SharedPreferences prefs;
 
-  bool _isDarkMode = prefs.getBool('isDarkMode') ?? false;
+  bool _isDarkMode = prefs.getBool('isDarkMode') ?? true;
 
   static Future init() async => prefs = await SharedPreferences.getInstance();
 

@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:millions_recipe/common/constants.dart';
 import 'package:millions_recipe/newhome.dart';
+import 'package:millions_recipe/providers/theme_provider.dart';
 import 'package:millions_recipe/screens/add_recipe.dart';
 import 'package:millions_recipe/screens/favourites.dart';
 import 'package:millions_recipe/screens/profile.dart';
 import 'package:millions_recipe/screens/recipes_page.dart';
+import 'package:provider/provider.dart';
 
 class Landing extends StatefulWidget {
   const Landing({Key? key}) : super(key: key);
@@ -82,91 +84,167 @@ class _LandingState extends State<Landing> {
           //   ),
           // ],
         ),
-        child: BottomNavigationBar(
-          elevation: 8.0,
-          selectedItemColor: kActiveColor,
-          unselectedItemColor: Theme.of(context).colorScheme.onPrimary,
-          type: BottomNavigationBarType.fixed,
-          currentIndex: currentTab,
-          onTap: (int index) {
-            setState(() {
-              currentTab = index;
-            });
-          },
-          items: [
-            BottomNavigationBarItem(
-              activeIcon: SvgPicture.asset(
-                'assets/allSVG/Home-Icon.svg',
-                colorFilter: ColorFilter.mode(
-                  kActiveColor,
-                  BlendMode.srcIn,
-                ),
-              ),
-              icon: Opacity(
-                opacity: 0.25,
-                child: SvgPicture.asset(
-                  'assets/allSVG/Home-Icon.svg',
-                ),
-              ),
-              label: "Home",
-            ),
-            BottomNavigationBarItem(
-              activeIcon: SvgPicture.asset(
-                'assets/allSVG/My-Recipe-Icon.svg',
-                colorFilter: ColorFilter.mode(
-                  kActiveColor,
-                  BlendMode.srcIn,
-                ),
-              ),
-              icon: Opacity(
-                opacity: 0.25,
-                child: SvgPicture.asset(
-                  'assets/allSVG/My-Recipe-Icon.svg',
-                ),
-              ),
-              label: "Recipes",
-            ),
-            const BottomNavigationBarItem(
-              icon: Icon(
-                Icons.add,
-                color: Colors.transparent,
-              ),
-              label: "Add Recipe",
-            ),
-            BottomNavigationBarItem(
-              activeIcon: SvgPicture.asset(
-                'assets/allSVG/Favorite-Icon.svg',
-                colorFilter: ColorFilter.mode(
-                  kActiveColor,
-                  BlendMode.srcIn,
-                ),
-              ),
-              icon: Opacity(
-                opacity: 0.25,
-                child: SvgPicture.asset(
-                  'assets/allSVG/Favorite-Icon.svg',
-                ),
-              ),
-              label: "Favourites",
-            ),
-            BottomNavigationBarItem(
-              activeIcon: SvgPicture.asset(
-                'assets/allSVG/Profile-Icon.svg',
-                colorFilter: ColorFilter.mode(
-                  kActiveColor,
-                  BlendMode.srcIn,
-                ),
-              ),
-              icon: Opacity(
-                opacity: 0.25,
-                child: SvgPicture.asset(
-                  'assets/allSVG/Profile-Icon.svg',
-                ),
-              ),
-              label: "Profile",
-            ),
-          ],
-        ),
+        child: Consumer<DarkThemeProvider>(builder: (context, value, child) {
+          final themeProvider = Provider.of<DarkThemeProvider>(context);
+          return BottomNavigationBar(
+              elevation: 8.0,
+              selectedItemColor: kActiveColor,
+              unselectedItemColor: Theme.of(context).colorScheme.onPrimary,
+              type: BottomNavigationBarType.fixed,
+              currentIndex: currentTab,
+              onTap: (int index) {
+                setState(() {
+                  currentTab = index;
+                });
+              },
+              items: themeProvider.isDarkMode
+                  ? [
+                      BottomNavigationBarItem(
+                        activeIcon: SvgPicture.asset(
+                          'assets/allSVG/Home-Icon.svg',
+                          colorFilter: ColorFilter.mode(
+                            kActiveColor,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                        icon: Opacity(
+                          opacity: 0.25,
+                          child: SvgPicture.asset(
+                            'assets/allSVG/home.svg',
+                          ),
+                        ),
+                        label: "Home",
+                      ),
+                      BottomNavigationBarItem(
+                        activeIcon: SvgPicture.asset(
+                          'assets/allSVG/My-Recipe-Icon.svg',
+                          colorFilter: ColorFilter.mode(
+                            kActiveColor,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                        icon: Opacity(
+                          opacity: 0.25,
+                          child: SvgPicture.asset(
+                            'assets/allSVG/Folder 1.svg',
+                          ),
+                        ),
+                        label: "Recipes",
+                      ),
+                      const BottomNavigationBarItem(
+                        icon: Icon(
+                          Icons.add,
+                          color: Colors.transparent,
+                        ),
+                        label: "Add Recipe",
+                      ),
+                      BottomNavigationBarItem(
+                        activeIcon: SvgPicture.asset(
+                          'assets/allSVG/Favorite-Icon.svg',
+                          colorFilter: ColorFilter.mode(
+                            kActiveColor,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                        icon: Opacity(
+                          opacity: 0.25,
+                          child: SvgPicture.asset(
+                            'assets/allSVG/favorite.svg',
+                          ),
+                        ),
+                        label: "Favourites",
+                      ),
+                      BottomNavigationBarItem(
+                        activeIcon: SvgPicture.asset(
+                          'assets/allSVG/Profile-Icon.svg',
+                          colorFilter: ColorFilter.mode(
+                            kActiveColor,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                        icon: Opacity(
+                          opacity: 0.25,
+                          child: SvgPicture.asset(
+                            'assets/allSVG/User.svg',
+                          ),
+                        ),
+                        label: "Profile",
+                      ),
+                    ]
+                  : [
+                      BottomNavigationBarItem(
+                        activeIcon: SvgPicture.asset(
+                          'assets/allSVG/Home-Icon.svg',
+                          colorFilter: ColorFilter.mode(
+                            kActiveColor,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                        icon: Opacity(
+                          opacity: 0.25,
+                          child: SvgPicture.asset(
+                            'assets/allSVG/Home-Icon.svg',
+                          ),
+                        ),
+                        label: "Home",
+                      ),
+                      BottomNavigationBarItem(
+                        activeIcon: SvgPicture.asset(
+                          'assets/allSVG/My-Recipe-Icon.svg',
+                          colorFilter: ColorFilter.mode(
+                            kActiveColor,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                        icon: Opacity(
+                          opacity: 0.25,
+                          child: SvgPicture.asset(
+                            'assets/allSVG/My-Recipe-Icon.svg',
+                          ),
+                        ),
+                        label: "Recipes",
+                      ),
+                      const BottomNavigationBarItem(
+                        icon: Icon(
+                          Icons.add,
+                          color: Colors.transparent,
+                        ),
+                        label: "Add Recipe",
+                      ),
+                      BottomNavigationBarItem(
+                        activeIcon: SvgPicture.asset(
+                          'assets/allSVG/Favorite-Icon.svg',
+                          colorFilter: ColorFilter.mode(
+                            kActiveColor,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                        icon: Opacity(
+                          opacity: 0.25,
+                          child: SvgPicture.asset(
+                            'assets/allSVG/Favorite-Icon.svg',
+                          ),
+                        ),
+                        label: "Favourites",
+                      ),
+                      BottomNavigationBarItem(
+                        activeIcon: SvgPicture.asset(
+                          'assets/allSVG/Profile-Icon.svg',
+                          colorFilter: ColorFilter.mode(
+                            kActiveColor,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                        icon: Opacity(
+                          opacity: 0.25,
+                          child: SvgPicture.asset(
+                            'assets/allSVG/Profile-Icon.svg',
+                          ),
+                        ),
+                        label: "Profile",
+                      ),
+                    ]);
+        }),
       ),
     );
   }
