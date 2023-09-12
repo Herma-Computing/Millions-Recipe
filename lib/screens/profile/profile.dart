@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:millions_recipe/reciep_icons.dart';
-import 'package:millions_recipe/screens/setting.dart';
+import 'package:millions_recipe/screens/profile/meet_developers.dart';
+import 'package:millions_recipe/screens/settings/setting.dart';
 import 'package:provider/provider.dart';
 
-import '../api/shared_preference/shared_preference.dart';
-import '../providers/theme_provider.dart';
+import '../../api/shared_preference/shared_preference.dart';
+import '../../providers/theme_provider.dart';
 import 'edit_profile.dart';
 
 class Profile extends StatefulWidget {
@@ -19,6 +20,7 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   late String userName;
   late bool darkMode;
+  // notifyListeners();
 
   @override
   void initState() {
@@ -42,6 +44,7 @@ class _ProfileState extends State<Profile> {
               children: [
                 profileHeader(),
                 accountCard(),
+                // theamCard(themeChange.darkTheme),
                 Card(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
@@ -104,10 +107,10 @@ class _ProfileState extends State<Profile> {
           decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.secondaryContainer,
               borderRadius: BorderRadius.circular(10)),
-          child: const Column(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
+              const Padding(
                 padding: EdgeInsets.symmetric(vertical: 14),
                 child: Padding(
                   padding: EdgeInsets.only(left: 20.0),
@@ -120,25 +123,32 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
               ),
-              ListTile(
+              const ListTile(
                 dense: true,
                 leading: Icon(ReciepIcons.cil_fridge),
                 title: Text('My Fridge'),
                 trailing: Icon(Icons.arrow_forward_ios),
               ),
-              ListTile(
+              const ListTile(
                 dense: true,
                 leading: Icon(ReciepIcons.health),
                 title: Text('My Health'),
                 trailing: Icon(Icons.arrow_forward_ios),
               ),
               ListTile(
+                onTap: () {
+                  // Navigator.of(context).push(MaterialPageRoute(
+                  //   builder: (context) => PlannerPage(
+                  //     onMenuTap: () {},
+                  //   ),
+                  // ));
+                },
                 dense: true,
-                leading: Icon(ReciepIcons.list),
-                title: Text('My Meal Planner'),
-                trailing: Icon(Icons.arrow_forward_ios),
+                leading: const Icon(ReciepIcons.list),
+                title: const Text('My Meal Planner'),
+                trailing: const Icon(Icons.arrow_forward_ios),
               ),
-              ListTile(
+              const ListTile(
                 dense: true,
                 leading: Icon(ReciepIcons.goal),
                 title: Text('My Goals'),
@@ -191,11 +201,16 @@ class _ProfileState extends State<Profile> {
                 title: const Text('Setting'),
                 trailing: const Icon(Icons.arrow_forward_ios),
               ),
-              const ListTile(
+              ListTile(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const MeetDevelopers(),
+                  ));
+                },
                 dense: true,
-                leading: Icon(ReciepIcons.ph_code),
-                title: Text('Meet the Developer'),
-                trailing: Icon(Icons.arrow_forward_ios),
+                leading: const Icon(ReciepIcons.ph_code),
+                title: const Text('Meet the Developer'),
+                trailing: const Icon(Icons.arrow_forward_ios),
               ),
               const ListTile(
                 dense: true,
@@ -234,6 +249,7 @@ class _ProfileState extends State<Profile> {
             ));
           },
           child: Container(
+            //  margin: const EdgeInsets.only(top: 16),
             width: 87.5,
             height: 30.7,
             decoration: BoxDecoration(

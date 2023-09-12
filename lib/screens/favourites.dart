@@ -224,12 +224,10 @@ Widget recipeCard(BuildContext context, Recipe recipe, Function fetchRecipe) {
                               SizedBox(
                                 width: 5,
                               ),
-                              Flexible(
-                                child: Text(
-                                  'You have all the ingedients',
-                                  style: TextStyle(
-                                      color: Color(0xff53E88B), fontSize: 10),
-                                ),
+                              Text(
+                                'You have all the ingedients',
+                                style: TextStyle(
+                                    color: Color(0xff53E88B), fontSize: 10),
                               ),
                             ]),
                           ),

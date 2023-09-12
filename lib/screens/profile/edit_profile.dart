@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:millions_recipe/screens/profile.dart';
-import '../common/constants.dart';
+import 'package:millions_recipe/screens/profile/profile.dart';
+import '../../common/constants.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
@@ -104,7 +104,7 @@ class _EditProfileState extends State<EditProfile> {
                           children: [
                             Container(
                               height: 48,
-                              width: MediaQuery.of(context).size.width * 0.368,
+                              width: 150,
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 4),
                               decoration: BoxDecoration(
@@ -129,12 +129,11 @@ class _EditProfileState extends State<EditProfile> {
                               ),
                             ),
                             const SizedBox(
-                              width: 35,
+                              width: 40,
                             ),
                             Container(
                               height: 48,
-                              // width: 150,
-                              width: MediaQuery.of(context).size.width * 0.368,
+                              width: 150,
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 4),
                               decoration: BoxDecoration(

@@ -4,9 +4,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:horizontal_picker/horizontal_picker.dart';
-import 'package:millions_recipe/home.dart';
-import 'package:millions_recipe/screens/on_boarding_screen.dart';
 import 'package:millions_recipe/widgets/triangle_painter.dart';
+
+import '../common/constants.dart';
 
 class GenderSelections extends StatefulWidget {
   const GenderSelections({
@@ -30,15 +30,15 @@ class _GenderSelectionsState extends State<GenderSelections> {
   int currentWeightValue = 30;
   List<DropdownMenuItem<String>> dropdownHeightItems = [
     const DropdownMenuItem(
+        value: "cm",
         child: Text(
           "cm",
-        ),
-        value: "cm"),
-    const DropdownMenuItem(child: Text("mm"), value: "mm"),
+        )),
+    const DropdownMenuItem(value: "mm", child: Text("mm")),
   ];
   List<DropdownMenuItem<String>> dropdownWeightItems = [
-    const DropdownMenuItem(child: Text("kg"), value: "kg"),
-    const DropdownMenuItem(child: Text("gram"), value: "gram"),
+    const DropdownMenuItem(value: "kg", child: Text("kg")),
+    const DropdownMenuItem(value: "gram", child: Text("gram")),
   ];
   @override
   void initState() {
@@ -51,74 +51,47 @@ class _GenderSelectionsState extends State<GenderSelections> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
+        appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            leading: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(32),
+                    color: kPrimaryColor.withOpacity(0.25),
+                  ),
+                  child: Icon(
+                    Icons.arrow_back,
+                    color: kPrimaryColor,
+                  ),
+                ),
+              ),
+            ),
+            title: const Text("Help us get you \nyour dream body",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w800,
+                ))),
+        // backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).colorScheme.background,
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: CircleAvatar(
-                        radius: 25,
-                        backgroundColor: const Color.fromARGB(255, 224, 250, 225),
-                        child: IconButton(
-                            onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(
-                                  builder: (BuildContext cxontext) {
-                                return const Onbording();
-                              }));
-                            },
-                            icon: Icon(
-                              Icons.arrow_back,
-                              color: HexColor("#53E88B"),
-                              size: 24,
-                            )),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 15, left: 20),
-                            child: Text(
-                              "Help us get you ",
-                              style: GoogleFonts.manrope(
-                                textStyle: const TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 24),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 15),
-                            child: Text(
-                              " your dream body",
-                              style: GoogleFonts.manrope(
-                                textStyle: const TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 24),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Text(
                     "get mails accourated for your needs",
                     style: GoogleFonts.manrope(
-                      textStyle: TextStyle(
-                          color: HexColor("#2E2E2E80"),
+                      textStyle: const TextStyle(
+                          // color: HexColor("#2E2E2E80"),
                           fontWeight: FontWeight.bold,
                           fontSize: 14),
                     ),
@@ -133,7 +106,7 @@ class _GenderSelectionsState extends State<GenderSelections> {
                     "Choose your gender",
                     style: GoogleFonts.manrope(
                       textStyle: const TextStyle(
-                          color: Colors.black,
+                          // color: Colors.black,
                           fontWeight: FontWeight.bold,
                           fontSize: 16),
                     ),
@@ -174,7 +147,7 @@ class _GenderSelectionsState extends State<GenderSelections> {
                       "Age",
                       style: GoogleFonts.manrope(
                         textStyle: const TextStyle(
-                            color: Colors.black,
+                            // color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 16),
                       ),
@@ -185,10 +158,13 @@ class _GenderSelectionsState extends State<GenderSelections> {
                   minValue: 18,
                   maxValue: 150,
                   divisions: 132,
-                  backgroundColor: Colors.white,
+                  backgroundColor: Colors.transparent,
                   showCursor: false,
                   activeItemTextColor: HexColor("#53E88B"),
-                  passiveItemsTextColor: Colors.black38,
+                  // passiveItemsTextColor: Colors.black38,
+                  // passiveItemsTextColor: Colors.white,
+                  passiveItemsTextColor:
+                      Theme.of(context).colorScheme.onSecondary,
                   onChanged: (value) {
                     setState(() {
                       ageValue = value;
@@ -210,7 +186,7 @@ class _GenderSelectionsState extends State<GenderSelections> {
                       padding: EdgeInsets.all(8.0),
                       child: Text("Height",
                           style: TextStyle(
-                              color: Colors.black,
+                              // color: Colors.black,
                               fontSize: 14,
                               fontWeight: FontWeight.bold)),
                     ),
@@ -232,6 +208,9 @@ class _GenderSelectionsState extends State<GenderSelections> {
                   controller: heightPickerController!,
                   beginValue: 30,
                   endValue: 195,
+                  // backgroundColor: Colors.transparent,
+                  rulerBackgroundColor: Colors.transparent,
+
                   initValue: currentHeightValue,
                   scaleLineStyleList: const [
                     ScaleLineStyle(
@@ -291,7 +270,7 @@ class _GenderSelectionsState extends State<GenderSelections> {
                         padding: EdgeInsets.all(8.0),
                         child: Text("Weight",
                             style: TextStyle(
-                                color: Colors.black,
+                                // color: Colors.black,
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold)),
                       ),
@@ -312,6 +291,7 @@ class _GenderSelectionsState extends State<GenderSelections> {
                 ),
                 RulerPicker(
                   controller: weightPickerController!,
+                  rulerBackgroundColor: Colors.transparent,
                   beginValue: 50,
                   endValue: 195,
                   initValue: currentWeightValue,
@@ -357,35 +337,38 @@ class _GenderSelectionsState extends State<GenderSelections> {
                     ),
                   ),
                 ),
-                InkWell(
+                GestureDetector(
                   onTap: () {
-                    // route to page when this button pressed
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (BuildContext context) {
-                      return const Home();
-                    }));
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => const SetGoal(),
+                    //   ),
+                    // );
                   },
                   child: Container(
-                    margin: const EdgeInsets.all(60),
+                    margin: const EdgeInsets.only(top: 28, bottom: 20),
                     width: 208.47,
                     height: 44,
                     decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          begin: Alignment.centerRight,
-                          end: Alignment.centerLeft,
-                          colors: [
-                            Color(0xff15BE77),
-                            Color(0xff53E88B),
-                          ],
-                        ),
-                        borderRadius: BorderRadius.circular(10)),
+                      gradient: const LinearGradient(
+                        begin: Alignment.centerRight,
+                        end: Alignment.centerLeft,
+                        colors: [
+                          Color(0xff15BE77),
+                          Color(0xff53E88B),
+                        ],
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                     child: const Center(
                       child: Text(
                         "Continue",
                         style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),

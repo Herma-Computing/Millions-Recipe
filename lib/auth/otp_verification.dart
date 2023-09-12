@@ -2,7 +2,7 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 
 import '../api_service/api_provider.dart';
-import 'login.dart';
+import '../screens/add_ingridents.dart';
 
 class Otp extends StatefulWidget {
   final String email;
@@ -171,7 +171,7 @@ class _OtpState extends State<Otp> {
       if (res == "success") {
         // ignore: use_build_context_synchronously
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const LogIn(),
+          builder: (context) => const AddIngredients(),
         ));
       } else {
         // ignore: use_build_context_synchronously

@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:millions_recipe/auth/registration.dart';
+import 'package:provider/provider.dart';
 import '../api_service/api_provider.dart';
 import '../landing.dart';
+import '../providers/theme_provider.dart';
 import 'forgot_password.dart';
 
 class LogIn extends StatefulWidget {
@@ -31,6 +33,7 @@ class _LogInState extends State<LogIn> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<DarkThemeProvider>(context);
     return Scaffold(
       // backgroundColor: Colors.white,
       backgroundColor: Theme.of(context).colorScheme.background,
@@ -42,7 +45,10 @@ class _LogInState extends State<LogIn> {
             const SizedBox(
               height: 60,
             ),
-            Image.asset('assets/logo.png'),
+            // Image.asset('assets/logo.png'),
+            themeProvider.isDarkMode
+                ? Image.asset("assets/new_million_logo.png")
+                : Image.asset('assets/logo.png'),
             const SizedBox(
               height: 36,
             ),
@@ -254,22 +260,6 @@ class _LogInState extends State<LogIn> {
                 )
               ],
             ),
-            // RichText(
-            //   text: const TextSpan(children: [
-            //     TextSpan(
-            //         text: "Wanna have a look?",
-            //         style: TextStyle(
-            //             color: Colors.black,
-            //             fontSize: 17,
-            //             fontWeight: FontWeight.w400)),
-            //     TextSpan(
-            //         text: " Skip",
-            //         style: TextStyle(
-            //             color: Color(0xff53E88B),
-            //             fontSize: 17,
-            //             fontWeight: FontWeight.w700))
-            //   ]),
-            // ),
             const SizedBox(
               height: 130,
             )

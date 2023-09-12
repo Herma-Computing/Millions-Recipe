@@ -5,7 +5,7 @@ import 'package:millions_recipe/newhome.dart';
 import 'package:millions_recipe/providers/theme_provider.dart';
 import 'package:millions_recipe/screens/add_recipe.dart';
 import 'package:millions_recipe/screens/favourites.dart';
-import 'package:millions_recipe/screens/profile.dart';
+import 'package:millions_recipe/screens/profile/profile.dart';
 import 'package:millions_recipe/screens/recipes_page.dart';
 import 'package:provider/provider.dart';
 

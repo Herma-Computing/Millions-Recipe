@@ -1,10 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:millions_recipe/screens/settings/contact_us.dart';
+import 'package:millions_recipe/screens/add_ingridents.dart';
+import 'package:millions_recipe/screens/settings/terms_and_conditions.dart';
 import 'package:provider/provider.dart';
 
-import '../common/constants.dart';
-import '../my_flutter_app_icons.dart';
-import '../providers/theme_provider.dart';
+import '../../common/constants.dart';
+import '../../my_flutter_app_icons.dart';
+import '../../providers/theme_provider.dart';
+import 'change_password.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
@@ -114,10 +118,10 @@ class _SettingPageState extends State<SettingPage> {
           decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.secondaryContainer,
               borderRadius: BorderRadius.circular(10)),
-          child: const Column(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
+              const Padding(
                 padding: EdgeInsets.symmetric(vertical: 14),
                 child: Padding(
                   padding: EdgeInsets.only(left: 20.0),
@@ -131,12 +135,17 @@ class _SettingPageState extends State<SettingPage> {
                 ),
               ),
               ListTile(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const ChangePasswordClass(),
+                  ));
+                },
                 dense: true,
-                leading: Icon(MyFlutterApp.password),
-                title: Text('Change Password'),
-                trailing: Icon(Icons.arrow_forward_ios),
+                leading: const Icon(MyFlutterApp.password),
+                title: const Text('Change Password'),
+                trailing: const Icon(Icons.arrow_forward_ios),
               ),
-              ListTile(
+              const ListTile(
                 dense: true,
                 leading: Icon(MyFlutterApp.subway_world),
                 title: Text('Language'),
@@ -172,11 +181,16 @@ class _SettingPageState extends State<SettingPage> {
                   ),
                 ),
               ),
-              const ListTile(
+              ListTile(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const ContactUs(),
+                  ));
+                },
                 dense: true,
-                leading: Icon(Icons.contact_phone_outlined),
-                title: Text('Contact Us'),
-                trailing: Icon(Icons.arrow_forward_ios),
+                leading: const Icon(Icons.contact_phone_outlined),
+                title: const Text('Contact Us'),
+                trailing: const Icon(Icons.arrow_forward_ios),
               ),
               ListTile(
                 onTap: () {
@@ -189,13 +203,26 @@ class _SettingPageState extends State<SettingPage> {
                 title: const Text('Privacy Policy'),
                 trailing: const Icon(Icons.arrow_forward_ios),
               ),
-              const ListTile(
+              ListTile(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const TermsAndConditions(),
+                  ));
+                },
                 dense: true,
                 leading: Icon(Icons.content_paste_outlined),
                 title: Text('Terms and Services'),
                 trailing: Icon(Icons.arrow_forward_ios),
               ),
-              const ListTile(
+              ListTile(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const AddIngredients(),
+                    ),
+                  );
+                },
                 dense: true,
                 leading: Icon(MyFlutterApp.question_mark),
                 title: Text("Million Recipe's FAQ"),
