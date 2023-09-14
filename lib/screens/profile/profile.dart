@@ -21,11 +21,13 @@ class _ProfileState extends State<Profile> {
   late String userName;
   late bool darkMode;
   // notifyListeners();
-
+  String? fileUrl;
+  String? occupation;
   @override
   void initState() {
     userName = UserPreferences.getName() ?? "Guest";
-
+    fileUrl = UserPreferences.getProfilePicture();
+    occupation = UserPreferences.getoccupation() ?? "Title Not Set";
     super.initState();
   }
 
@@ -230,16 +232,21 @@ class _ProfileState extends State<Profile> {
           decoration: const BoxDecoration(
             shape: BoxShape.circle,
           ),
-          child: Image.asset('assets/Ellipse 7.png'),
+          child: ClipOval(
+            child: Image.network(
+              fileUrl!,
+              fit: BoxFit.cover,
+            ),
+          ),
         ),
         title: Text(
           userName,
           style: const TextStyle(
               fontWeight: FontWeight.w500, fontSize: 14, fontFamily: 'Manrope'),
         ),
-        subtitle: const Text(
-          'Junior Chef',
-          style: TextStyle(
+        subtitle: Text(
+          occupation!,
+          style: const TextStyle(
               fontWeight: FontWeight.w400, fontSize: 12, fontFamily: 'Manrope'),
         ),
         trailing: GestureDetector(

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
@@ -47,8 +48,13 @@ class ApiProvider {
           if (userInfo['image'] != null) {
             image = userInfo['image'];
           }
-          UserPreferences.setuser(image!, userInfo['username']!,
-              userInfo['first_name'], userInfo['last_name'], email.toString(),userInfo['token']);
+          UserPreferences.setuser(
+              image!,
+              userInfo['username']!,
+              userInfo['first_name'],
+              userInfo['last_name'],
+              email.toString(),
+              userInfo['token']);
         }
       } else {
         var temp = response.data;
@@ -91,8 +97,6 @@ class ApiProvider {
           authModel.userEmail.toString(),
           authModel.token.toString(),
         );
-
-
       } else {
         String? message = response.statusMessage;
         res = message!;
@@ -232,5 +236,64 @@ class ApiProvider {
     }
 
     return res;
+  }
+
+  Future<String> changeProfilePicture(String filePath, String? token) async {
+    Dio dio = Dio();
+    dio.options.headers["Authorization"] = "Bearer $token";
+    FormData formData = FormData.fromMap({
+      'image': await MultipartFile.fromFile(filePath),
+    });
+    try {
+      Response response = await dio
+          .post(
+        AppUrl.changeProfilePicture,
+        data: formData,
+      )
+          .timeout(
+        const Duration(seconds: 15),
+        onTimeout: () {
+          throw TimeoutException("Connection timed out");
+        },
+      );
+      if (response.statusCode == 200) {
+        // parse the response data and return the image path
+        //
+        String imageUrl = response.data['message'];
+        UserPreferences.setProfilePicture(imageUrl);
+        return imageUrl;
+      } else {
+        throw Exception(
+            "server returned non-200 response while uploading profile image");
+      }
+    } catch (error) {
+      // we want to catch the error on the settings page code and display a snackbar to the user
+      // so we are re-throwing the exception here.
+      rethrow;
+    }
+  }
+
+  Future<String> profilePatch(String fName, String? lName, String? birthdate,
+      String? occupation, String? gender, String token) async {
+    var dio = Dio();
+    dio.options.headers['content-Type'] = 'application/json';
+    dio.options.headers["Authorization"] = "Bearer $token";
+    Response response = await dio.patch(
+      AppUrl.profile,
+      data: jsonEncode(<String, dynamic>{
+        "first_name": fName,
+        "last_name": lName,
+        "occupation": occupation,
+        "birthdate": birthdate,
+        "country": gender,
+      }),
+    );
+    if (response.statusCode == 200) {
+      UserPreferences.setuserProfile(
+          birthdate!, occupation!, gender!, fName, lName!);
+      return response.statusCode.toString();
+    } else {
+      throw Exception('Failed to update profile');
+    }
   }
 }

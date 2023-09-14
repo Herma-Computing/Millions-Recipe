@@ -36,4 +36,30 @@ class UserPreferences {
     // Image? image = prefs.getString("image");
     return User(name: name, image: image);
   }
+
+  static String? getToken() => prefs.getString("token");
+
+  static setProfilePicture(String imgUrl) => prefs.setString("image", imgUrl);
+
+  static String? getProfilePicture() => prefs.getString("image");
+
+  static setuserProfile(String birthdate, String occupation, String gender,
+      String fName, String lName) async {
+    prefs.setString("birthdate", birthdate);
+    prefs.setString("occupation", occupation);
+    prefs.setString("name", fName);
+    prefs.setString("last_name", lName);
+    // prefs.setString("email", email);
+    prefs.setString("gender", gender);
+  }
+
+  static String? getoccupation() => prefs.getString("occupation");
+
+  // static Future<Profile> getUserProfile() async {
+
+  //   String? birthdate = prefs.getString("birthdate");
+  //   String? occupation = prefs.getString("occupation");
+  //   String? country = prefs.getString("country");
+  //   return Profile(occupation: occupation, birthdate: birthdate, country: country);
+  // }
 }
