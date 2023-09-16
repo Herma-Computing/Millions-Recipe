@@ -210,9 +210,9 @@ class _SettingPageState extends State<SettingPage> {
                   ));
                 },
                 dense: true,
-                leading: Icon(Icons.content_paste_outlined),
-                title: Text('Terms and Services'),
-                trailing: Icon(Icons.arrow_forward_ios),
+                leading: const Icon(Icons.content_paste_outlined),
+                title: const Text('Terms and Services'),
+                trailing: const Icon(Icons.arrow_forward_ios),
               ),
               ListTile(
                 onTap: () {
@@ -224,9 +224,9 @@ class _SettingPageState extends State<SettingPage> {
                   );
                 },
                 dense: true,
-                leading: Icon(MyFlutterApp.question_mark),
-                title: Text("Million Recipe's FAQ"),
-                trailing: Icon(Icons.arrow_forward_ios),
+                leading: const Icon(MyFlutterApp.question_mark),
+                title: const Text("Million Recipe's FAQ"),
+                trailing: const Icon(Icons.arrow_forward_ios),
               ),
             ],
           ),

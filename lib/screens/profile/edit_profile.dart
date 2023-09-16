@@ -26,6 +26,8 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController occupationController = TextEditingController();
   TextEditingController genderController = TextEditingController();
 
+  List initialText = [];
+
   String? token;
   String? fnameError,
       lnameError,
@@ -41,6 +43,23 @@ class _EditProfileState extends State<EditProfile> {
   void initState() {
     token = UserPreferences.getToken();
     fileUrl = UserPreferences.getProfilePicture();
+
+    firstNameController.text = UserPreferences.getName() ?? '';
+    lastNameController.text = UserPreferences.getuserProfile()[1] ?? '';
+    birthdateController.text = UserPreferences.getuserProfile()[4] ?? '';
+    emailController.text = UserPreferences.getuserProfile()[2] ?? '';
+    occupationController.text = UserPreferences.getuserProfile()[5] ?? '';
+    genderController.text = UserPreferences.getuserProfile()[3] ?? '';
+
+    initialText.addAll([
+      firstNameController.text,
+      lastNameController.text,
+      birthdateController.text,
+      emailController.text,
+      occupationController.text,
+      genderController.text
+    ]);
+
     super.initState();
   }
 
@@ -284,7 +303,9 @@ class _EditProfileState extends State<EditProfile> {
                           birthdayError == null &&
                           genderError == null) {
                         updateInformation();
-                      } else {
+                      }
+                      // else if()
+                      else {
                         setState(() {});
 
                         Flushbar(
@@ -349,13 +370,31 @@ class _EditProfileState extends State<EditProfile> {
     if (pickedImage != null) {
       setState(() {
         selectedImage = File(pickedImage.path);
-        filePath = pickedImage.path; // Update filePath
+        filePath = pickedImage.path;
       });
     }
   }
 
   void updateInformation() async {
-    if (token != null) {
+    if (initialText ==
+        [
+          firstNameController.text,
+          lastNameController.text,
+          birthdateController.text,
+          emailController.text,
+          occupationController.text,
+          genderController.text
+        ]) {
+      if (filePath != null) {
+        setImage();
+      }
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const Profile(),
+        ),
+      );
+    } else if (token != null) {
       if (filePath != null) {
         setImage();
       }
@@ -386,22 +425,16 @@ class _EditProfileState extends State<EditProfile> {
           ),
         );
       }
-
-      // } else {
-      //   snackbar(
-      //     Text(
-      //       "Profile Update Error",
-      //       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-      //     ),
-      //     Text(
-      //       "Your profile could not be updated, please try again.",
-      //       style:TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
-      //     ),
-      //   );
-      // }
-      // if (kDebugMode) {
-      //   print("valid");
-      // }
+    } else {
+      Flushbar(
+        flushbarPosition: FlushbarPosition.BOTTOM,
+        margin: const EdgeInsets.fromLTRB(10, 20, 10, 5),
+        titleSize: 20,
+        messageSize: 17,
+        borderRadius: BorderRadius.circular(8),
+        message: "Your profile could not be updated, please try again.",
+        duration: const Duration(seconds: 5),
+      ).show(context);
     }
   }
 
@@ -448,7 +481,6 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   void setImage() async {
-    // let's show a loading dialog with a loading message
     showDialog(
       barrierDismissible: false,
       context: context,
@@ -456,21 +488,14 @@ class _EditProfileState extends State<EditProfile> {
         child: CircularProgressIndicator(color: Colors.blue),
       ),
     );
-    // let's upload the image to the api
+
     if (filePath != null && token != null) {
-      // let's try to upload the image
       try {
         String imageUrl =
             await ApiProvider().changeProfilePicture(filePath!, token);
-        setState(() {
-          // image = imageUrl;
-          print(imageUrl);
-        });
+        setState(() {});
         UserPreferences.setProfilePicture(imageUrl);
-        // var landingPageController = Get.find<LandingPageController>();
-        // landingPageController.profileImage = imageUrl;
       } catch (error) {
-        // let's show an error message
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text("Failed to upload image. Try again later."),
@@ -478,14 +503,13 @@ class _EditProfileState extends State<EditProfile> {
         );
       }
     } else {
-      // display a snackbar with error message (to the user)
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Invalid file selected."),
         ),
       );
     }
-    // pop the dialog
+
     Navigator.pop(context);
   }
 

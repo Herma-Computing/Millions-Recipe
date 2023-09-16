@@ -53,6 +53,17 @@ class UserPreferences {
     prefs.setString("gender", gender);
   }
 
+  static List getuserProfile() {
+    return [
+      prefs.getString("name"),
+      prefs.getString("last_name"),
+      prefs.getString("email"),
+      prefs.getString("gender"),
+      prefs.getString("birthdate"),
+      prefs.getString("occupation"),
+    ];
+  }
+
   static String? getoccupation() => prefs.getString("occupation");
 
   // static Future<Profile> getUserProfile() async {
