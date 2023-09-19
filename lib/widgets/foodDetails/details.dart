@@ -6,6 +6,7 @@ import '../../database/database_helper.dart';
 import '../../providers/recipe_provider.dart';
 import '../../screens/cooking_steps_screen.dart';
 import 'Description/description.dart';
+import 'comment_widget.dart';
 import 'nutration/nutration.dart';
 import '../../models/recipe_model.dart';
 import 'Diet/diet.dart';
@@ -121,13 +122,43 @@ class _FoodDetailsState extends State<FoodDetails> {
                           Icons.arrow_back,
                           () => Navigator.pop(context),
                         ),
-                        iconButton(
-                          white,
-                          isFavorited ? Colors.red : Colors.black,
-                          isFavorited
-                              ? Icons.favorite
-                              : Icons.favorite_border_outlined,
-                          toggleFavoriteStatus,
+                        Row(
+                          children: [
+                            iconButton(
+                              white,
+                              Colors.black,
+                              Icons.comment_outlined,
+                              () => showModalBottomSheet(
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.background,
+                                context: context,
+                                isScrollControlled: true,
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(55.0),
+                                  ),
+                                ),
+                                builder: (context) {
+                                  return SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.75,
+                                      child: const CommentWidget());
+                                },
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 14,
+                            ),
+                            iconButton(
+                              white,
+                              isFavorited ? Colors.red : Colors.black,
+                              isFavorited
+                                  ? Icons.favorite
+                                  : Icons.favorite_border_outlined,
+                              toggleFavoriteStatus,
+                            ),
+                          ],
                         ),
                       ],
                     ),
