@@ -17,6 +17,7 @@ class AppUrl {
   static var privacyPolicy = '$baseUrl/ds_lc/v1/privacy-policy';
   static var commentDelete = '$baseUrl/wp/v2/comment/delete';
   static var commentUpdate = '$baseUrl/wp/v2/comment/update';
+  static var commentLikeDislike = '$baseUrl/wp/v2/comment/like_dislike';
   static var changeProfilePicture = '$baseUrl/wp/v2/users/profile-picture';
 }
 

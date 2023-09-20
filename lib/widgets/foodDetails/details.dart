@@ -143,7 +143,9 @@ class _FoodDetailsState extends State<FoodDetails> {
                                       height:
                                           MediaQuery.of(context).size.height *
                                               0.75,
-                                      child: const CommentWidget());
+                                      child: CommentWidget(
+                                        recipeId: widget.meal.slug,
+                                      ));
                                 },
                               ),
                             ),

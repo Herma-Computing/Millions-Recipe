@@ -296,4 +296,31 @@ class ApiProvider {
       throw Exception('Failed to update profile');
     }
   }
+
+  // Future<Profile> profileGet() async {
+  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   var dio = Dio();
+  //   dio.options.headers['content-Type'] = 'application/json';
+  //   dio.options.headers["Authorization"] = "Bearer ${prefs.getString("token")}";
+  //   Response response = await dio.get(
+  //     AppUrl.profile,
+  //   );
+  //   if (response.statusCode == 200) {
+  //     final responseBody = response.data;
+  //     final Profile profile = profileFromJson(responseBody);
+  //     final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //     prefs.remove("name");
+  //     prefs.remove("last_name");
+  //     prefs.remove("birthdate");
+  //     prefs.remove("occupation");
+  //     prefs.remove("country");
+  //     prefs.setString("name", profile.firstName.toString());
+  //     prefs.setString("last_name", profile.lastName.toString());
+  //     await UserPreferences.setuserProfile(
+  //         profile.birthdate.toString(), profile.occupation.toString(), profile.country.toString(), profile.perferedLanguages);
+  //     return profile;
+  //   } else {
+  //     throw Exception('Failed to get profile');
+  //   }
+  // }
 }

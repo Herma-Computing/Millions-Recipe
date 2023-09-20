@@ -6,6 +6,7 @@ import './providers/recipe_provider.dart';
 import 'package:provider/provider.dart';
 import 'api/shared_preference/shared_preference.dart';
 import 'database/database_helper.dart';
+import 'providers/comment_provider.dart';
 import 'splash_screen.dart';
 
 Future main() async {
@@ -37,6 +38,9 @@ class _MyAppState extends State<MyApp> {
         ),
         ChangeNotifierProvider(
           create: (_) => DarkThemeProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => Comments(),
         ),
         ChangeNotifierProvider(create: (_) => Recipes())
       ],
