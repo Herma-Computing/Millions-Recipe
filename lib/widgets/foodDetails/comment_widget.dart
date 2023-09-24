@@ -238,7 +238,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                                             ),
                                             Padding(
                                               padding: const EdgeInsets.only(
-                                                  left: 8.0, right: 28),
+                                                  left: 8.0, right: 8),
                                               child: Text(
                                                   commentProvider
                                                       .comments[index]
@@ -249,6 +249,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                                                     fontWeight: FontWeight.w400,
                                                   )),
                                             ),
+                                            const Spacer(),
                                             Text(
                                                 commentProvider.comments[index]
                                                     .commentDate,
@@ -258,64 +259,80 @@ class _CommentWidgetState extends State<CommentWidget> {
                                                 ))
                                           ],
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 10.0),
-                                          child: Text(
-                                              commentProvider.comments[index]
-                                                  .commentContent,
-                                              style: const TextStyle(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w500,
-                                              )),
+                                        Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 10.0),
+                                            child: Text(
+                                                commentProvider.comments[index]
+                                                    .commentContent,
+                                                textAlign: TextAlign.start,
+                                                style: const TextStyle(
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w500,
+                                                )),
+                                          ),
                                         ),
                                         Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             IconButton(
                                               onPressed: () {
                                                 commentProvider
                                                     .commentLikeDislike(
-                                                        commentProvider
-                                                            .comments[index]
-                                                            .commentId,
-                                                        token,
+                                                        widget.recipeId, token,
                                                         like: true);
                                               },
-                                              icon: const Icon(
-                                                Icons.thumb_up_alt_outlined,
-                                                color: Color(0xff53E88B),
-                                              ),
+                                              icon: !commentProvider
+                                                      .comments[index]
+                                                      .isUserLiked
+                                                  ? const Icon(
+                                                      Icons
+                                                          .thumb_up_alt_outlined,
+                                                      color: Color(0xff53E88B),
+                                                    )
+                                                  : const Icon(
+                                                      Icons.thumb_up_alt,
+                                                      color: Color(0xff53E88B),
+                                                    ),
                                             ),
                                             const SizedBox(
-                                              width: 12,
+                                              width: 8,
                                             ),
                                             IconButton(
-                                              onPressed: () {
-                                                commentProvider
-                                                    .commentLikeDislike(
-                                                        commentProvider
-                                                            .comments[index]
-                                                            .commentId,
-                                                        token,
-                                                        like: false);
-                                              },
-                                              icon: const Icon(
-                                                Icons.thumb_down_alt_outlined,
-                                                color: Color(0xff53E88B),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 20.0),
-                                              child: Text("Reply",
-                                                  style: TextStyle(
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .onPrimary,
-                                                    fontSize: 11,
-                                                    fontWeight: FontWeight.w500,
-                                                  )),
+                                                onPressed: () {
+                                                  commentProvider
+                                                      .commentLikeDislike(
+                                                          widget.recipeId,
+                                                          token,
+                                                          like: false);
+                                                },
+                                                icon: !commentProvider
+                                                        .comments[index]
+                                                        .isUserDisliked
+                                                    ? const Icon(
+                                                        Icons
+                                                            .thumb_down_alt_outlined,
+                                                        color:
+                                                            Color(0xff53E88B),
+                                                      )
+                                                    : const Icon(
+                                                        Icons.thumb_down_alt,
+                                                        color:
+                                                            Color(0xff53E88B),
+                                                      )),
+                                            Text("Reply",
+                                                style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .onPrimary,
+                                                  fontSize: 11,
+                                                  fontWeight: FontWeight.w500,
+                                                )),
+                                            const SizedBox(
+                                              width: 12,
                                             ),
                                             Text("Report",
                                                 style: TextStyle(
@@ -346,29 +363,25 @@ class _CommentWidgetState extends State<CommentWidget> {
                                                 color: Colors.red,
                                               ),
                                             ),
-                                            Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 17.0, right: 12),
-                                                child: IconButton(
-                                                  onPressed: () {
-                                                    _postController.text =
-                                                        commentProvider
-                                                            .comments[index]
-                                                            .commentContent;
+                                            IconButton(
+                                              onPressed: () {
+                                                _postController.text =
+                                                    commentProvider
+                                                        .comments[index]
+                                                        .commentContent;
 
-                                                    setState(() {
-                                                      isUpdate = true;
-                                                      commentId =
-                                                          commentProvider
-                                                              .comments[index]
-                                                              .commentId;
-                                                    });
-                                                  },
-                                                  icon: const Icon(
-                                                    Icons.edit_outlined,
-                                                    size: 16,
-                                                  ),
-                                                )),
+                                                setState(() {
+                                                  isUpdate = true;
+                                                  commentId = commentProvider
+                                                      .comments[index]
+                                                      .commentId;
+                                                });
+                                              },
+                                              icon: const Icon(
+                                                Icons.edit_outlined,
+                                                size: 16,
+                                              ),
+                                            ),
                                           ],
                                         )
                                       ],

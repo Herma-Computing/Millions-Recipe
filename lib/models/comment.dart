@@ -20,13 +20,13 @@ class Comment with ChangeNotifier {
 
   final int numOfDislike;
   // final String content;
-  // final bool isUserLiked;
+  final bool isUserLiked;
+  final bool isUserDisliked;
   // List<Comment>? replies;
 
   Comment(
-      {
-      // required this.content,
-      // required this.isUserLiked,
+      {required this.isUserDisliked,
+      required this.isUserLiked,
       required this.commentId,
       required this.commentAuthor,
       required this.postID,
@@ -34,9 +34,6 @@ class Comment with ChangeNotifier {
       required this.commentContent,
       required this.commentDate,
       required this.authorId,
-
-      // required this.authorName,
-
       required this.imageUrl,
       required this.displayName,
       required this.commentParent,
@@ -45,12 +42,8 @@ class Comment with ChangeNotifier {
       required this.numOfDislike});
 
   Comment.fromJson(Map<String, dynamic> json)
-      :
-
-        // content =
-        //     json['total_time'] == null ? "0" : json['total_time'] as String,
-        // isUserLiked =
-        //     json['prep_time'],
+      : isUserDisliked = json['is_user_disliked'] == 1 ? true : false,
+        isUserLiked = json['is_user_liked'] == 0 ? false : true,
         commentId = json['comment_ID'],
         commentAuthor = json['comment_author'],
         postID = json['comment_post_ID'],
@@ -80,5 +73,7 @@ class Comment with ChangeNotifier {
         'child_comments_count': numOfReplies,
         'likes': numOfLikes,
         'dislikes': numOfDislike,
+        'is_user_liked': isUserLiked,
+        'is_user_disliked': isUserDisliked,
       };
 }
