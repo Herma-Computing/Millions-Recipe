@@ -98,6 +98,7 @@ class Comments with ChangeNotifier {
     var dio = Dio();
     // final SharedPreferences prefs = await SharedPreferences.getInstance();
     dio.options.headers["Authorization"] = "Bearer $token";
+    print("comment like url is ${AppUrl.commentLikeDislike}/$commentId/?like_or_dislike=${like ? 'L' : 'D'}");
     Response response = await dio.post(
       "${AppUrl.commentLikeDislike}/$commentId/?like_or_dislike=${like ? 'L' : 'D'}",
     );
