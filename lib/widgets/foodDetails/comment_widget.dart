@@ -1,3 +1,4 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:millions_recipe/api/shared_preference/shared_preference.dart';
@@ -25,12 +26,16 @@ class _CommentWidgetState extends State<CommentWidget> {
   bool empityComment = true;
   late String token;
   late String fileUrl;
+  late String userEmail;
+
   String commentId = "";
   bool isUpdate = false;
+
   @override
   void initState() {
     fileUrl = UserPreferences.getProfilePicture()!;
     token = UserPreferences.getToken()!;
+    userEmail = UserPreferences.getuserProfile()[2];
     fetchComment();
     super.initState();
   }
@@ -275,15 +280,37 @@ class _CommentWidgetState extends State<CommentWidget> {
                                           ),
                                         ),
                                         Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             IconButton(
                                               onPressed: () {
-                                                commentProvider
-                                                    .commentLikeDislike(
-                                                        widget.recipeId, token,
-                                                        like: true);
+                                                if (userEmail !=
+                                                    commentProvider
+                                                        .comments[index]
+                                                        .authorEmail) {
+                                                  commentProvider
+                                                      .commentLikeDislike(
+                                                          commentProvider
+                                                              .comments[index]
+                                                              .commentId,
+                                                          token,
+                                                          like: true);
+                                                } else {
+                                                  Flushbar(
+                                                    flushbarPosition:
+                                                        FlushbarPosition.BOTTOM,
+                                                    margin: const EdgeInsets
+                                                            .fromLTRB(
+                                                        10, 20, 10, 5),
+                                                    titleSize: 20,
+                                                    messageSize: 17,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
+                                                    message: "Forbiden Action",
+                                                    duration: const Duration(
+                                                        seconds: 5),
+                                                  ).show(context);
+                                                }
                                               },
                                               icon: !commentProvider
                                                       .comments[index]
@@ -303,11 +330,36 @@ class _CommentWidgetState extends State<CommentWidget> {
                                             ),
                                             IconButton(
                                                 onPressed: () {
-                                                  commentProvider
-                                                      .commentLikeDislike(
-                                                          widget.recipeId,
-                                                          token,
-                                                          like: false);
+                                                  if (userEmail !=
+                                                      commentProvider
+                                                          .comments[index]
+                                                          .authorEmail) {
+                                                    commentProvider
+                                                        .commentLikeDislike(
+                                                            commentProvider
+                                                                .comments[index]
+                                                                .commentId,
+                                                            token,
+                                                            like: false);
+                                                  } else {
+                                                    Flushbar(
+                                                      flushbarPosition:
+                                                          FlushbarPosition
+                                                              .BOTTOM,
+                                                      margin: const EdgeInsets
+                                                              .fromLTRB(
+                                                          10, 20, 10, 5),
+                                                      titleSize: 20,
+                                                      messageSize: 17,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8),
+                                                      message:
+                                                          "Forbiden Action",
+                                                      duration: const Duration(
+                                                          seconds: 5),
+                                                    ).show(context);
+                                                  }
                                                 },
                                                 icon: !commentProvider
                                                         .comments[index]
@@ -323,16 +375,18 @@ class _CommentWidgetState extends State<CommentWidget> {
                                                         color:
                                                             Color(0xff53E88B),
                                                       )),
-                                            Text("Reply",
-                                                style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .onPrimary,
-                                                  fontSize: 11,
-                                                  fontWeight: FontWeight.w500,
-                                                )),
-                                            const SizedBox(
-                                              width: 12,
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 20.0),
+                                              child: Text("Reply",
+                                                  style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .onPrimary,
+                                                    fontSize: 11,
+                                                    fontWeight: FontWeight.w500,
+                                                  )),
                                             ),
                                             Text("Report",
                                                 style: TextStyle(
@@ -345,17 +399,39 @@ class _CommentWidgetState extends State<CommentWidget> {
                                             const Spacer(),
                                             IconButton(
                                               onPressed: () async {
-                                                await commentProvider
-                                                    .deleteComment(
-                                                        commentId:
-                                                            commentProvider
-                                                                .comments[index]
-                                                                .commentId,
-                                                        token: token);
+                                                if (userEmail ==
+                                                    commentProvider
+                                                        .comments[index]
+                                                        .authorEmail) {
+                                                  await commentProvider
+                                                      .deleteComment(
+                                                          commentId:
+                                                              commentProvider
+                                                                  .comments[
+                                                                      index]
+                                                                  .commentId,
+                                                          token: token);
 
-                                                commentProvider.fetchComments(
-                                                    recipeId: widget.recipeId,
-                                                    token: token);
+                                                  commentProvider.fetchComments(
+                                                      recipeId: widget.recipeId,
+                                                      token: token);
+                                                } else {
+                                                  Flushbar(
+                                                    flushbarPosition:
+                                                        FlushbarPosition.BOTTOM,
+                                                    margin: const EdgeInsets
+                                                            .fromLTRB(
+                                                        10, 20, 10, 5),
+                                                    titleSize: 20,
+                                                    messageSize: 17,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
+                                                    message: "Forbiden Action",
+                                                    duration: const Duration(
+                                                        seconds: 5),
+                                                  ).show(context);
+                                                }
                                               },
                                               icon: const Icon(
                                                 CupertinoIcons.delete,
@@ -363,25 +439,53 @@ class _CommentWidgetState extends State<CommentWidget> {
                                                 color: Colors.red,
                                               ),
                                             ),
-                                            IconButton(
-                                              onPressed: () {
-                                                _postController.text =
-                                                    commentProvider
-                                                        .comments[index]
-                                                        .commentContent;
+                                            Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 17.0, right: 10),
+                                                child: IconButton(
+                                                  onPressed: () {
+                                                    if (userEmail ==
+                                                        commentProvider
+                                                            .comments[index]
+                                                            .authorEmail) {
+                                                      _postController.text =
+                                                          commentProvider
+                                                              .comments[index]
+                                                              .commentContent;
 
-                                                setState(() {
-                                                  isUpdate = true;
-                                                  commentId = commentProvider
-                                                      .comments[index]
-                                                      .commentId;
-                                                });
-                                              },
-                                              icon: const Icon(
-                                                Icons.edit_outlined,
-                                                size: 16,
-                                              ),
-                                            ),
+                                                      setState(() {
+                                                        isUpdate = true;
+                                                        commentId =
+                                                            commentProvider
+                                                                .comments[index]
+                                                                .commentId;
+                                                      });
+                                                    } else {
+                                                      Flushbar(
+                                                        flushbarPosition:
+                                                            FlushbarPosition
+                                                                .BOTTOM,
+                                                        margin: const EdgeInsets
+                                                                .fromLTRB(
+                                                            10, 20, 10, 5),
+                                                        titleSize: 20,
+                                                        messageSize: 17,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8),
+                                                        message:
+                                                            "Forbiden Action",
+                                                        duration:
+                                                            const Duration(
+                                                                seconds: 5),
+                                                      ).show(context);
+                                                    }
+                                                  },
+                                                  icon: const Icon(
+                                                    Icons.edit_outlined,
+                                                    size: 16,
+                                                  ),
+                                                )),
                                           ],
                                         )
                                       ],

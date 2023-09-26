@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../../api/shared_preference/shared_preference.dart';
 import '../../providers/theme_provider.dart';
 import 'edit_profile.dart';
+import 'forum_page.dart';
 
 class Profile extends StatefulWidget {
   const Profile({
@@ -186,11 +187,16 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
               ),
-              const ListTile(
+              ListTile(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const ForumPage(),
+                  ));
+                },
                 dense: true,
-                leading: Icon(ReciepIcons.chat),
-                title: Text('Forum'),
-                trailing: Icon(Icons.arrow_forward_ios),
+                leading: const Icon(ReciepIcons.chat),
+                title: const Text('Forum'),
+                trailing: const Icon(Icons.arrow_forward_ios),
               ),
               ListTile(
                 onTap: () {
