@@ -1,7 +1,9 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../../api/shared_preference/shared_preference.dart';
 import '../../database/database_helper.dart';
 import '../../providers/recipe_provider.dart';
 import '../../screens/cooking_steps_screen.dart';
@@ -27,11 +29,14 @@ class _FoodDetailsState extends State<FoodDetails> {
   int currentImageIndex = 0;
 
   bool isFavorited = false;
+  late bool logedin;
 
   @override
   void initState() {
     checkFavoriteStatus();
     fetchRecipes();
+
+    logedin = UserPreferences.getToken() != null ? true : false;
     super.initState();
   }
 
@@ -125,30 +130,42 @@ class _FoodDetailsState extends State<FoodDetails> {
                         Row(
                           children: [
                             iconButton(
-                              white,
-                              Colors.black,
-                              Icons.comment_outlined,
-                              () => showModalBottomSheet(
-                                backgroundColor:
-                                    Theme.of(context).colorScheme.background,
-                                context: context,
-                                isScrollControlled: true,
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(55.0),
+                                white, Colors.black, Icons.comment_outlined,
+                                () {
+                              if (logedin) {
+                                showModalBottomSheet(
+                                  backgroundColor:
+                                      Theme.of(context).colorScheme.background,
+                                  context: context,
+                                  isScrollControlled: true,
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(55.0),
+                                    ),
                                   ),
-                                ),
-                                builder: (context) {
-                                  return SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.75,
-                                      child: CommentWidget(
-                                        recipeId: widget.meal.slug,
-                                      ));
-                                },
-                              ),
-                            ),
+                                  builder: (context) {
+                                    return SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.75,
+                                        child: CommentWidget(
+                                          recipeId: widget.meal.slug,
+                                        ));
+                                  },
+                                );
+                              } else {
+                                Flushbar(
+                                  flushbarPosition: FlushbarPosition.BOTTOM,
+                                  margin:
+                                      const EdgeInsets.fromLTRB(10, 20, 10, 5),
+                                  titleSize: 20,
+                                  messageSize: 17,
+                                  borderRadius: BorderRadius.circular(8),
+                                  message: "You have to login first",
+                                  duration: const Duration(seconds: 5),
+                                ).show(context);
+                              }
+                            }),
                             const SizedBox(
                               width: 14,
                             ),

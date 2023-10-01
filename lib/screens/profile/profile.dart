@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:millions_recipe/api_service/constants.dart';
 import 'package:millions_recipe/reciep_icons.dart';
+import 'package:millions_recipe/screens/profile/forum_page.dart';
 import 'package:millions_recipe/screens/profile/meet_developers.dart';
 import 'package:millions_recipe/screens/settings/setting.dart';
 import 'package:provider/provider.dart';
@@ -8,7 +10,6 @@ import 'package:provider/provider.dart';
 import '../../api/shared_preference/shared_preference.dart';
 import '../../providers/theme_provider.dart';
 import 'edit_profile.dart';
-import 'forum_page.dart';
 
 class Profile extends StatefulWidget {
   const Profile({
@@ -38,7 +39,7 @@ class _ProfileState extends State<Profile> {
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
         body: SingleChildScrollView(
-          physics: const NeverScrollableScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           child: Padding(
             padding: const EdgeInsets.only(top: 35, left: 25, right: 25),
             child: Column(
@@ -95,7 +96,10 @@ class _ProfileState extends State<Profile> {
                     ),
                   ),
                 ),
-                profileOtherCard()
+                profileOtherCard(),
+                const SizedBox(
+                  height: 22,
+                )
               ],
             ),
           ),
@@ -240,7 +244,7 @@ class _ProfileState extends State<Profile> {
           ),
           child: ClipOval(
             child: Image.network(
-              fileUrl!,
+              fileUrl ?? Constant.imagePlaceholder,
               fit: BoxFit.cover,
             ),
           ),

@@ -9,7 +9,7 @@ class Comments with ChangeNotifier {
 
   List<Comment> comments = [];
 
-  List<Comment> recipes = [];
+  List<Comment> commentReplays = [];
   // List<Comment> favoriteRecipes = [];
 
   bool get loading => _loading;
@@ -45,6 +45,40 @@ class Comments with ChangeNotifier {
     notifyListeners();
   }
 
+  Future fetchCommentReplays(
+      {required String recipeId,
+      required String parent,
+      int page = 1,
+      int perPage = 10,
+      required String token}) async {
+    // _loading = true;
+    commentReplays.clear();
+
+    var dio = Dio();
+
+    dio.options.headers["Authorization"] = "Bearer $token";
+    Response response = await dio.get(
+      '${AppUrl.commentsFetch}/$recipeId/$parent?page=$page&per_page=$perPage',
+      queryParameters: {'page': '$page', 'per_page': '$perPage'},
+    );
+
+    // print("${response} response");
+
+    if (response.statusCode == 200) {
+      Comment comment;
+      response.data.forEach((el) async => {
+            comment = Comment.fromJson(el),
+            commentReplays.add(comment),
+            // print(comment)
+          });
+    } else {
+      throw Exception('Failed to fetch comments from the server.');
+    }
+
+    // _loading = false;
+    notifyListeners();
+  }
+
   Future createComment(
       {required String recipeId,
       required String content,
@@ -65,7 +99,7 @@ class Comments with ChangeNotifier {
       final commentMap = response.data['comment'] as Map<String, dynamic>;
       final newComment = Comment.fromJson(commentMap);
 
-      comments.add(newComment);
+      // comments.add(newComment);
     } else {
       throw Exception('Failed to create the comment on the server.');
     }
@@ -93,16 +127,13 @@ class Comments with ChangeNotifier {
 
   Future<bool?> commentLikeDislike(String commentId, String token,
       {bool like = true}) async {
-    /// if the named parameter 'like' is set to false, it's considered as dislike.
-    // this method returns true if the comment is liked/disliked successfully
     var dio = Dio();
-    // final SharedPreferences prefs = await SharedPreferences.getInstance();
+
     dio.options.headers["Authorization"] = "Bearer $token";
-    print("comment like url is ${AppUrl.commentLikeDislike}/$commentId/?like_or_dislike=${like ? 'L' : 'D'}");
     Response response = await dio.post(
-      "${AppUrl.commentLikeDislike}/$commentId/?like_or_dislike=${like ? 'L' : 'D'}",
-    );
-    if (response.statusCode == 200) {
+        "https://dashencon.com/recipes/api/wp/v2/post/like_dislike/$commentId?like_or_dislike=${like ? 'L' : 'D'}");
+
+    if (response.statusCode == 201) {
       return true;
     } else {
       throw Exception('Failed to like/dislike the comment on the server.');

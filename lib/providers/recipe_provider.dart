@@ -97,7 +97,7 @@ class Recipes with ChangeNotifier {
       _currentPage = 1;
       slugList.clear();
     }
-
+    
     UpdateShouldNotify;
 
     String url =

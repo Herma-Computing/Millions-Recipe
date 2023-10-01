@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: unnecessary_null_comparison
 
 import 'dart:io';
 
@@ -6,10 +6,10 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-import 'package:millions_recipe/screens/profile/profile.dart';
 import '../../api/shared_preference/shared_preference.dart';
 import '../../api_service/api_provider.dart';
 import '../../common/constants.dart';
+import '../auth_first.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
@@ -26,8 +26,6 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController occupationController = TextEditingController();
   TextEditingController genderController = TextEditingController();
 
-  List initialText = [];
-
   String? token;
   String? fnameError,
       lnameError,
@@ -35,30 +33,22 @@ class _EditProfileState extends State<EditProfile> {
       occupationError,
       birthdayError,
       genderError;
-  String? filePath;
+  late String filePath;
   String? fileUrl;
   File? selectedImage;
+  late bool logedin;
 
   @override
   void initState() {
     token = UserPreferences.getToken();
     fileUrl = UserPreferences.getProfilePicture();
-
+    logedin = token != null ? true : false;
     firstNameController.text = UserPreferences.getName() ?? '';
     lastNameController.text = UserPreferences.getuserProfile()[1] ?? '';
     birthdateController.text = UserPreferences.getuserProfile()[4] ?? '';
     emailController.text = UserPreferences.getuserProfile()[2] ?? '';
     occupationController.text = UserPreferences.getuserProfile()[5] ?? '';
     genderController.text = UserPreferences.getuserProfile()[3] ?? '';
-
-    initialText.addAll([
-      firstNameController.text,
-      lastNameController.text,
-      birthdateController.text,
-      emailController.text,
-      occupationController.text,
-      genderController.text
-    ]);
 
     super.initState();
   }
@@ -97,269 +87,284 @@ class _EditProfileState extends State<EditProfile> {
           ),
         ),
       ),
-      body: SafeArea(
-          child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Align(
-              alignment: Alignment.topCenter,
+      body: !logedin
+          ? const AuthFirst()
+          : SafeArea(
+              child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      // filePath = await pickImage();
-                      pickImage();
-                    },
-                    child: Stack(
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(
-                            height: 110,
-                            width: 110,
-                            child: ClipOval(
-                                child: selectedImage != null
-                                    ? Image.file(
-                                        selectedImage!,
-                                        fit: BoxFit.cover,
-                                      )
-                                    : Image.network(
-                                        fileUrl!,
-                                        fit: BoxFit.cover,
-                                      )
-                                // Image.asset("assets/Ellipse 7.png"),
-                                )),
-                        Positioned(
-                          right: 5,
-                          bottom: 8,
+                        GestureDetector(
+                          onTap: () {
+                            // filePath = await pickImage();
+                            pickImage();
+                          },
+                          child: Stack(
+                            children: [
+                              SizedBox(
+                                  height: 110,
+                                  width: 110,
+                                  child: ClipOval(
+                                      child: selectedImage != null
+                                          ? Image.file(
+                                              selectedImage!,
+                                              fit: BoxFit.cover,
+                                            )
+                                          : Image.network(
+                                              fileUrl!,
+                                              fit: BoxFit.cover,
+                                            )
+                                      // Image.asset("assets/Ellipse 7.png"),
+                                      )),
+                              Positioned(
+                                right: 5,
+                                bottom: 8,
+                                child: Container(
+                                  width: 24,
+                                  height: 24,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      color: Colors.white),
+                                  child: const Icon(
+                                    Icons.camera_alt_rounded,
+                                    color: Colors.black,
+                                    size: 15,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 14,
+                        ),
+                        Text("Update your photo",
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                                color:
+                                    Theme.of(context).colorScheme.onSecondary)),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              top: 37, left: 28, right: 30, bottom: 100),
+                          child: Column(
+                            children: [
+                              reusableTextField(
+                                context,
+                                "First name",
+                                firstNameController,
+                                fnameError,
+                                (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter your first name';
+                                  }
+
+                                  return null;
+                                },
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 21),
+                                child: reusableTextField(
+                                  context,
+                                  "Last name",
+                                  lastNameController,
+                                  lnameError,
+                                  (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter your last name';
+                                    }
+
+                                    return null;
+                                  },
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  Container(
+                                    height: 48,
+                                    width: MediaQuery.sizeOf(context).width *
+                                        0.368,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 4),
+                                    decoration: BoxDecoration(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primaryContainer,
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(
+                                            width: 1,
+                                            color: const Color(0xffD9D9D9))),
+                                    child: Center(
+                                      child: TextField(
+                                        controller: genderController,
+                                        cursorColor: kPrimaryColor,
+                                        decoration: const InputDecoration(
+                                          hintText: "Gender",
+                                          hintStyle: TextStyle(
+                                              color: Color(0xffC1C1C1)),
+                                          border: InputBorder.none,
+                                          isDense: true,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width:
+                                        MediaQuery.sizeOf(context).width * 0.1,
+                                  ),
+                                  Container(
+                                    height: 48,
+                                    width: MediaQuery.sizeOf(context).width *
+                                        0.368,
+                                    // width: 150,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 4),
+                                    decoration: BoxDecoration(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primaryContainer,
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(
+                                            width: 1,
+                                            color: const Color(0xffD9D9D9))),
+                                    child: Center(
+                                      child: TextField(
+                                        controller: birthdateController,
+                                        cursorColor: kPrimaryColor,
+                                        decoration: const InputDecoration(
+                                          hintText: "Birthday",
+                                          hintStyle: TextStyle(
+                                              color: Color(0xffC1C1C1)),
+                                          border: InputBorder.none,
+                                          isDense: true,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 21),
+                                child: reusableTextField(
+                                  context,
+                                  "Email",
+                                  emailController,
+                                  emailError,
+                                  (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter your email address';
+                                    }
+
+                                    return null;
+                                  },
+                                ),
+                              ),
+                              reusableTextField(
+                                context,
+                                "Title",
+                                occupationController,
+                                occupationError,
+                                (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please fill the field';
+                                  }
+
+                                  return null;
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            setImage();
+
+                            emailError = validateEmail(emailController.text);
+                            occupationError =
+                                validateOccopation(occupationController.text);
+                            fnameError = validateName(firstNameController.text);
+                            lnameError = validateName(lastNameController.text);
+                            birthdayError =
+                                validateBirth(birthdateController.text);
+                            genderError = validateGender(genderController.text);
+
+                            if (emailError == null &&
+                                occupationError == null &&
+                                fnameError == null &&
+                                lnameError == null &&
+                                birthdayError == null &&
+                                genderError == null) {
+                              updateInformation();
+                            } else {
+                              setState(() {});
+
+                              Flushbar(
+                                flushbarPosition: FlushbarPosition.BOTTOM,
+                                margin:
+                                    const EdgeInsets.fromLTRB(10, 20, 10, 5),
+                                titleSize: 20,
+                                messageSize: 17,
+                                borderRadius: BorderRadius.circular(8),
+                                message: fnameError ??
+                                    lnameError ??
+                                    genderError ??
+                                    birthdayError ??
+                                    emailError ??
+                                    occupationError,
+                                duration: const Duration(seconds: 5),
+                              ).show(context);
+                            }
+
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => const Profile(),
+                            //   ),
+                            // );
+                          },
                           child: Container(
-                            width: 24,
-                            height: 24,
+                            // margin: const EdgeInsets.only(top: 0),
+                            width: 208.47,
+                            height: 44,
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                color: Colors.white),
-                            child: const Icon(
-                              Icons.camera_alt_rounded,
-                              color: Colors.black,
-                              size: 15,
+                              gradient: const LinearGradient(
+                                begin: Alignment.centerRight,
+                                end: Alignment.centerLeft,
+                                colors: [
+                                  Color(0xff15BE77),
+                                  Color(0xff53E88B),
+                                ],
+                              ),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: const Center(
+                              child: Text(
+                                "Save",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
+                              ),
                             ),
                           ),
+                        ),
+                        const SizedBox(
+                          height: 20,
                         )
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 14,
-                  ),
-                  Text("Update your photo",
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).colorScheme.onSecondary)),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: 37, left: 28, right: 30, bottom: 100),
-                    child: Column(
-                      children: [
-                        reusableTextField(
-                          context,
-                          "First name",
-                          firstNameController,
-                          fnameError,
-                          (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter your first name';
-                            }
-
-                            return null;
-                          },
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 21),
-                          child: reusableTextField(
-                            context,
-                            "Last name",
-                            lastNameController,
-                            lnameError,
-                            (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your last name';
-                              }
-
-                              return null;
-                            },
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            Container(
-                              height: 48,
-                              width: MediaQuery.sizeOf(context).width * 0.368,
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 4),
-                              decoration: BoxDecoration(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .primaryContainer,
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                      width: 1,
-                                      color: const Color(0xffD9D9D9))),
-                              child: Center(
-                                child: TextField(
-                                  controller: genderController,
-                                  cursorColor: kPrimaryColor,
-                                  decoration: const InputDecoration(
-                                    hintText: "Gender",
-                                    hintStyle:
-                                        TextStyle(color: Color(0xffC1C1C1)),
-                                    border: InputBorder.none,
-                                    isDense: true,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: MediaQuery.sizeOf(context).width * 0.1,
-                            ),
-                            Container(
-                              height: 48,
-                              width: MediaQuery.sizeOf(context).width * 0.368,
-                              // width: 150,
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 4),
-                              decoration: BoxDecoration(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .primaryContainer,
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                      width: 1,
-                                      color: const Color(0xffD9D9D9))),
-                              child: Center(
-                                child: TextField(
-                                  controller: birthdateController,
-                                  cursorColor: kPrimaryColor,
-                                  decoration: const InputDecoration(
-                                    hintText: "Birthday",
-                                    hintStyle:
-                                        TextStyle(color: Color(0xffC1C1C1)),
-                                    border: InputBorder.none,
-                                    isDense: true,
-                                  ),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 21),
-                          child: reusableTextField(
-                            context,
-                            "Email",
-                            emailController,
-                            emailError,
-                            (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your email address';
-                              }
-
-                              return null;
-                            },
-                          ),
-                        ),
-                        reusableTextField(
-                          context,
-                          "Title",
-                          occupationController,
-                          occupationError,
-                          (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please fill the field';
-                            }
-
-                            return null;
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      // setImage();
-
-                      emailError = validateEmail(emailController.text);
-                      occupationError =
-                          validateOccopation(occupationController.text);
-                      fnameError = validateName(firstNameController.text);
-                      lnameError = validateName(lastNameController.text);
-                      birthdayError = validateBirth(birthdateController.text);
-                      genderError = validateGender(genderController.text);
-
-                      if (emailError == null &&
-                          occupationError == null &&
-                          fnameError == null &&
-                          lnameError == null &&
-                          birthdayError == null &&
-                          genderError == null) {
-                        updateInformation();
-                      }
-                      // else if()
-                      else {
-                        setState(() {});
-
-                        Flushbar(
-                          flushbarPosition: FlushbarPosition.BOTTOM,
-                          margin: const EdgeInsets.fromLTRB(10, 20, 10, 5),
-                          titleSize: 20,
-                          messageSize: 17,
-                          borderRadius: BorderRadius.circular(8),
-                          message: fnameError ??
-                              lnameError ??
-                              genderError ??
-                              birthdayError ??
-                              emailError ??
-                              occupationError,
-                          duration: const Duration(seconds: 5),
-                        ).show(context);
-                      }
-                    },
-                    child: Container(
-                      // margin: const EdgeInsets.only(top: 0),
-                      width: 208.47,
-                      height: 44,
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          begin: Alignment.centerRight,
-                          end: Alignment.centerLeft,
-                          colors: [
-                            Color(0xff15BE77),
-                            Color(0xff53E88B),
-                          ],
-                        ),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          "Save",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  )
                 ],
               ),
-            ),
-          ],
-        ),
-      )),
+            )),
     );
   }
 
@@ -370,31 +375,13 @@ class _EditProfileState extends State<EditProfile> {
     if (pickedImage != null) {
       setState(() {
         selectedImage = File(pickedImage.path);
-        filePath = pickedImage.path;
+        filePath = pickedImage.path; // Update filePath
       });
     }
   }
 
   void updateInformation() async {
-    if (initialText ==
-        [
-          firstNameController.text,
-          lastNameController.text,
-          birthdateController.text,
-          emailController.text,
-          occupationController.text,
-          genderController.text
-        ]) {
-      if (filePath != null) {
-        setImage();
-      }
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const Profile(),
-        ),
-      );
-    } else if (token != null) {
+    if (token != null) {
       if (filePath != null) {
         setImage();
       }
@@ -405,7 +392,6 @@ class _EditProfileState extends State<EditProfile> {
           occupationController.text,
           genderController.text,
           token!);
-      Navigator.pop(context);
       if (res == "200") {
         Flushbar(
           flushbarPosition: FlushbarPosition.BOTTOM,
@@ -417,24 +403,7 @@ class _EditProfileState extends State<EditProfile> {
           message: "Your profile is updated!",
           duration: const Duration(seconds: 5),
         ).show(context);
-
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const Profile(),
-          ),
-        );
       }
-    } else {
-      Flushbar(
-        flushbarPosition: FlushbarPosition.BOTTOM,
-        margin: const EdgeInsets.fromLTRB(10, 20, 10, 5),
-        titleSize: 20,
-        messageSize: 17,
-        borderRadius: BorderRadius.circular(8),
-        message: "Your profile could not be updated, please try again.",
-        duration: const Duration(seconds: 5),
-      ).show(context);
     }
   }
 
@@ -492,7 +461,7 @@ class _EditProfileState extends State<EditProfile> {
     if (filePath != null && token != null) {
       try {
         String imageUrl =
-            await ApiProvider().changeProfilePicture(filePath!, token);
+            await ApiProvider().changeProfilePicture(filePath, token);
         setState(() {});
         UserPreferences.setProfilePicture(imageUrl);
       } catch (error) {
