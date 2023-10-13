@@ -343,7 +343,8 @@ class _CommentWidgetState extends State<CommentWidget> {
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             8),
-                                                    message: "Forbiden Action",
+                                                    message:
+                                                        "You can not Like your Comment",
                                                     duration: const Duration(
                                                         seconds: 5),
                                                   ).show(context);
@@ -395,7 +396,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                                                           BorderRadius.circular(
                                                               8),
                                                       message:
-                                                          "Forbiden Action",
+                                                          "You can not Dislike your Comment",
                                                       duration: const Duration(
                                                           seconds: 5),
                                                     ).show(context);
@@ -438,25 +439,44 @@ class _CommentWidgetState extends State<CommentWidget> {
                                                         .commentId;
                                                   });
                                                 },
-                                                child: Text("Reply",
-                                                    style: TextStyle(
-                                                      color: Theme.of(context)
-                                                          .colorScheme
-                                                          .onPrimary,
-                                                      fontSize: 11,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                    )),
+                                                child: Column(
+                                                  children: [
+                                                    Text("Reply",
+                                                        style: TextStyle(
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .colorScheme
+                                                                  .onPrimary,
+                                                          fontSize: 11,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        )),
+                                                    Text(
+                                                        commentProvider
+                                                            .comments[index]
+                                                            .numOfReplies
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .colorScheme
+                                                                  .onPrimary,
+                                                          fontSize: 11,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        ))
+                                                  ],
+                                                ),
                                               ),
                                             ),
-                                            Text("Report",
-                                                style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .onPrimary,
-                                                  fontSize: 11,
-                                                  fontWeight: FontWeight.w500,
-                                                )),
+                                            // Text("Report",
+                                            //     style: TextStyle(
+                                            //       color: Theme.of(context)
+                                            //           .colorScheme
+                                            //           .onPrimary,
+                                            //       fontSize: 11,
+                                            //       fontWeight: FontWeight.w500,
+                                            //     )),
                                             const Spacer(),
                                             IconButton(
                                               onPressed: () async {

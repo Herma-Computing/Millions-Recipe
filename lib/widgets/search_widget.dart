@@ -187,27 +187,44 @@ class _SearchResultState extends State<SearchResult> {
                         }
                         return false;
                       },
-                      child: ListView.builder(
-                        controller: _controller,
-                        itemCount: recipeProvider.searchedRecipes.length,
-                        itemBuilder: (context, index) {
-                          bool isFavorited = recipeProvider.favList
-                              .contains(searchResults[index].slug);
+                      child: recipeProvider.searchedRecipes.length < 5
+                          ? ListView.builder(
+                              controller: _controller,
+                              itemCount: recipeProvider.searchedRecipes.length,
+                              itemBuilder: (context, index) {
+                                bool isFavorited = recipeProvider.favList
+                                    .contains(searchResults[index].slug);
 
-                          if (index == searchResults.length - 1) {
-                            return _isLoading
-                                ? const Center(
-                                    child: CircularProgressIndicator(),
-                                  )
-                                : Container();
-                          }
-                          return Padding(
-                            padding: const EdgeInsets.only(top: 10, bottom: 10),
-                            child:
-                                resuableCard(searchResults[index], isFavorited),
-                          );
-                        },
-                      ),
+                                return Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 10, bottom: 10),
+                                  child: resuableCard(
+                                      searchResults[index], isFavorited),
+                                );
+                              },
+                            )
+                          : ListView.builder(
+                              controller: _controller,
+                              itemCount: recipeProvider.searchedRecipes.length,
+                              itemBuilder: (context, index) {
+                                bool isFavorited = recipeProvider.favList
+                                    .contains(searchResults[index].slug);
+
+                                if (index == searchResults.length - 1) {
+                                  return _isLoading
+                                      ? const Center(
+                                          child: CircularProgressIndicator(),
+                                        )
+                                      : Container();
+                                }
+                                return Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 10, bottom: 10),
+                                  child: resuableCard(
+                                      searchResults[index], isFavorited),
+                                );
+                              },
+                            ),
                     ),
             );
           },
