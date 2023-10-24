@@ -394,7 +394,10 @@ class _FoodDetailsState extends State<FoodDetails> {
         ),
         Text(
           title,
-          style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+              overflow: TextOverflow.ellipsis,
+              color: Theme.of(context).colorScheme.onSecondary),
         ),
       ],
     );
