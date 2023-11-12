@@ -55,7 +55,9 @@ class CookingSteps extends StatelessWidget {
                         children: [
                           ((index + 1) % 2 == 0)
                               ? toogleStep(
-                                  cWidth, meal.steps[index].step, index)
+                                  MediaQuery.sizeOf(context).width - 108,
+                                  meal.steps[index].step,
+                                  index)
                               : toogleIndex(index),
                           const SizedBox(
                             width: 18,
@@ -63,7 +65,9 @@ class CookingSteps extends StatelessWidget {
                           ((index + 1) % 2 == 0)
                               ? toogleIndex(index)
                               : toogleStep(
-                                  cWidth, meal.steps[index].step, index),
+                                  MediaQuery.sizeOf(context).width - 108,
+                                  meal.steps[index].step,
+                                  index),
                         ],
                       ),
                     ],
@@ -103,7 +107,8 @@ class CookingSteps extends StatelessWidget {
 
   SizedBox toogleStep(double cWidth, String steps, int index) {
     return SizedBox(
-      width: cWidth - 16,
+      width: cWidth,
+      // /cWidth - 16,
       child: Column(
         children: <Widget>[
           Text(
