@@ -91,51 +91,47 @@ class _SearchResultState extends State<SearchResult> {
       body: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 26, vertical: 10),
-          child: Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(top: 5),
-              child: Container(
-                height: 44,
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                padding: const EdgeInsets.symmetric(horizontal: 4),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    border:
-                        Border.all(width: 1, color: const Color(0xffD9D9D9))),
-                child: TextField(
-                  controller: _searchController,
-                  onSubmitted: (value) async {
-                    setState(() {
-                      loading = true;
-                      widget.query = value;
-                      isAgain = true;
-                    });
+          child: Padding(
+            padding: EdgeInsets.only(top: 5),
+            child: Container(
+              height: 44,
+              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(width: 1, color: const Color(0xffD9D9D9))),
+              child: TextField(
+                controller: _searchController,
+                onSubmitted: (value) async {
+                  setState(() {
+                    loading = true;
+                    widget.query = value;
+                    isAgain = true;
+                  });
 
-                    await performSearch(value, isRefresh: true);
+                  await performSearch(value, isRefresh: true);
 
-                    setState(() {
-                      loading = false;
-                    });
-                  },
-                  cursorColor: kPrimaryColor,
-                  decoration: const InputDecoration(
-                    prefixIcon: Icon(
-                      Icons.search,
-                      color: Color(0xffD9D9D9),
-                    ),
-                    hintText: "Search recipes",
-                    hintStyle: TextStyle(color: Color(0xffC1C1C1)),
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(
-                      vertical: 12,
-                      horizontal: 16,
-                    ),
-                    isDense: true,
-                    suffixIcon: Icon(
-                      CupertinoIcons.slider_horizontal_3,
-                      color: Color(0xffD9D9D9),
-                    ),
+                  setState(() {
+                    loading = false;
+                  });
+                },
+                cursorColor: kPrimaryColor,
+                decoration: const InputDecoration(
+                  prefixIcon: Icon(
+                    Icons.search,
+                    color: Color(0xffD9D9D9),
+                  ),
+                  hintText: "Search recipes",
+                  hintStyle: TextStyle(color: Color(0xffC1C1C1)),
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.symmetric(
+                    vertical: 12,
+                    horizontal: 16,
+                  ),
+                  isDense: true,
+                  suffixIcon: Icon(
+                    CupertinoIcons.slider_horizontal_3,
+                    color: Color(0xffD9D9D9),
                   ),
                 ),
               ),

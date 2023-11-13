@@ -185,12 +185,21 @@ class _FoodDetailsState extends State<FoodDetails> {
                   Positioned(
                     bottom: 10,
                     left: 10,
-                    child: Text(
-                      '${currentImageIndex + 1}/${widget.meal.images.length}',
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.black38,
+                          borderRadius: BorderRadius.circular(4)),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 4.0, horizontal: 8),
+                        child: Text(
+                          '${currentImageIndex + 1}/${widget.meal.images.length}',
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -308,7 +317,7 @@ class _FoodDetailsState extends State<FoodDetails> {
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.height - 450,
-                child: Expanded(
+                child: SizedBox(
                   child: PageView(
                     onPageChanged: (int index) {
                       setState(() {

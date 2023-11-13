@@ -99,23 +99,21 @@ class _AllRecipesState extends State<AllRecipes> {
                           )
                         : Container();
                   }
-                  return Expanded(
-                    child: Column(
-                      children: [
-                        recipeCard(
-                            recipeList[index].images.isNotEmpty
-                                ? recipeList[index].images[0].url
-                                : "https://cdn.dribbble.com/users/1013019/screenshots/3281397/media/9de100ad01c34ec34d35e843d33504f9.jpg?compress=1&resize=400x300",
-                            recipeList[index].name,
-                            recipeList[index].total_time,
-                            recipeList[index].nutritions[1].value,
-                            recipeList[index],
-                            isFavorited),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                      ],
-                    ),
+                  return Column(
+                    children: [
+                      recipeCard(
+                          recipeList[index].images.isNotEmpty
+                              ? recipeList[index].images[0].url
+                              : "https://cdn.dribbble.com/users/1013019/screenshots/3281397/media/9de100ad01c34ec34d35e843d33504f9.jpg?compress=1&resize=400x300",
+                          recipeList[index].name,
+                          recipeList[index].total_time,
+                          recipeList[index].nutritions[1].value,
+                          recipeList[index],
+                          isFavorited),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                    ],
                   );
                 },
               ),

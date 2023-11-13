@@ -90,11 +90,9 @@ class _RecipesPageState extends State<RecipesPage> {
       body: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 26),
-          child: Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(top: 5),
-              child: topSearchBar(),
-            ),
+          child: Padding(
+            padding: EdgeInsets.only(top: 5),
+            child: topSearchBar(),
           ),
         ),
         Padding(
